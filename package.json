@@ -3,7 +3,12 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "next lint --fix",
+    "format": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "prepare": "husky install",
+    "pre-commit": "yarn lint && yarn format",
+    "test": "echo TEST DONE 🎉"
   },
   "dependencies": {
     "next": "latest",
@@ -13,9 +18,23 @@
   "devDependencies": {
     "@types/node": "17.0.4",
     "@types/react": "17.0.38",
+    "@typescript-eslint/eslint-plugin": "^5.9.0",
+    "@typescript-eslint/parser": "^5.9.0",
     "autoprefixer": "^10.4.0",
+    "eslint": "^8.6.0",
+    "eslint-config-next": "^12.0.7",
+    "eslint-plugin-react": "^7.28.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.1.7",
     "postcss": "^8.4.5",
+    "prettier": "^2.5.1",
     "tailwindcss": "^3.0.7",
     "typescript": "4.5.4"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": [
+      "yarn pre-commit",
+      "echo yarn test --watchAll=false --findRelatedTests --bail"
+    ]
   }
 }
