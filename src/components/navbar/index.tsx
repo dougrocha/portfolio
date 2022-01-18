@@ -33,7 +33,7 @@ const NavBar = () => {
   }
 
   return (
-    <nav className="container mx-auto mb-10">
+    <nav className="container mx-auto mb-2">
       <div className="px-10 xlg:max-w-7xl">
         <div className="flex items-center justify-between px-3 py-10">
           <div className="items-center justify-start hidden space-x-10 text-xl md:flex ">
