@@ -1,49 +1,45 @@
 import { motion } from 'framer-motion'
+import Link from 'next/link'
 
 const Hero = () => {
-  const scrollDown = () => {
-    window.scroll({
-      top: 1000,
-      behavior: 'smooth',
-    })
-  }
-  const redirectToBlog = () => {
-    window.location.assign('https://blogs.dougrocha.com/')
-  }
   return (
-    <div className="container max-w-6xl m-auto mt-20">
-      <div className="flex justify-center mx-3 md:justify-between">
-        <div className="flex flex-col text-whitetext">
+    <div className="container mx-auto mt-20">
+      <div className="flex flex-col justify-between px-10 mx-auto md:flex-row xl:max-w-7xl">
+        <div className="flex flex-col ml-3 text-whitetext">
+          <span className="text-2xl lg:text-3xl text-graytext/60">Hey,</span>
           <h1 className="max-w-md text-5xl font-bold md:text-6xl lg:text-7xl">
-            Closing the gap between products and people.
+            I&apos;m Douglas Rocha
           </h1>
-          <div className="mt-10 space-x-5 text-2xl text-white">
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              className="px-6 py-1 rounded-md bg-windowred"
-              onClick={() => {
-                redirectToBlog()
-              }}
-            >
-              Blog
-            </motion.button>
+          <p className="text-lg text-graytext/70">
+            <span className="underline text-windowyellow underline-offset-2 ">
+              Software developer
+            </span>{' '}
+            currently studying at Brookdale CC.
+          </p>
+          <div className="flex flex-col mt-10 text-2xl text-white sm:space-x-5 sm:flex-row">
+            <Link href="/blogs" passHref>
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                className="px-6 py-1 rounded-lg bg-windowred"
+              >
+                Blog
+              </motion.button>
+            </Link>
 
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              className="px-6 py-1 rounded-md bg-windowred/80"
-              onClick={() => {
-                scrollDown()
-              }}
-            >
-              Contact Me
-            </motion.button>
+            <Link href="#contact-form" passHref scroll>
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                className="px-6 py-1 mt-6 rounded-lg sm:mt-0 bg-accent/70"
+              >
+                Contact Me
+              </motion.button>
+            </Link>
           </div>
         </div>
-        {/* <div className="hidden mr-10 md:block">
-          KEYBOARD GOES HERE
-          <motion.div
+        <div className="hidden mt-32 mr-10 md:flex md:mt-0 md:justify-center md:items-center">
+          {/* <motion.div
             className="bg-white rounded-3xl w-36 h-36"
             animate={{
               scale: [1, 2, 2, 1, 1],
@@ -57,8 +53,9 @@ const Hero = () => {
               repeat: Infinity,
               repeatDelay: 1,
             }}
-          />
-        </div> */}
+          /> */}
+          {/* <Test /> */}
+        </div>
       </div>
     </div>
   )

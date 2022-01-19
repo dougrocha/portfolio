@@ -35,16 +35,24 @@ export const StyledComponentsIcon = ({ ...props }: Partial<IconProps>) => {
 export const TypescriptIcon = ({ ...props }: Partial<IconProps>) => {
   return <BaseIcon {...props} icon="file-icons:typescript-alt" />
 }
+export const LoadingIcon = ({ ...props }: Partial<IconProps>) => {
+  return <BaseIcon {...props} icon="eos-icons:loading" />
+}
 
-const BaseIcon = ({ icon, height, ...props }: Partial<IconProps>) => {
+const BaseIcon = ({
+  icon,
+  height,
+  className,
+  ...props
+}: Partial<IconProps>) => {
   return (
     <>
       {icon && (
         <Icon
           {...props}
-          className="cursor-pointer"
+          className={'cursor-pointer' + className}
           icon={icon}
-          color="#ffbd44"
+          color={props.color || '#ffbd44'}
           height={height || 35}
         />
       )}
