@@ -97,7 +97,7 @@ const NavItems = () => {
         </Link>
       </div>
       <div className="transition duration-100 text-whitetext hover:text-graytext ">
-        <Link href="/blogs" passHref>
+        <Link href="/blog" passHref>
           <a className={router.pathname == 'blog' ? 'active-nav-link ' : ''}>
             Blog
           </a>

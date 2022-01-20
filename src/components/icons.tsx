@@ -38,6 +38,9 @@ export const TypescriptIcon = ({ ...props }: Partial<IconProps>) => {
 export const LoadingIcon = ({ ...props }: Partial<IconProps>) => {
   return <BaseIcon {...props} icon="eos-icons:loading" />
 }
+export const ExternalLinkIcon = ({ ...props }: Partial<IconProps>) => {
+  return <BaseIcon {...props} icon="charm:link-external" />
+}
 
 const BaseIcon = ({
   icon,
@@ -50,7 +53,7 @@ const BaseIcon = ({
       {icon && (
         <Icon
           {...props}
-          className={'cursor-pointer' + className}
+          className={'cursor-pointer '.concat(className ?? '')}
           icon={icon}
           color={props.color || '#ffbd44'}
           height={height || 35}
