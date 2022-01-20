@@ -25,7 +25,9 @@ const NavBar = () => {
             <NavItems />
           </div>
           <div className="flex items-center transition duration-100 hover:brightness-125">
-            <GithubIcon height={35} />
+            <Link href="https://github.com/slashtp3/portfolio" passHref>
+              <GithubIcon />
+            </Link>
           </div>
           <motion.button
             initial={false}
