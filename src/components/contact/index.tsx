@@ -3,7 +3,10 @@ import ContactInfo from './ContactInfo'
 
 const Contact = () => {
   return (
-    <div className="container p-6 mx-auto mt-52 lg:max-w-6xl">
+    <div
+      className="container p-6 mx-auto mt-52 lg:max-w-6xl scroll-smooth"
+      id="contact-form"
+    >
       <h3 className="text-5xl font-bold text-center text-whitetext">
         Contact Me
       </h3>

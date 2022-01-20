@@ -1,9 +1,18 @@
-import { motion } from 'framer-motion'
+import ContactModal from 'components/contact/contactModal'
+import Modal from 'components/modal'
+import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
+import { useState } from 'react'
 
 const Hero = () => {
+  const [isModalOpen, setModalOpen] = useState<boolean>(false)
+
+  const handleModal = () => {
+    setModalOpen(state => !state)
+  }
+
   return (
-    <div className="container mx-auto mt-20">
+    <div className="container mx-auto mt-20 ">
       <div className="flex flex-col justify-between px-10 mx-auto md:flex-row xl:max-w-7xl">
         <div className="flex flex-col ml-3 text-whitetext">
           <span className="text-2xl lg:text-3xl text-graytext/60">Hey,</span>
@@ -16,8 +25,8 @@ const Hero = () => {
             </span>{' '}
             currently studying at Brookdale CC.
           </p>
-          <div className="flex flex-col mt-10 text-2xl text-white sm:space-x-5 sm:flex-row">
-            <Link href="/blogs" passHref>
+          <div className="flex flex-col mt-10 text-2xl text-white sm:flex-row">
+            <Link href="/blog" passHref>
               <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
@@ -27,15 +36,28 @@ const Hero = () => {
               </motion.button>
             </Link>
 
-            <Link href="#contact-form" passHref scroll>
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                className="px-6 py-1 mt-6 rounded-lg sm:mt-0 bg-accent/70"
-              >
-                Contact Me
-              </motion.button>
-            </Link>
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              className="px-6 py-1 mt-6 rounded-lg sm:ml-5 sm:mt-0 bg-accent/70 "
+              onClick={() => handleModal()}
+            >
+              Contact Me
+            </motion.button>
+
+            <AnimatePresence
+              initial={false}
+              exitBeforeEnter={true}
+              onExitComplete={() => null}
+            >
+              {isModalOpen && (
+                <Modal handleClose={handleModal}>
+                  <ContactModal />
+                </Modal>
+              )}
+            </AnimatePresence>
+            {/* <Link href="#contact-form" passHref scroll>
+            </Link> */}
           </div>
         </div>
         <div className="hidden mt-32 mr-10 md:flex md:mt-0 md:justify-center md:items-center">
