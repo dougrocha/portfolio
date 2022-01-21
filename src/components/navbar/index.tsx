@@ -18,9 +18,9 @@ const NavBar = () => {
   }
 
   return (
-    <nav className="container mx-auto mb-2">
-      <div className="px-10 mx-auto xl:max-w-7xl">
-        <div className="flex items-center justify-between px-3 py-10">
+    <nav className="container px-6 mx-auto mb-2">
+      <div className="mx-auto xl:max-w-7xl">
+        <div className="flex items-center justify-between py-10">
           <div className="items-center justify-start hidden space-x-10 text-xl md:flex ">
             <NavItems />
           </div>
@@ -81,30 +81,25 @@ const Dropdown = ({ isOpen }: { isOpen: boolean }) => {
 
 const NavItems = () => {
   const router = useRouter()
-
+  const NavItems = [
+    { href: '/', text: 'Home' },
+    { href: '/contact', text: 'Contact Me' },
+    { href: '/blog', text: 'Blog' },
+  ]
   return (
     <>
-      <div className="transition duration-100 text-whitetext hover:text-graytext ">
-        <Link href="/" passHref>
-          <a className={router.pathname == '/' ? 'active-nav-link ' : ''}>
-            Home
-          </a>
-        </Link>
-      </div>
-      <div className="transition duration-100 text-whitetext hover:text-graytext ">
-        <Link href="/contact" passHref>
-          <a className={router.pathname == 'contact' ? 'active-nav-link ' : ''}>
-            Contact Me
-          </a>
-        </Link>
-      </div>
-      <div className="transition duration-100 text-whitetext hover:text-graytext ">
-        <Link href="/blog" passHref>
-          <a className={router.pathname == 'blog' ? 'active-nav-link ' : ''}>
-            Blog
-          </a>
-        </Link>
-      </div>
+      {NavItems.map(({ href, text }) => (
+        <div
+          className="transition duration-100 text-whitetext hover:text-graytext "
+          key={text}
+        >
+          <Link href={href} passHref>
+            <a className={router.pathname == href ? 'active-nav-link ' : ''}>
+              {text}
+            </a>
+          </Link>
+        </div>
+      ))}
     </>
   )
 }

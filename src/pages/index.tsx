@@ -1,15 +1,13 @@
 import Hero from 'components/hero'
 import SpotlightProject from 'components/spotlight'
-import DefaultLayout from '../layouts/default'
+import HomeLayout from 'layouts/home'
 
 const Home = () => {
   return (
-    <>
-      <DefaultLayout>
-        <Hero />
-        <SpotlightProject />
-      </DefaultLayout>
-    </>
+    <HomeLayout>
+      <Hero />
+      <SpotlightProject />
+    </HomeLayout>
   )
 }
 
