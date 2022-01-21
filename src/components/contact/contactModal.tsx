@@ -1,12 +1,13 @@
 import useContactForm from 'hooks/useContactForm'
-import { DominoSpinner } from 'react-spinners-kit'
 import TextAreaAutosize from 'react-textarea-autosize'
+import ContactFormButton from './sendButton'
 
 const ContactModal = () => {
   const { bindName, bindEmail, bindMessage, loading, handleSubmit } =
     useContactForm()
 
   // TODO! STYLE THIS and finish it, contact will stay at bottom but will only be there if user scrolls down
+
   return (
     <form
       onSubmit={e => {
@@ -71,19 +72,7 @@ const ContactModal = () => {
           Message
         </label>
       </div>
-      <div className="flex">
-        <button
-          type="submit"
-          className="px-4 py-1 ml-auto border-2 rounded-sm bg-windowred/5 border-windowyellow group"
-          disabled={loading}
-        >
-          {loading ? (
-            <DominoSpinner />
-          ) : (
-            <p className="group-hover:brightness-75">Send</p>
-          )}
-        </button>
-      </div>
+      <ContactFormButton loading={loading} />
     </form>
   )
 }

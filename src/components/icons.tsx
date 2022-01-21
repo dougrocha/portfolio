@@ -41,6 +41,12 @@ export const LoadingIcon = ({ ...props }: Partial<IconProps>) => {
 export const ExternalLinkIcon = ({ ...props }: Partial<IconProps>) => {
   return <BaseIcon {...props} icon="charm:link-external" />
 }
+export const SearchIcon = ({ ...props }: Partial<IconProps>) => {
+  return <BaseIcon {...props} icon="eva:search-fill" />
+}
+export const SendIcon = ({ ...props }: Partial<IconProps>) => {
+  return <BaseIcon {...props} icon="akar-icons:send" />
+}
 
 const BaseIcon = ({
   icon,

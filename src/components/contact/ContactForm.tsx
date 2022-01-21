@@ -1,6 +1,5 @@
-import { Icon } from '@iconify/react'
-import { LoadingIcon } from '@icons'
 import useContactForm from 'hooks/useContactForm'
+import ContactFormButton from './sendButton'
 
 const ContactForm = () => {
   const { bindName, bindEmail, bindMessage, loading, handleSubmit } =
@@ -12,7 +11,7 @@ const ContactForm = () => {
         e.preventDefault()
         handleSubmit()
       }}
-      className="w-full space-y-12 md:max-w-[85%] lg:max-w-lg md:mt-10 lg:mt-24 md:p-0 lg:mr-10 "
+      className="flex flex-col w-full space-y-12 lg:max-w-lg md:mt-10 lg:mt-24"
     >
       <div className="flex flex-col w-full">
         <label className="mb-6 text-xl font-bold text-white " htmlFor="name">
@@ -54,30 +53,7 @@ const ContactForm = () => {
           onChange={bindMessage.onChange}
         />
       </div>
-      <div className="flex min-w-full">
-        {!loading ? (
-          <button
-            type="submit"
-            className="flex items-center justify-between px-6 py-2 ml-0 font-bold text-white w-28 bg-windowred rounded-xl sm:ml-auto"
-          >
-            Send
-            <Icon icon="akar-icons:send" color="#ffbd44" height="22" />
-          </button>
-        ) : (
-          <button
-            type="submit"
-            className={`flex items-center justify-between px-6 py-2 ml-0 font-bold text-white bg-windowred rounded-xl sm:ml-auto ${
-              loading ? 'disabled' : ''
-            }`}
-          >
-            {/* TODO Find a way to combine this div */}
-            <div className="mr-2">
-              <LoadingIcon height={20} />
-            </div>
-            Pending...
-          </button>
-        )}
-      </div>
+      <ContactFormButton loading={loading} />
     </form>
   )
 }

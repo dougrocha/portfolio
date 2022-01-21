@@ -10,8 +10,8 @@ import Link from 'next/link'
 
 const SpotlightProject = () => {
   return (
-    <div className="container mx-auto mt-40">
-      <div className="flex flex-col justify-center px-[52px] mx-auto max-w-7xl">
+    <div className="container px-6 mx-auto mt-40">
+      <div className="flex flex-col justify-center mx-auto max-w-7xl">
         <div>
           <p className="font-medium text-windowyellow">- Spotlight</p>
           <h2 className="text-5xl font-bold text-whitetext">Quanty</h2>

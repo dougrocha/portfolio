@@ -3,7 +3,7 @@ import Contact from '../components/contact'
 import NavBar from '../components/navbar'
 import { LayoutProps } from '../utils/types'
 
-const DefaultLayout = ({ children, title }: LayoutProps) => {
+const HomeLayout = ({ children, title }: LayoutProps) => {
   return (
     <>
       <Head>
@@ -25,7 +25,7 @@ const DefaultLayout = ({ children, title }: LayoutProps) => {
         <meta property="og:type" content="website" />
       </Head>
 
-      <div className="block min-h-screen overflow-auto antialiased text-white bg-bg">
+      <div className="block min-h-screen overflow-auto antialiased bg-bg">
         <NavBar />
         {children}
         <Contact />
@@ -34,4 +34,4 @@ const DefaultLayout = ({ children, title }: LayoutProps) => {
   )
 }
 
-export default DefaultLayout
+export default HomeLayout

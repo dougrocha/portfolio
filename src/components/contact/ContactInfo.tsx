@@ -1,4 +1,4 @@
-import { LinkedIn, MainIcon, GithubIcon } from '../icons'
+import ContactFooter from './ContactFooter'
 
 const ContactInfo = () => {
   return (
@@ -9,14 +9,7 @@ const ContactInfo = () => {
         </h6>
       </div>
       <div className="hidden w-0 md:w-64 lg:block">
-        <div className="flex justify-center mt-20 space-x-4">
-          <GithubIcon height="35" />
-          <MainIcon height="35" />
-          <LinkedIn height="35" />
-        </div>
-        <p className="mt-5 text-sm text-center text-graytext">
-          Douglas Rocha - 2022
-        </p>
+        <ContactFooter />
       </div>
     </div>
   )

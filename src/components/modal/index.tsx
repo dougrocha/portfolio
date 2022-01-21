@@ -4,11 +4,12 @@ import { useEffect } from 'react'
 import Backdrop from './backdrop'
 
 interface IModal {
-  handleClose: () => void
+  handleModal: () => void
+
   children: React.ReactNode
 }
 
-const Modal = ({ handleClose, children }: IModal) => {
+const Modal = ({ handleModal, children }: IModal) => {
   useEffect(() => {
     document.body.style.overflow = 'hidden'
 
@@ -39,8 +40,9 @@ const Modal = ({ handleClose, children }: IModal) => {
       opacity: 0,
     },
   }
+
   return (
-    <Backdrop handleClose={handleClose}>
+    <Backdrop closeModal={handleModal}>
       <motion.div
         onClick={e => {
           e.stopPropagation()
@@ -52,8 +54,8 @@ const Modal = ({ handleClose, children }: IModal) => {
         exit="exit"
       >
         <ClosedHamburgerIcon
-          onClick={handleClose}
-          className="absolute top-2 right-2 "
+          onClick={handleModal}
+          className="absolute top-4 right-4 "
         />
         {children}
       </motion.div>
