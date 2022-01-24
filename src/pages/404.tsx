@@ -8,9 +8,11 @@ const Custom404 = () => {
           Sorry, you are at the wrong page.
         </p>
         <Link href="/" passHref>
-          <button className="px-3 py-1 mt-5 text-xl border rounded-md text-whitetext bg-windowred border-bg-light">
-            Go Home
-          </button>
+          <a>
+            <button className="px-3 py-1 mt-5 text-xl border rounded-md text-whitetext bg-windowred border-bg-light">
+              Go Home
+            </button>
+          </a>
         </Link>
       </div>
     </div>

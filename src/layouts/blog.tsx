@@ -1,3 +1,4 @@
+import ContactFooter from 'components/contact/ContactFooter'
 import NavBar from 'components/navbar'
 import Head from 'next/head'
 import { LayoutProps } from '../utils/types'
@@ -24,6 +25,9 @@ const BlogLayout = ({ children, title }: LayoutProps) => {
       <div className="block min-h-screen overflow-auto antialiased bg-bg">
         <NavBar />
         {children}
+        <footer>
+          <ContactFooter />
+        </footer>
       </div>
     </>
   )

@@ -37,11 +37,15 @@ module.exports = {
           DEFAULT: '#121212',
           light: '#171717',
         },
+        react: '#325ea0',
+        workflow: '#FFBD44',
+        nestjs: '#2E0DF8',
       },
       boxShadow: {
         glass: '36px 36px 60px #212427, -36px -36px 60px #434a4f',
         form: '-5px -5px 20px -1px rgba(68, 68, 68, 0.2), 5px 5px 20px -1px rgba(0, 0, 0, 0.5)',
       },
+      typography: {},
     },
   },
   plugins: [
@@ -49,5 +53,6 @@ module.exports = {
       strategy: 'class',
     }),
     require('@tailwindcss/aspect-ratio'),
+    require('@tailwindcss/typography'),
   ],
 }

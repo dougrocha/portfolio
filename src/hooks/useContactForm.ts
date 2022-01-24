@@ -34,9 +34,6 @@ const useContactForm = (): IUseContactForm => {
         body: JSON.stringify(contactInfo),
       })
         .then(() => {
-          console.log('Added Form')
-          console.log(contactInfo)
-
           clearName()
           clearEmail()
           clearMessage()
