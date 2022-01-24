@@ -4,11 +4,11 @@ export const GithubIcon = ({ ...props }: Partial<IconProps>) => {
   return <BaseIcon {...props} icon="akar-icons:github-fill" />
 }
 
-export const LinkedIn = ({ ...props }: Partial<IconProps>) => {
+export const MailIcon = ({ ...props }: Partial<IconProps>) => {
   return <BaseIcon {...props} icon="codicon:mail" />
 }
 
-export const MainIcon = ({ ...props }: Partial<IconProps>) => {
+export const LinkedInIcon = ({ ...props }: Partial<IconProps>) => {
   return <BaseIcon {...props} icon="eva:linkedin-outline" />
 }
 
@@ -46,6 +46,9 @@ export const SearchIcon = ({ ...props }: Partial<IconProps>) => {
 }
 export const SendIcon = ({ ...props }: Partial<IconProps>) => {
   return <BaseIcon {...props} icon="akar-icons:send" />
+}
+export const FilterIcon = ({ ...props }: Partial<IconProps>) => {
+  return <BaseIcon {...props} icon="fluent:arrow-sort-down-lines-24-regular" />
 }
 
 const BaseIcon = ({

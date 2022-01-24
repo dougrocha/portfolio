@@ -18,33 +18,36 @@ const NavBar = () => {
   }
 
   return (
-    <nav className="container px-6 mx-auto mb-2">
-      <div className="mx-auto xl:max-w-7xl">
-        <div className="flex items-center justify-between py-10">
-          <div className="items-center justify-start hidden space-x-10 text-xl md:flex ">
-            <NavItems />
-          </div>
-          <div className="flex items-center transition duration-100 hover:brightness-125">
-            <Link href="https://github.com/slashtp3/portfolio" passHref>
+    <header className="container px-6 mx-auto mb-2 xl:max-w-7xl">
+      <nav className="flex items-center justify-between py-10">
+        <ul className="items-center justify-start hidden space-x-10 text-xl md:flex ">
+          <NavItems />
+        </ul>
+
+        <div className="flex items-center transition duration-100 hover:brightness-125">
+          <Link href="https://github.com/slashtp3/portfolio" passHref>
+            <a>
               <GithubIcon />
-            </Link>
-          </div>
-          <motion.button
-            initial={false}
-            whileTap={{ scale: 0.9 }}
-            variants={iconVariants}
-            animate={isHamOpen ? 'opened' : 'closed'}
-            className="flex items-center md:hidden"
-            onClick={() => {
-              setHam(!isHamOpen)
-            }}
-          >
-            {isHamOpen ? <ClosedHamburgerIcon /> : <HamBurgerIcon />}
-          </motion.button>
+            </a>
+          </Link>
         </div>
-      </div>
+
+        <motion.button
+          initial={false}
+          whileTap={{ scale: 0.9 }}
+          variants={iconVariants}
+          animate={isHamOpen ? 'opened' : 'closed'}
+          className="flex items-center md:hidden"
+          onClick={() => {
+            setHam(!isHamOpen)
+          }}
+        >
+          {isHamOpen ? <ClosedHamburgerIcon /> : <HamBurgerIcon />}
+        </motion.button>
+      </nav>
+
       <Dropdown isOpen={isHamOpen} />
-    </nav>
+    </header>
   )
 }
 
@@ -71,34 +74,36 @@ const Dropdown = ({ isOpen }: { isOpen: boolean }) => {
       animate={isOpen ? 'opened' : 'closed'}
       className={`items-center justify-center md:hidden`}
     >
-      <div className="flex flex-col items-center p-[44px] space-y-10 text-lg font-medium md:hidden">
+      <ul className="flex flex-col items-center p-[44px] space-y-10 text-lg font-medium md:hidden">
         <NavItems />
-      </div>
-      <div className="flex-grow border-t border-gray-400" />
+      </ul>
+      <hr className="flex-grow border-t border-gray-400" />
     </motion.div>
   )
 }
 
 const NavItems = () => {
   const router = useRouter()
+
   const NavItems = [
     { href: '/', text: 'Home' },
     { href: '/contact', text: 'Contact Me' },
     { href: '/blog', text: 'Blog' },
   ]
+
   return (
     <>
-      {NavItems.map(({ href, text }) => (
-        <div
-          className="transition duration-100 text-whitetext hover:text-graytext "
-          key={text}
+      {NavItems.map(({ href, text }, i) => (
+        <li
+          className="list-none transition duration-100 text-whitetext hover:text-graytext"
+          key={i}
         >
-          <Link href={href} passHref>
+          <Link href={href}>
             <a className={router.pathname == href ? 'active-nav-link ' : ''}>
               {text}
             </a>
           </Link>
-        </div>
+        </li>
       ))}
     </>
   )

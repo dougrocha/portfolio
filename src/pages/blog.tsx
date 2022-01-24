@@ -1,67 +1,54 @@
-import { SearchIcon } from '@icons'
-import ContactFooter from 'components/contact/ContactFooter'
+import BlogSection from 'components/blog'
+import BlogSidebar from 'components/blog/sidebar'
 import BlogLayout from 'layouts/blog'
 import React from 'react'
+import fs from 'fs'
+import path from 'path'
+import matter from 'gray-matter'
+import { ISlugBlogPosts } from 'utils/types'
 
-const BlogCategories = [
-  {
-    name: 'React',
-    color: '#325ea0',
-  },
-  {
-    name: 'Workflow',
-    color: '#FFBD44',
-  },
-  {
-    name: 'Nestjs',
-    color: '#2E0DF8',
-  },
-]
-
-const Blog = () => {
+const Blog = ({ posts }: { posts: ISlugBlogPosts[] }) => {
   return (
     <BlogLayout>
-      <div className="container px-[52px] mx-auto text-white xl:max-w-7xl">
-        <div className="text-white ">TOP SECTION</div>
-        <div className="w-full md:grid md:grid-cols-10">
-          <div className="col-span-7">testing</div>
-          <div className="col-span-3">
-            {/*
-           TODO put this in its own component
-           for search function
-        */}
-
-            <div className="relative">
-              <input
-                className="w-full h-full px-3 py-3 text-sm text-gray-300 bg-bg-light shadow-form"
-                placeholder="Search posts..."
-              />
-              <SearchIcon
-                className="absolute top-2 right-2"
-                height={25}
-                onClick={() => null}
-              />
-            </div>
-
-            <div>
-              <div>Categories</div>
-              <div className="flex">
-                {BlogCategories.map(({ color, name }) => (
-                  <button key={name} className={`bg-[${color}] w-full`}>
-                    {name}
-                  </button>
-                ))}
-              </div>
-            </div>
-            <div>extras</div>
-          </div>
-        </div>
-        <footer className="flex flex-col items-center justify-center">
-          <ContactFooter />
-        </footer>
-      </div>
+      <main className="container flex flex-wrap justify-between px-6 mx-auto mt-16 text-white xl:max-w-7xl">
+        <BlogSection posts={posts} />
+        <BlogSidebar />
+      </main>
     </BlogLayout>
   )
+}
+
+export const getStaticProps = async () => {
+  const files = fs.readdirSync(path.join('src/data/posts'))
+
+  const posts = files.map(filename => {
+    const slug = filename.replace('.mdx', '')
+
+    const markdownWithMeta = fs.readFileSync(
+      path.join('src/data/posts', filename),
+      'utf-8',
+    )
+
+    const { data: frontMatter, content } = matter(markdownWithMeta)
+
+    return {
+      slug,
+      frontMatter,
+      content,
+    }
+  })
+
+  console.log(
+    posts.sort(
+      (a, b) => Date.parse(b.frontMatter.date) - Date.parse(a.frontMatter.date),
+    ),
+  )
+
+  return {
+    props: {
+      posts,
+    },
+  }
 }
 
 export default Blog

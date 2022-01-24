@@ -7,10 +7,11 @@ import {
   ExternalLinkIcon,
 } from '@icons'
 import Link from 'next/link'
+import { StaticLinks } from 'utils/staticLinks'
 
 const SpotlightProject = () => {
   return (
-    <div className="container px-6 mx-auto mt-40">
+    <section className="container px-6 mx-auto mt-40">
       <div className="flex flex-col justify-center mx-auto max-w-7xl">
         <div>
           <p className="font-medium text-windowyellow">- Spotlight</p>
@@ -37,17 +38,21 @@ const SpotlightProject = () => {
               <StyledComponentsIcon className="cursor-default" />
             </div>
             <div className="flex items-center justify-between space-x-4">
-              <Link href="https://github.com/slashtp3/quanty" passHref>
-                <GithubIcon />
+              <Link href={StaticLinks.QUANTYGIT} passHref>
+                <a>
+                  <GithubIcon />
+                </a>
               </Link>
-              <Link href="https://quanty.xyz" passHref>
-                <ExternalLinkIcon />
+              <Link href={StaticLinks.QUANTYAPP} passHref>
+                <a>
+                  <ExternalLinkIcon />
+                </a>
               </Link>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   )
 }
 

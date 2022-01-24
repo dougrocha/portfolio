@@ -26,8 +26,11 @@ const HomeLayout = ({ children, title }: LayoutProps) => {
       </Head>
 
       <div className="block min-h-screen overflow-auto antialiased bg-bg">
-        <NavBar />
-        {children}
+        <header>
+          <NavBar />
+        </header>
+        <main>{children}</main>
+
         <Contact />
       </div>
     </>
