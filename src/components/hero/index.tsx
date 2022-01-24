@@ -1,7 +1,8 @@
 import { motion, AnimatePresence } from 'framer-motion'
-import useModal from 'hooks/useModal'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
+
+import useModal from 'hooks/useModal'
 
 const ContactModal = dynamic(() => import('components/contact/contactModal'))
 const Modal = dynamic(() => import('components/modal'))

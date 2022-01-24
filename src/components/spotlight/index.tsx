@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 import {
   NextJsIcon,
   TypescriptIcon,
@@ -6,7 +8,6 @@ import {
   GithubIcon,
   ExternalLinkIcon,
 } from '@icons'
-import Link from 'next/link'
 import { StaticLinks } from 'utils/staticLinks'
 
 const SpotlightProject = () => {
