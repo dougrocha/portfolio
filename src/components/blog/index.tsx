@@ -1,6 +1,8 @@
-import { FilterIcon } from '@icons'
 import React from 'react'
+
+import { FilterIcon } from '@icons'
 import { ISlugBlogPosts } from 'utils/types'
+
 import BlogPost from './blogPost'
 
 const BlogSection = ({ posts }: { posts: ISlugBlogPosts[] }) => {

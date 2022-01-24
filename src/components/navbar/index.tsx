@@ -1,8 +1,9 @@
+import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
+
 import { ClosedHamburgerIcon, GithubIcon, HamBurgerIcon } from '@icons'
-import { motion } from 'framer-motion'
 
 const NavBar = () => {
   const [isHamOpen, setHam] = useState(false)

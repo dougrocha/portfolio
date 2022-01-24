@@ -1,10 +1,12 @@
+import fs from 'fs'
+import path from 'path'
+
+import matter from 'gray-matter'
+import React from 'react'
+
 import BlogSection from 'components/blog'
 import BlogSidebar from 'components/blog/sidebar'
 import BlogLayout from 'layouts/blog'
-import React from 'react'
-import fs from 'fs'
-import path from 'path'
-import matter from 'gray-matter'
 import { ISlugBlogPosts } from 'utils/types'
 
 const Blog = ({ posts }: { posts: ISlugBlogPosts[] }) => {

@@ -1,12 +1,14 @@
 import fs from 'fs'
-import BlogLayout from 'layouts/blog'
-import Link from 'next/link'
 import path from 'path'
-import { IBlogPost } from 'utils/types'
-import { serialize } from 'next-mdx-remote/serialize'
+
 import matter from 'gray-matter'
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote/'
+import { serialize } from 'next-mdx-remote/serialize'
+import Link from 'next/link'
 import readingTime, { ReadTimeResults } from 'reading-time'
+
+import BlogLayout from 'layouts/blog'
+import { IBlogPost } from 'utils/types'
 
 interface IPostPage {
   frontMatter: IBlogPost

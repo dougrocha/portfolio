@@ -1,5 +1,6 @@
-import { SearchIcon } from '@icons'
 import React from 'react'
+
+import { SearchIcon } from '@icons'
 
 const BlogSidebar = () => {
   return (

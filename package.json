@@ -10,11 +10,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint --fix",
+    "lint": "cross-env TIMING=1 next lint --fix",
     "format": "prettier --write \"src/**/*.{ts,tsx}\"",
     "prepare": "husky install",
     "pre-commit": "yarn lint && yarn format",
-    "test": "echo TEST DONE 🎉"
+    "test": "echo TEST DONE 🎉",
+    "analyze": "cross-env ANALYZE=true next build"
   },
   "dependencies": {
     "@mdx-js/loader": "^1.6.22",
@@ -36,6 +37,7 @@
   },
   "devDependencies": {
     "@iconify/react": "^3.1.2",
+    "@next/bundle-analyzer": "^12.0.8",
     "@next/eslint-plugin-next": "^12.0.8",
     "@tailwindcss/aspect-ratio": "^0.4.0",
     "@tailwindcss/forms": "^0.4.0",
@@ -47,6 +49,7 @@
     "@typescript-eslint/parser": "^5.10.0",
     "autoprefixer": "^10.4.0",
     "commitizen": "^4.2.4",
+    "cross-env": "^7.0.3",
     "cz-conventional-changelog": "3.3.0",
     "eslint": "^8.7.0",
     "eslint-config-next": "^12.0.8",

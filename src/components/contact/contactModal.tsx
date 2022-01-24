@@ -1,5 +1,7 @@
-import useContactForm from 'hooks/useContactForm'
 import TextAreaAutosize from 'react-textarea-autosize'
+
+import useContactForm from 'hooks/useContactForm'
+
 import ContactFormButton from './sendButton'
 
 const ContactModal = () => {

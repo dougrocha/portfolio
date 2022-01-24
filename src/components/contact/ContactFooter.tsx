@@ -1,9 +1,11 @@
+import { AnimatePresence } from 'framer-motion'
+import Link from 'next/link'
+
 import { GithubIcon, MailIcon, LinkedInIcon } from '@icons'
 import Modal from 'components/modal'
-import { AnimatePresence } from 'framer-motion'
 import useModal from 'hooks/useModal'
-import Link from 'next/link'
 import { StaticLinks } from 'utils/staticLinks'
+
 import ContactModal from './contactModal'
 
 const ContactFooter = () => {
