@@ -33,14 +33,14 @@ const BlogSection = ({ posts }: { posts: ISlugBlogPosts[] }) => {
             return <BlogPost post={post} key={post.slug} />
           })}
       </div>
-      <div className="flex items-center justify-center mt-16 ">
+      {/* <div className="flex items-center justify-center mt-16 ">
         <button
           className="px-8 py-2 rounded-lg shadow-form bg-secondary-red"
           onClick={() => handleLoadMore()}
         >
           <strong>Load More</strong>
         </button>
-      </div>
+      </div> */}
     </section>
   )
 }
