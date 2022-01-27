@@ -1,4 +1,5 @@
 import Head from 'next/head'
+
 import Contact from '../components/contact'
 import NavBar from '../components/navbar'
 import { LayoutProps } from '../utils/types'
@@ -25,7 +26,7 @@ const HomeLayout = ({ children, title }: LayoutProps) => {
         <meta property="og:type" content="website" />
       </Head>
 
-      <div className="block min-h-screen overflow-auto antialiased bg-bg">
+      <div className="block min-h-screen overflow-auto antialiased bg-feldgray-400 dark:bg-bg-600">
         <header>
           <NavBar />
         </header>

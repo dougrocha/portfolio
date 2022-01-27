@@ -11,7 +11,7 @@ const BlogSidebar = () => {
         */}
       <div className="relative">
         <input
-          className="w-full h-full px-3 py-3 text-sm text-gray-300 bg-bg-light shadow-form"
+          className="w-full h-full px-3 py-3 text-sm text-gray-300 bg-bg-500/80 shadow-form"
           placeholder="Search posts..."
         />
         <SearchIcon
@@ -23,7 +23,7 @@ const BlogSidebar = () => {
 
       <div className="flex flex-col mt-10 space-y-5">
         <h3 className="text-lg">Categories</h3>
-        <div className="grid w-full grid-cols-3 mt-2 gap-x-4 gap-y-2">
+        <div className="grid grid-cols-4 mt-2 gap-x-2 gap-y-2">
           {BlogCategories.slice(0, 6).map(({ color, name }, i) => (
             <button
               key={i}
@@ -54,7 +54,7 @@ const BlogCategories = [
   },
   {
     name: 'Workflow',
-    color: 'bg-workflow',
+    color: 'bg-secondary-yellow',
   },
   {
     name: 'Nestjs',
@@ -62,7 +62,7 @@ const BlogCategories = [
   },
   {
     name: 'Workflow',
-    color: 'bg-workflow',
+    color: 'bg-secondary-yellow',
   },
   {
     name: 'Nestjs',
@@ -70,7 +70,7 @@ const BlogCategories = [
   },
   {
     name: 'Workflow',
-    color: 'bg-workflow',
+    color: 'bg-secondary-yellow',
   },
   {
     name: 'Nestjs',
@@ -78,7 +78,7 @@ const BlogCategories = [
   },
   {
     name: 'Workflow',
-    color: 'bg-workflow',
+    color: 'bg-secondary-yellow',
   },
   {
     name: 'Nestjs',

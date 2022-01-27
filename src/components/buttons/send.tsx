@@ -1,12 +1,14 @@
+import React from 'react'
+
 import { LoadingIcon, SendIcon } from '@icons'
 
-const ContactFormButton = ({ loading }: { loading: boolean }) => {
+const SendButton = ({ loading }: { loading: boolean }) => {
   return (
     <div className="flex">
       {/* Change Highlight Feature for Buttons */}
       <button
         type="submit"
-        className="flex items-center justify-center px-6 py-2 font-bold text-whitetext disabled:hover:scale-100 disabled:brightness-50 hover:brightness-90 hover:scale-95 bg-windowred rounded-xl sm:ml-auto"
+        className="flex items-center justify-center px-6 py-2 font-bold text-primary-white disabled:hover:scale-100 disabled:brightness-50 hover:brightness-90 hover:scale-95 bg-secondary-red rounded-xl sm:ml-auto"
         disabled={loading}
       >
         {loading ? (
@@ -25,4 +27,4 @@ const ContactFormButton = ({ loading }: { loading: boolean }) => {
   )
 }
 
-export default ContactFormButton
+export default SendButton

@@ -1,6 +1,5 @@
+import SendButton from 'components/buttons/send'
 import useContactForm from 'hooks/useContactForm'
-
-import ContactFormButton from './sendButton'
 
 const ContactForm = () => {
   const { bindName, bindEmail, bindMessage, loading, handleSubmit } =
@@ -23,7 +22,7 @@ const ContactForm = () => {
           autoComplete="name"
           name="name"
           type="text"
-          className="w-full px-4 py-4 border rounded-lg border-bg-light/25 shadow-form bg-bg brightness-110 "
+          className="w-full px-4 py-4 text-white border rounded-lg border-bg-500/25 shadow-form bg-bg-500/75 brightness-110"
           value={bindName.value}
           onChange={bindName.onChange}
         />
@@ -37,7 +36,7 @@ const ContactForm = () => {
           required
           name="email"
           type="email"
-          className="w-full px-4 py-4 border rounded-lg border-bg-light/25 shadow-form bg-bg brightness-110"
+          className="w-full px-4 py-4 text-white border rounded-lg border-bg-500/25 shadow-form bg-bg-500/75 brightness-110"
           value={bindEmail.value}
           onChange={bindEmail.onChange}
         />
@@ -49,12 +48,12 @@ const ContactForm = () => {
         <textarea
           required
           name="message"
-          className="w-full h-56 p-4 border rounded-lg resize-none border-bg-light/25 shadow-form bg-bg brightness-110"
+          className="w-full h-56 p-4 text-white border rounded-lg resize-none border-bg-500/25 shadow-form bg-bg-500/75 brightness-110"
           value={bindMessage.value}
           onChange={bindMessage.onChange}
         />
       </div>
-      <ContactFormButton loading={loading} />
+      <SendButton loading={loading} />
     </form>
   )
 }

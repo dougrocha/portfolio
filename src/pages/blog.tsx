@@ -12,7 +12,7 @@ import { ISlugBlogPosts } from 'utils/types'
 const Blog = ({ posts }: { posts: ISlugBlogPosts[] }) => {
   return (
     <BlogLayout>
-      <main className="container flex flex-wrap justify-between px-6 mx-auto mt-16 text-white xl:max-w-7xl">
+      <main className="container flex flex-wrap justify-between px-6 mx-auto mt-16 text-primary-white xl:max-w-7xl">
         <BlogSection posts={posts} />
         <BlogSidebar />
       </main>
@@ -39,12 +39,6 @@ export const getStaticProps = async () => {
       content,
     }
   })
-
-  console.log(
-    posts.sort(
-      (a, b) => Date.parse(b.frontMatter.date) - Date.parse(a.frontMatter.date),
-    ),
-  )
 
   return {
     props: {

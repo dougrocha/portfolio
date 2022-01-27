@@ -6,6 +6,9 @@ import { ISlugBlogPosts } from 'utils/types'
 import BlogPost from './blogPost'
 
 const BlogSection = ({ posts }: { posts: ISlugBlogPosts[] }) => {
+  const handleLoadMore = () => {
+    return
+  }
   return (
     <section className="w-full lg:w-8/12">
       <div className="flex items-center justify-between">
@@ -16,27 +19,25 @@ const BlogSection = ({ posts }: { posts: ISlugBlogPosts[] }) => {
         </div>
       </div>
       <div className="space-y-6 mt-14">
-        {/* Move this to a custom hook to make is easier */}
         {posts
-          .slice(1)
           .filter(post => post.frontMatter.isPinned === true)
           .map(post => (
-            <>
-              <BlogPost post={post} key={post.slug} />
-            </>
+            <BlogPost post={post} key={post.slug} />
           ))}
-        <BlogPost post={posts[0]} key={posts[0].slug} isNew />
         {posts
-          .slice(1)
           .filter(post => post.frontMatter.isPinned === false)
-          .map(post => (
-            <>
-              <BlogPost post={post} key={post.slug} />
-            </>
-          ))}
+          .map((post, i) => {
+            if (i == 0) {
+              return <BlogPost post={post} key={post.slug} isNew />
+            }
+            return <BlogPost post={post} key={post.slug} />
+          })}
       </div>
       <div className="flex items-center justify-center mt-16 ">
-        <button className="px-8 py-2 rounded-lg shadow-form bg-windowred">
+        <button
+          className="px-8 py-2 rounded-lg shadow-form bg-secondary-red"
+          onClick={() => handleLoadMore()}
+        >
           <strong>Load More</strong>
         </button>
       </div>
