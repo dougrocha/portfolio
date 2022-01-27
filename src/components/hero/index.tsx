@@ -18,7 +18,7 @@ const Hero = () => {
         </h1>
         <p className="text-lg text-primary-brightgray/70">
           <span className="underline text-secondary-yellow underline-offset-2 ">
-            Software developer
+            Software developer{' '}
           </span>
           currently studying at Brookdale CC.
         </p>
