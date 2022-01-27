@@ -11,20 +11,19 @@ const withMDX = require('@next/mdx')({
     rehypePlugins: [],
   },
 })
+const withPlugins = require('next-compose-plugins')
 
-module.exports = withBundleAnalyzer(
-  withMDX({
-    reactStrictMode: true,
-    images: {
-      domains: ['via.placeholder.com'],
-    },
-    pageExtensions: ['ts', 'tsx', 'md', 'mdx'],
-    webpack: (config, { isServer }) => {
-      // Fixes npm packages (mdx) that depend on `fs` module
-      if (!isServer) {
-        config.resolve.fallback.fs = false
-      }
-      return config
-    },
-  }),
-)
+module.exports = withPlugins([withBundleAnalyzer(), withMDX()], {
+  reactStrictMode: true,
+  images: {
+    domains: ['via.placeholder.com', 'cdn.vox-cdn.com'],
+  },
+  pageExtensions: ['ts', 'tsx', 'md', 'mdx'],
+  webpack: (config, { isServer }) => {
+    // Fixes npm packages (mdx) that depend on `fs` module
+    if (!isServer) {
+      config.resolve.fallback.fs = false
+    }
+    return config
+  },
+})

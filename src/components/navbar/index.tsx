@@ -26,7 +26,7 @@ const NavBar = () => {
         </ul>
 
         <div className="flex items-center transition duration-100 hover:brightness-125">
-          <Link href="https://github.com/slashtp3/portfolio" passHref>
+          <Link href="https://github.com/slashtp3/portfolio">
             <a>
               <GithubIcon />
             </a>
@@ -75,10 +75,10 @@ const Dropdown = ({ isOpen }: { isOpen: boolean }) => {
       animate={isOpen ? 'opened' : 'closed'}
       className={`items-center justify-center md:hidden`}
     >
-      <ul className="flex flex-col items-center p-[44px] space-y-10 text-lg font-medium md:hidden">
+      <ul className="flex flex-col items-center space-y-10 text-lg font-medium p-11 md:hidden">
         <NavItems />
       </ul>
-      <hr className="flex-grow border-t border-gray-400" />
+      <hr className="flex-grow border-t border-gray-400 md:hidden" />
     </motion.div>
   )
 }
@@ -96,11 +96,17 @@ const NavItems = () => {
     <>
       {NavItems.map(({ href, text }, i) => (
         <li
-          className="list-none transition duration-100 text-whitetext hover:text-graytext"
+          className="list-none transition duration-100 text-primary-white "
           key={i}
         >
           <Link href={href}>
-            <a className={router.pathname == href ? 'active-nav-link ' : ''}>
+            <a
+              className={`${
+                router.pathname == href
+                  ? 'active-nav-link '
+                  : 'hover:text-primary-brightgray'
+              }  hover:brightness-90`}
+            >
               {text}
             </a>
           </Link>

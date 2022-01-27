@@ -50,13 +50,14 @@ export const SendIcon = ({ ...props }: Partial<IconProps>) => {
 export const FilterIcon = ({ ...props }: Partial<IconProps>) => {
   return <BaseIcon {...props} icon="fluent:arrow-sort-down-lines-24-regular" />
 }
+export const ClipboardIcon = ({ ...props }: Partial<IconProps>) => {
+  return <BaseIcon {...props} icon="bi:clipboard" />
+}
+export const ClipboardCheckIcon = ({ ...props }: Partial<IconProps>) => {
+  return <BaseIcon {...props} icon="bi:clipboard-check" />
+}
 
-const BaseIcon = ({
-  icon,
-  height,
-  className,
-  ...props
-}: Partial<IconProps>) => {
+const BaseIcon = ({ icon, className, ...props }: Partial<IconProps>) => {
   return (
     <>
       {icon && (
@@ -64,8 +65,8 @@ const BaseIcon = ({
           {...props}
           className={'cursor-pointer '.concat(className ?? '')}
           icon={icon}
+          width={35}
           color={props.color || '#ffbd44'}
-          height={height || 35}
         />
       )}
     </>

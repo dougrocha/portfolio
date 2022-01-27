@@ -25,7 +25,7 @@ const DefaultLayout = ({ children, title }: LayoutProps) => {
         <meta property="og:type" content="website" />
       </Head>
 
-      <div className="block min-h-screen overflow-auto antialiased text-white bg-bg">
+      <div className="block min-h-screen overflow-auto antialiased text-white bg-bg-600">
         <NavBar />
         {children}
         <Contact />
