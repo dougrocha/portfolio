@@ -30,7 +30,7 @@ const BlogLayout = ({ children, title }: LayoutProps) => {
       <div className="block min-h-screen overflow-auto antialiased bg-feldgray-400 dark:bg-bg-600">
         <NavBar />
         {children}
-        <footer>
+        <footer className="mb-10 sm:mb-20">
           <ContactFooter openModal={openModal} />
         </footer>
       </div>

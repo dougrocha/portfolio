@@ -16,7 +16,7 @@ const withPlugins = require('next-compose-plugins')
 module.exports = withPlugins([withBundleAnalyzer(), withMDX()], {
   reactStrictMode: true,
   images: {
-    domains: ['via.placeholder.com', 'cdn.vox-cdn.com'],
+    domains: ['via.placeholder.com', 'cdn.vox-cdn.com', 'images.unsplash.com'],
   },
   pageExtensions: ['ts', 'tsx', 'md', 'mdx'],
   webpack: (config, { isServer }) => {

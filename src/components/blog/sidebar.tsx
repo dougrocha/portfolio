@@ -4,12 +4,12 @@ import { SearchIcon } from '@icons'
 
 const BlogSidebar = () => {
   return (
-    <aside className="w-full lg:w-3/12">
+    <aside className="w-full mt-20 lg:mt-0 lg:w-3/12">
       {/*
            TODO put this in its own component
            for search function
         */}
-      <div className="relative">
+      {/* <div className="relative">
         <input
           className="w-full h-full px-3 py-3 text-sm text-gray-300 bg-bg-500/80 shadow-form"
           placeholder="Search posts..."
@@ -42,7 +42,7 @@ const BlogSidebar = () => {
         <p>Bookmarks</p>
         <p>Most Upvoted</p>
         <p>Feedback</p>
-      </div>
+      </div> */}
     </aside>
   )
 }
