@@ -30,10 +30,11 @@ export default function handler(
   }
 
   transporter.sendMail(mailData, (err, info) => {
-    if (err) console.log(err)
-
-    console.log(info)
+    if (err) {
+      console.log(err)
+      res.status(500).end()
+    }
   })
 
-  res.status(200)
+  res.status(200).end()
 }
