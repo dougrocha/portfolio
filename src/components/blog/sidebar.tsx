@@ -71,7 +71,7 @@ const BlogSidebar = ({ posts }: ISidebar) => {
         )}
       </div>
 
-      <div className="flex flex-col mt-10 space-y-5">
+      {/* <div className="flex flex-col mt-10 space-y-5">
         <h3 className="text-lg">Categories</h3>
         <div className="grid grid-cols-4 mt-2 gap-x-2 gap-y-2">
           {BlogCategories.slice(0, 6).map(({ color, name }, i) => (
@@ -92,7 +92,7 @@ const BlogSidebar = ({ posts }: ISidebar) => {
         <p>Bookmarks</p>
         <p>Most Upvoted</p>
         <p>Feedback</p>
-      </div>
+      </div> */}
     </aside>
   )
 }
