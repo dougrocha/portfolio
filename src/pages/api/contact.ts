@@ -34,6 +34,7 @@ export default function handler(
       console.log(err)
       res.status(500).end()
     }
+    res.status(200)
   })
 
   res.status(200).end()
