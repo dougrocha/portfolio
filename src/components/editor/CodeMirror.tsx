@@ -33,6 +33,10 @@ const useCodeMirror = <T extends Element>({
         closeBrackets(),
         highlightActiveLineGutter(),
         lineNumbers(),
+        EditorView.theme({
+          '&': { height: '100%' },
+          '.cm-scroller': { overflow: 'auto' },
+        }),
         EditorView.lineWrapping,
         EditorView.updateListener.of(update => {
           if (update.changes) {

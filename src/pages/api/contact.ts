@@ -29,7 +29,7 @@ export default function handler(
     ${req.body.email}</p>`,
   }
 
-  transporter.sendMail(mailData, (err, info) => {
+  transporter.sendMail(mailData, err => {
     if (err) {
       res.status(500).send(err)
     }
