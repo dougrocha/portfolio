@@ -19,6 +19,12 @@
       "@icons": ["components/icons"]
     }
   },
-  "include": ["next-env.d.ts", "src/**/*.ts", "src/**/*.tsx", ".eslintrc"],
+  "include": [
+    "next-env.d.ts",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    ".eslintrc",
+    "environment.d.ts"
+  ],
   "exclude": ["node_modules"]
 }

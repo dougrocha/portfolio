@@ -1,4 +1,5 @@
 import { ChangeEvent, useState } from 'react'
+
 import useInput from './useInput'
 
 interface BindObj {
@@ -26,25 +27,27 @@ const useContactForm = (): IUseContactForm => {
 
     const contactInfo = { name, email, message }
 
-    setTimeout(() => {
-      // TODO Handle Submit information with api
-      fetch('localhost:3000/contact-form', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(contactInfo),
-      })
-        .then(() => {
+    fetch('/api/contact', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(contactInfo),
+    })
+      .then(res => {
+        if (res.status === 200) {
           clearName()
           clearEmail()
           clearMessage()
 
           setLoading(false)
-        })
-        .catch(() => {
-          setLoading(false)
-          alert('Something went wrong, try again later.')
-        })
-    }, 1000)
+        }
+      })
+      .catch(() => {
+        setLoading(false)
+        alert('Something went wrong, try again later.')
+      })
   }
 
   return { bindName, bindEmail, bindMessage, loading, handleSubmit }
