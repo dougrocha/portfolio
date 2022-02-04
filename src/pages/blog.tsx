@@ -14,7 +14,7 @@ const Blog = ({ posts }: { posts: ISlugBlogPosts[] }) => {
     <BlogLayout>
       <main className="container flex flex-wrap justify-between px-6 mx-auto mt-16 text-primary-white xl:max-w-7xl">
         <BlogSection posts={posts} />
-        <BlogSidebar />
+        <BlogSidebar posts={posts} />
       </main>
     </BlogLayout>
   )

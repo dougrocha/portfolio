@@ -9,7 +9,7 @@ import components from 'components/typography'
 const PreviewWindow = ({ markDown }: { markDown: string }) => {
   return (
     <ReactMarkDown
-      className="w-1/2 h-full p-4 ml-5 prose break-words rounded-md bg-bg-600 dark:prose-invert"
+      className="w-1/2 h-full overflow-auto p-4 ml-5 prose break-words rounded-md bg-bg-600 dark:prose-invert"
       remarkPlugins={[remarkGfm, require('remark-code-titles')]}
       rehypePlugins={[
         rehypeRaw,
