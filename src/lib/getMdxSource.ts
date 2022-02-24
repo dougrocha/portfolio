@@ -1,4 +1,5 @@
 import { serialize } from 'next-mdx-remote/serialize'
+import rehypeCodeTitles from 'rehype-code-titles'
 import rehypePrism from 'rehype-prism-plus'
 import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
@@ -14,8 +15,12 @@ interface mdxSourceProps {
 const getMdxSource = async ({ content, frontMatter }: mdxSourceProps) => {
   const mdxSource = await serialize(content, {
     mdxOptions: {
-      remarkPlugins: [remarkGfm, require('remark-code-titles')],
-      rehypePlugins: [[rehypePrism, { ignoreMissing: true }], rehypeSlug],
+      remarkPlugins: [remarkGfm],
+      rehypePlugins: [
+        rehypeCodeTitles,
+        [rehypePrism, { ignoreMissing: true }],
+        rehypeSlug,
+      ],
     },
     scope: frontMatter,
   })

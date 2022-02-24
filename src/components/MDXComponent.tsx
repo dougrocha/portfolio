@@ -9,7 +9,13 @@ interface MDXProps {
 
 const MDXRenderer = ({ mdxSource }: MDXProps) => {
   return (
-    <MDXRemote {...mdxSource} components={components} lazy scope={{ motion }} />
+    <MDXRemote
+      {...mdxSource}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      components={components as any}
+      lazy
+      scope={{ motion }}
+    />
   )
 }
 

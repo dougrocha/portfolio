@@ -25,7 +25,12 @@ const useCodeMirror = <T extends Element>({
     const startState = EditorState.create({
       doc: initialMD,
       extensions: [
-        keymap.of([...defaultKeymap, ...historyKeymap, ...closeBracketsKeymap]),
+        keymap.of([
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          ...(defaultKeymap as any),
+          ...historyKeymap,
+          ...closeBracketsKeymap,
+        ]),
         history(),
         highlightActiveLine(),
         bracketMatching(),
@@ -47,7 +52,8 @@ const useCodeMirror = <T extends Element>({
     })
 
     const view = new EditorView({
-      state: startState,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      state: startState as any,
       parent: refContainer.current,
     })
     setEditorView(view)
