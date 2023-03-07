@@ -1,4 +1,6 @@
 ---
+import BlogPostLayout from "../../layouts/BlogPostLayout.astro";
+
 export async function getStaticPaths() {
   const blogs = await Astro.glob("../../content/blog/*.mdx");
 
@@ -15,6 +17,8 @@ export async function getStaticPaths() {
 const { Content } = Astro.props.blog;
 ---
 
-<article>
-  <Content />
-</article>
+<BlogPostLayout frontmatter={Astro.props.blog.frontmatter}>
+  <article class="prose mx-auto max-w-screen-lg">
+    <Content />
+  </article>
+</BlogPostLayout>
