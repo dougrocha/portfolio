@@ -1,0 +1,34 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { format } from "date-fns";
+
+export interface Props {
+  frontmatter: {
+    title: string;
+    slug: string;
+    description: string;
+    tags: string[];
+    pubDate: string;
+  };
+}
+
+const { frontmatter } = Astro.props;
+---
+
+<BaseLayout title={frontmatter.title}>
+  <div class="prose mx-auto max-w-screen-lg">
+    <article>
+      <div>
+        <h1>{frontmatter.title}</h1>
+        <span>
+          {format(new Date(frontmatter.pubDate), "MMMM dd, yyyy")} • {
+            frontmatter.tags.join(", ")
+          }
+        </span>
+        <p>{frontmatter.description}</p>
+      </div>
+
+      <slot />
+    </article>
+  </div>
+</BaseLayout>
