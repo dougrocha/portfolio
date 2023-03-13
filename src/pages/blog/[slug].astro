@@ -14,11 +14,9 @@ export async function getStaticPaths() {
   }));
 }
 
-const { Content } = Astro.props.blog;
+const { Content, frontmatter } = Astro.props.blog;
 ---
 
-<BlogPostLayout frontmatter={Astro.props.blog.frontmatter}>
-  <article class="prose mx-auto max-w-screen-lg">
-    <Content />
-  </article>
+<BlogPostLayout frontmatter={frontmatter}>
+  <Content />
 </BlogPostLayout>

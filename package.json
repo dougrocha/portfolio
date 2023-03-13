@@ -15,10 +15,14 @@
     "@astrojs/sitemap": "^1.1.0",
     "@astrojs/tailwind": "^3.0.1",
     "@astrojs/vercel": "^3.1.4",
+    "@heroicons/react": "^2.0.16",
     "astro": "^2.0.15",
+    "clsx": "^1.2.1",
     "date-fns": "^2.29.3",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
+    "react-icons": "^4.8.0",
+    "sharp": "^0.31.3",
     "tailwindcss": "^3.0.24"
   },
   "devDependencies": {
@@ -28,6 +32,7 @@
     "@types/prettier": "^2",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
+    "@types/sharp": "^0",
     "@typescript-eslint/parser": "^5.54.0",
     "eslint": "^8.35.0",
     "eslint-plugin-astro": "^0.23.0",

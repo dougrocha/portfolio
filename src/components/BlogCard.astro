@@ -1,0 +1,51 @@
+---
+import { formatDistance } from "date-fns";
+
+export interface Props {
+  title: string;
+  slug: string;
+  pubDate: string;
+  tags: string[];
+}
+
+const { title, slug, pubDate, tags } = Astro.props;
+---
+
+<li class="w-full py-1">
+  <a href={`blog/${slug}`} class="w-full cursor-pointer">
+    <div class="flex w-full flex-col sm:flex-row sm:justify-between">
+      <p class="font-semibold text-white">
+        {title}
+      </p>
+
+      <span>
+        {
+          formatDistance(new Date(pubDate), new Date(), {
+            addSuffix: true,
+          })
+        }
+      </span>
+    </div>
+
+    <div class="flex items-center pt-4 sm:justify-between">
+      <div class="flex flex-wrap gap-1">
+        {
+          tags.map((tag) => {
+            return (
+              <span class="rounded bg-neutral-600 p-1 text-sm uppercase">
+                {tag}
+              </span>
+            );
+          })
+        }
+      </div>
+
+      <a
+        href={`blog/${slug}`}
+        class="hidden rounded bg-neutral-600 px-2 py-1 text-sm sm:block sm:whitespace-nowrap"
+      >
+        Read More
+      </a>
+    </div>
+  </a>
+</li>

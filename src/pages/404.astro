@@ -1,0 +1,27 @@
+---
+import { Picture } from "@astrojs/image/components";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Uh Oh">
+  <Picture
+    src="/images/bare-room-with-two-benches-and-coffee-tables.jpg"
+    alt="404 - Bare room with two benches and coffee tables"
+    widths={[800, 640, 320]}
+    aspectRatio="16:9"
+    sizes="(min-width: 768px) 800px, 100vw"
+    quality={80}
+    class="rounded-lg"
+  />
+
+  <div class="my-4 space-y-2">
+    <h1 class="text-4xl font-bold">404 - Page Not Found</h1>
+
+    <p class="font-medium">
+      I sat down and must have forgotten about this page. I'll get to it
+      eventually.
+    </p>
+  </div>
+
+  <a href="/" class="rounded bg-neutral-600 px-2 py-1 text-sm">Go back Home</a>
+</BaseLayout>
