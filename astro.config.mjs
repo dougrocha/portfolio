@@ -18,7 +18,15 @@ import sitemap from "@astrojs/sitemap";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind(), react(), mdx(), image(), sitemap()],
+  integrations: [
+    tailwind(),
+    react(),
+    mdx(),
+    image({
+      serviceEntryPoint: "@astrojs/image/sharp",
+    }),
+    sitemap(),
+  ],
   output: "static",
   adapter: vercel({
     analytics: true,

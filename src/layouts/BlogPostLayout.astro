@@ -2,33 +2,32 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { format } from "date-fns";
 
-export interface Props {
-  frontmatter: {
-    title: string;
-    slug: string;
-    description: string;
-    tags: string[];
-    pubDate: string;
-  };
+export interface Frontmatter {
+  title: string;
+  slug: string;
+  tags: string[];
+  pubDate: string;
+}
+
+interface Props {
+  frontmatter: Frontmatter;
 }
 
 const { frontmatter } = Astro.props;
 ---
 
 <BaseLayout title={frontmatter.title}>
-  <div class="prose mx-auto max-w-screen-lg">
-    <article>
-      <div>
-        <h1>{frontmatter.title}</h1>
-        <span>
-          {format(new Date(frontmatter.pubDate), "MMMM dd, yyyy")} • {
-            frontmatter.tags.join(", ")
-          }
-        </span>
-        <p>{frontmatter.description}</p>
-      </div>
+  <article class="prose prose-invert max-w-full">
+    <div class="mb-4">
+      <h1>{frontmatter.title}</h1>
+      <span>
+        Published: {format(new Date(frontmatter.pubDate), "MMMM dd, yyyy")}
+      </span>
+      •<span class="ml-2">{frontmatter.tags.join(" - ")}</span>
+    </div>
 
-      <slot />
-    </article>
-  </div>
+    <slot>
+      <p>There is no content for this post.</p>
+    </slot>
+  </article>
 </BaseLayout>

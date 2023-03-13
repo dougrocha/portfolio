@@ -1,0 +1,31 @@
+---
+import BlogCard from "../../components/BlogCard.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import type { Frontmatter } from "../../layouts/BlogPostLayout.astro";
+
+const allBlogs = await Astro.glob<Frontmatter>("../../content/blog/*.mdx");
+---
+
+<BaseLayout title="Blog Posts">
+  <div class="space-y-4">
+    <h1 class="gradient-text text-3xl font-bold">Blog</h1>
+    <p class="text-gray-200">
+      I write about web development, and other things I find interesting.
+    </p>
+  </div>
+
+  <hr class="my-6 border-gray-500" />
+
+  <ul class="not-prose list-none">
+    {
+      allBlogs.map(({ frontmatter }) => (
+        <BlogCard
+          title={frontmatter.title}
+          pubDate={frontmatter.pubDate}
+          slug={frontmatter.slug}
+          tags={frontmatter.tags}
+        />
+      ))
+    }
+  </ul>
+</BaseLayout>
