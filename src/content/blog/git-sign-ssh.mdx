@@ -133,7 +133,7 @@ Now you may be wondering why you are seeing `No principal matched.`. This is bec
 We also need to add the following to our `~/.gitconfig` file:
 
 ```bash
-git config --global gpg.ssh.allowedSignersFile ~/.ssh/allowed_signers
+git config --global gpg.ssh.allowedsignersfile ~/.ssh/allowed_signers
 ```
 
 Now when we rerun the `git log --show-signature` command, we should see something like this:
