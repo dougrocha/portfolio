@@ -136,6 +136,8 @@ We also need to add the following to our `~/.gitconfig` file:
 git config --global gpg.ssh.allowedSignersFile ~/.ssh/allowed_signers
 ```
 
+Now when we rerun the `git log --show-signature` command, we should see something like this:
+
 ```text
 commit f6e0367385aacd68ec5daa2b77c1092e115d5aa9
 Good "git" signature for douglas_junior@icloud.com with ED25519 key SHA256:yjwtDJIvOG6qSFo3eDSKnK8YK213Y0ldxDwaTa9QFFc
