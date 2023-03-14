@@ -130,6 +130,13 @@ Date:   Mon Mar 6 17:52:55 2023 -0700
 
 Now you may be wondering why you are seeing `No principal matched.`. This is because the SSH key gives a valid signature but cannot be found as one of the allowed signers. To fix this we can create a file called `~/.ssh/allowed_signers"` and add our SSH key contents to it. When checking the signature now, you should see something like this:
 
+```bash
+# Create the ~/.ssh/allowed_signers file
+New-Item -Path ~/.ssh/allowed_signers
+```
+
+One thing to note is that the `~/.ssh/allowed_signers` file contents must all start with an email address. So if you are copying your public SSH key into the file, you will need to add your email address to the beginning of the line.
+
 We also need to add the following to our `~/.gitconfig` file:
 
 ```bash
@@ -149,7 +156,7 @@ Date:   Mon Mar 6 17:52:55 2023 -0700
 
 ## The End
 
-After all this, my `~/.gitconfig` file looks like this:
+After all this, your `~/.gitconfig` file should look something like this:
 
 ```text
 [user]
@@ -162,4 +169,4 @@ After all this, my `~/.gitconfig` file looks like this:
     allowedSignersFile = ~/.ssh/allowed_signers
 ```
 
-After all that work, you should now be able to sign Git commits with your SSH key. It is a great alternative to GPG and is much easier to setup. I hope this helps you out!
+You should now be able to sign Git commits with your SSH key. It is a great alternative to GPG and is much easier to setup. I hope this helps you out!
