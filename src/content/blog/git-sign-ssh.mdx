@@ -93,7 +93,7 @@ Now let's tell Git which SSH key to use. I'm going to use the default SSH key pa
 git config --global user.signingkey "~/.ssh/id_ed25519"
 ```
 
-Now lets test it out:
+Now lets test it out. Before we continue, you will have to navigate to the directory of the repository you want to sign commits for. If you are using a new repository, you will need to initialize it first.
 
 ```bash
 git commit --allow-empty -S -m "Signed SSH Commit"
