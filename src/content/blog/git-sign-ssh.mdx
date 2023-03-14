@@ -31,7 +31,7 @@ Get-Service | ?{$_.Name -like '*ssh-agent*'} | select -Property Name, StartType,
 If the SSH agent is not running or disabled, you will need to enable it.
 
 ```powershell
-# Enable the Service if it is disabled (Will require powershell to be run as admin):
+# Enable the Service if it is disabled (will require powershell to be run as admin):
 Set-Service -Name ssh-agent -StartupType Manual
 # Start the service if it is not running:
 Start-Service ssh-agent
