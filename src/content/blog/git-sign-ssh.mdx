@@ -95,6 +95,12 @@ git config --global user.signingkey "~/.ssh/id_ed25519"
 
 Now lets test it out. Before we continue, you will have to navigate to the directory of the repository you want to sign commits for. If you are using a new repository, you will need to initialize it first.
 
+If you do need to start a new repository, you can do so by running the following command:
+
+```bash
+git init
+```
+
 ```bash
 git commit --allow-empty -S -m "Signed SSH Commit"
 ```
