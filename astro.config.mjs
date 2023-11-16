@@ -14,9 +14,6 @@ import vercel from "@astrojs/vercel/static";
 import image from "@astrojs/image";
 
 // https://astro.build/config
-import sitemap from "@astrojs/sitemap";
-
-// https://astro.build/config
 export default defineConfig({
   integrations: [
     tailwind(),
@@ -25,7 +22,6 @@ export default defineConfig({
     image({
       serviceEntryPoint: "@astrojs/image/sharp",
     }),
-    sitemap(),
   ],
   output: "static",
   adapter: vercel({
