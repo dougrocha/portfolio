@@ -9,6 +9,8 @@ const { class: className } = Astro.props
 
 const pathname = new URL(Astro.request.url).pathname
 const currentPath = pathname.slice(1)
+
+console.log({ url: Astro.request.url, pathname, currentPath })
 ---
 
 <nav class={cn('flex h-16', className)}>
@@ -25,8 +27,7 @@ const currentPath = pathname.slice(1)
     <li>
       <a
         class={cn('px-4 py-2 font-medium hover:underline', {
-          'rounded bg-neutral-700 hover:bg-neutral-500':
-            currentPath.includes('blog'),
+          'rounded bg-neutral-700 hover:bg-neutral-500': currentPath === 'blog',
         })}
         href="/blog">Blog</a
       >
@@ -36,7 +37,7 @@ const currentPath = pathname.slice(1)
       <a
         class={cn('px-4 py-2 font-medium hover:underline', {
           'rounded bg-neutral-700 hover:bg-neutral-500':
-            currentPath.includes('projects'),
+            currentPath === 'projects',
         })}
         href="projects"
       >
