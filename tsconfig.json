@@ -9,5 +9,6 @@
       "@utils/*": ["src/utils/*"]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx", "**/*.astro"]
+  "include": ["**/*.ts", "**/*.tsx", "**/*.astro"],
+  "exclude": ["node_modules"]
 }
