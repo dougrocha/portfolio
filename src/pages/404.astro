@@ -1,14 +1,14 @@
 ---
-import { Picture } from "@astrojs/image/components";
-import BaseLayout from "../layouts/BaseLayout.astro";
+import BaseLayout from '@layouts/BaseLayout.astro'
+import localImage from '@assets/404.jpg'
+import { Picture } from 'astro:assets'
 ---
 
 <BaseLayout title="Uh Oh">
   <Picture
-    src="/images/bare-room-with-two-benches-and-coffee-tables.jpg"
+    src={localImage}
     alt="404 - Bare room with two benches and coffee tables"
     widths={[800, 640, 320]}
-    aspectRatio="16:9"
     sizes="(min-width: 768px) 800px, 100vw"
     quality={80}
     class="rounded-lg"

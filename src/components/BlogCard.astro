@@ -1,14 +1,11 @@
 ---
-import { formatDistance } from "date-fns";
+import type { CollectionEntry } from 'astro:content'
+import { formatDistance } from 'date-fns'
 
-export interface Props {
-  title: string;
-  slug: string;
-  pubDate: string;
-  tags: string[];
-}
+type Props = Pick<CollectionEntry<'blog'>, 'data' | 'slug'>
 
-const { title, slug, pubDate, tags } = Astro.props;
+const { data, slug } = Astro.props
+const { title, pubDate, tags } = data
 ---
 
 <li class="w-full py-1">
@@ -30,12 +27,12 @@ const { title, slug, pubDate, tags } = Astro.props;
     <div class="flex items-center pt-4 sm:justify-between">
       <div class="flex flex-wrap gap-1">
         {
-          tags.map((tag) => {
+          tags.map(tag => {
             return (
               <span class="rounded bg-neutral-600 p-1 text-sm uppercase">
                 {tag}
               </span>
-            );
+            )
           })
         }
       </div>

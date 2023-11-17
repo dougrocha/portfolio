@@ -3,7 +3,7 @@ title: Signing Git Commits with SSH
 description: Signing Git commits with SSHs on Windows
 pubDate: 2023-03-06
 slug: git-ssh-sign
-tags: ["git", "ssh", "gpg", "windows"]
+tags: ['git', 'ssh', 'gpg', 'windows']
 ---
 
 I've been using GPG to sign my Git commits for a while now and have recently discovered that you can now use SSH keys to sign commits. I may be late to join this one but if you are like me, you hate typing in your GPG password to commit. And if you are even more like me, you could never get GPG or Git to cache your password for you. So, I'm going to show you how to use SSH keys to sign your commits.
@@ -66,7 +66,7 @@ Before you can continue, verify that the fingerprint is correct here
 [GitHub's public key fingerprint](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints).
 If it is correct, type `yes` and press enter.
 
-```text
+```plaintext
 > The authenticity of host 'github.com (IP ADDRESS)' can't be established.
 > RSA key fingerprint is SHA256:nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8.
 > Are you sure you want to continue connecting (yes/no)?
@@ -74,7 +74,7 @@ If it is correct, type `yes` and press enter.
 
 If the connection is successful, you will see something like this:
 
-```text
+```plaintext
 > Hi username! You've successfully authenticated, but GitHub does not provide shell access.
 ```
 
@@ -117,7 +117,7 @@ git log --show-signature
 
 You should see something like this:
 
-```text
+```plaintext
 commit f6e0367385aacd68ec5daa2b77c1092e115d5aa9
 Good "git" signature with ED25519 key SHA256:yjwtDJIvOG6qSFo3eDSKnK8YK213Y0ldxDwaTa9QFFc
 sig_find_principals: sshsig_find_principal: No such file or directory^M
@@ -145,7 +145,7 @@ git config --global gpg.ssh.allowedsignersfile ~/.ssh/allowed_signers
 
 Now when we rerun the `git log --show-signature` command, we should see something like this:
 
-```text
+```plaintext
 commit f6e0367385aacd68ec5daa2b77c1092e115d5aa9
 Good "git" signature for douglas_junior@icloud.com with ED25519 key SHA256:yjwtDJIvOG6qSFo3eDSKnK8YK213Y0ldxDwaTa9QFFc
 Author: Douglas Rocha <79188161+dougrocha@users.noreply.github.com>
@@ -158,7 +158,7 @@ Date:   Mon Mar 6 17:52:55 2023 -0700
 
 After all this, your `~/.gitconfig` file should look something like this:
 
-```text
+```plaintext
 [user]
     signingkey = ~/.ssh/id_ed25519
 [gpg]

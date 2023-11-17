@@ -1,9 +1,13 @@
 ---
-import BlogCard from "../../components/BlogCard.astro";
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import type { Frontmatter } from "../../layouts/BlogPostLayout.astro";
+import BlogCard from '@components/BlogCard.astro'
+import BaseLayout from '@layouts/BaseLayout.astro'
+import { getCollection } from 'astro:content'
 
-const allBlogs = await Astro.glob<Frontmatter>("../../content/blog/*.mdx");
+const blogs = (
+  await getCollection('blog', ({ data }) =>
+    import.meta.env.PROD ? data.draft !== true : true,
+  )
+).sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf())
 ---
 
 <BaseLayout title="Blog Posts">
@@ -17,15 +21,6 @@ const allBlogs = await Astro.glob<Frontmatter>("../../content/blog/*.mdx");
   <hr class="my-6 border-gray-500" />
 
   <ul class="not-prose list-none">
-    {
-      allBlogs.map(({ frontmatter }) => (
-        <BlogCard
-          title={frontmatter.title}
-          pubDate={frontmatter.pubDate}
-          slug={frontmatter.slug}
-          tags={frontmatter.tags}
-        />
-      ))
-    }
+    {blogs.map(({ data, slug }) => <BlogCard data={data} slug={slug} />)}
   </ul>
 </BaseLayout>
