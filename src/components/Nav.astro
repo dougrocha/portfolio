@@ -1,12 +1,18 @@
 ---
 import { cn } from '@utils/cn'
 
+type Props = {
+  class?: string
+}
+
+const { class: className } = Astro.props
+
 const pathname = new URL(Astro.request.url).pathname
 const currentPath = pathname.slice(1)
 ---
 
-<nav class="mx-auto h-16 flex-shrink-0 px-4 sm:mx-0 md:px-6">
-  <ul class="mx-auto flex h-full max-w-screen-md items-center">
+<nav class={cn('flex h-16', className)}>
+  <ul class="mx-auto flex h-full max-w-screen-md items-center sm:mx-0">
     <li>
       <a
         class={cn('px-4 py-2 font-medium hover:underline', {

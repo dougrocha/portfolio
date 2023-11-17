@@ -1,48 +1,53 @@
 ---
+import { cn } from '@utils/cn'
 import type { CollectionEntry } from 'astro:content'
-import { formatDistance } from 'date-fns'
+import { format } from 'date-fns'
 
-type Props = Pick<CollectionEntry<'blog'>, 'data' | 'slug'>
+type Props = Pick<CollectionEntry<'blog'>, 'data' | 'slug'> & {
+  slim?: boolean
+}
 
-const { data, slug } = Astro.props
+const { data, slug, slim } = Astro.props
 const { title, pubDate, tags } = data
 ---
 
 <li class="w-full py-1">
-  <a href={`blog/${slug}`} class="w-full cursor-pointer">
-    <div class="flex w-full flex-col sm:flex-row sm:justify-between">
-      <p class="font-semibold text-white">
-        {title}
-      </p>
+  <div class="flex w-full flex-row justify-between space-x-1">
+    <a
+      href={`blog/${slug}`}
+      class={cn('font-semibold text-white', {
+        'underline decoration-gray-400 underline-offset-2 hover:decoration-gray-200':
+          slim,
+      })}
+    >
+      {title}
+    </a>
 
-      <span>
-        {
-          formatDistance(new Date(pubDate), new Date(), {
-            addSuffix: true,
-          })
-        }
-      </span>
-    </div>
+    <span class="ml-2">
+      {format(new Date(pubDate), 'MMM d, yyyy')}
+    </span>
+  </div>
 
-    <div class="flex items-center pt-4 sm:justify-between">
-      <div class="flex flex-wrap gap-1">
-        {
-          tags.map(tag => {
+  {
+    slim ? null : (
+      <div class="flex items-center pt-4 sm:justify-between">
+        <div class="flex flex-wrap gap-1">
+          {tags.map(tag => {
             return (
               <span class="rounded bg-neutral-600 p-1 text-sm uppercase">
                 {tag}
               </span>
             )
-          })
-        }
-      </div>
+          })}
+        </div>
 
-      <a
-        href={`blog/${slug}`}
-        class="hidden rounded bg-neutral-600 px-2 py-1 text-sm sm:block sm:whitespace-nowrap"
-      >
-        Read More
-      </a>
-    </div>
-  </a>
+        <a
+          href={`blog/${slug}`}
+          class="ml-auto whitespace-nowrap rounded bg-neutral-600 px-2 py-1 text-sm"
+        >
+          Read More
+        </a>
+      </div>
+    )
+  }
 </li>

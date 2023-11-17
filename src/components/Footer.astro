@@ -1,14 +1,35 @@
 ---
-import { Coffee } from 'lucide-react'
+import { cn } from '@utils/cn'
+import { Coffee, Github, Linkedin, Mail } from 'lucide-react'
+
+type Props = {
+  class?: string
+}
+
+const { class: className } = Astro.props
 ---
 
-<footer class="mt-8 flex-shrink-0 px-4 md:px-6">
-  <div class="mx-auto flex max-w-screen-md items-center py-2 text-white">
-    <span class="flex items-center space-x-1">
-      <p>
-        © {new Date().getFullYear()} - Made by Douglas Rocha {' '}
-      </p>
-      <Coffee />
-    </span>
-  </div>
+<footer class={cn('flex items-center justify-between', className)}>
+  <span class="flex items-center space-x-1">
+    Made with care
+    <Coffee className="ml-1 h-5 w-5" />
+  </span>
+
+  <ul class="flex items-center space-x-4">
+    <li>
+      <a href="https://github.com/dougrocha" target="_blank">
+        <Github className="h-5 w-5" />
+      </a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/in/dougrocha/" target="_blank">
+        <Linkedin className="h-5 w-5" />
+      </a>
+    </li>
+    <li>
+      <a href="mailto:douglas_junior@icloud.com">
+        <Mail className="h-5 w-5" />
+      </a>
+    </li>
+  </ul>
 </footer>

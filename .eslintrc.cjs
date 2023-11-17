@@ -1,7 +1,6 @@
 module.exports = {
   root: true,
   extends: [
-    'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:astro/recommended',
     'plugin:astro/jsx-a11y-recommended',

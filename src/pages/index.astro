@@ -1,10 +1,10 @@
 ---
-import Layout from '../layouts/BaseLayout.astro'
+import BaseLayout from '../layouts/BaseLayout.astro'
 import Card from '../components/Card.astro'
 import BlogCard from '../components/BlogCard.astro'
-import { getCollection, type CollectionEntry } from 'astro:content'
-
-type BlogData = CollectionEntry<'blog'>['data']
+import { getCollection } from 'astro:content'
+import { ArrowRight } from 'lucide-react'
+import { differenceInYears } from 'date-fns'
 
 const blogs = (
   await getCollection('blog', ({ data }) =>
@@ -17,22 +17,29 @@ const blogs = (
     )
   })
   .slice(0, 5)
+
+const age = differenceInYears(new Date(), new Date(2001, 9, 3))
 ---
 
-<Layout title="Douglas Rocha">
-  <main>
-    <div class="mb-4 space-y-4">
-      <h1 class="text-3xl font-bold">Douglas Rocha</h1>
-      <p class="leading-6">
-        Software Engineer currently studying Computer Science at Arizona State
-        University.
-      </p>
-      <p class="font-semibold leading-6">
-        Check out my blog posts and projects below.
-      </p>
-    </div>
+<BaseLayout title="Douglas Rocha">
+  <div>
+    <h1 class="opacity-60">Douglas Rocha</h1>
+    <p class="mt-4 leading-relaxed text-gray-300">
+      Hey there, My name's
+      <span class="font-semibold text-white">Doug</span>
+       and I'm a {age} y/o student at Arizona State University. I'm currently
+      interested in
+      <span class="font-semibold text-white">web development</span>
+       and
+      <span class="font-semibold text-white">game development with Rust</span>.
+    </p>
+  </div>
 
-    <ul class="flex flex-wrap gap-4">
+  <div class="space-y-6">
+    <h2 class="text-2xl font-semibold">Projects</h2>
+    <hr class="!mt-4 border-gray-500" />
+
+    <ul class="grid gap-4 sm:grid-cols-2">
       <Card
         slug="https://quanty.xyz"
         title="Quanty"
@@ -55,22 +62,29 @@ const blogs = (
       />
     </ul>
 
-    <div class="my-4">
-      <h2 class="mb-3 text-2xl font-bold">Recent Blog Posts:</h2>
-      <p>
-        I write about software engineering, web development, and other topics
-        related to my daily workflow.
-      </p>
+    <a
+      href="/blog"
+      class="ml-auto flex max-w-fit items-center rounded bg-neutral-600 px-4 py-2 text-sm"
+    >
+      More Projects
+      <ArrowRight className="ml-2 h-5 w-5" />
+    </a>
+  </div>
 
-      <hr class="my-4 border-gray-500" />
+  <div class="space-y-6">
+    <h2 class="text-2xl font-semibold">Blog</h2>
+    <hr class="!mt-4 border-gray-500" />
 
-      <ul class="space-y-4 overflow-y-scroll">
-        {
-          blogs.map(({ data, slug }) => (
-            <BlogCard data={data as BlogData} slug={slug} />
-          ))
-        }
-      </ul>
-    </div>
-  </main>
-</Layout>
+    <ul class="space-y-4 overflow-y-scroll">
+      {blogs.map(({ data, slug }) => <BlogCard slim data={data} slug={slug} />)}
+    </ul>
+
+    <a
+      href="/blog"
+      class="ml-auto flex max-w-fit items-center rounded bg-neutral-600 px-4 py-2 text-sm"
+    >
+      All Blog Posts
+      <ArrowRight className="ml-2 h-5 w-5" />
+    </a>
+  </div>
+</BaseLayout>
