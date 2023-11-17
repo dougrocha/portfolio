@@ -8,7 +8,13 @@ module.exports = {
   trailingComma: 'all',
   tabWidth: 2,
 
-  plugins: ['prettier-plugin-astro'],
+  plugins: ['prettier-plugin-astro', 'prettier-plugin-tailwindcss'],
+
+  // Tailwind
+  tailwindAttributes: ['class'],
+  tailwindFunctions: ['cn'],
+
+  // Astro
   overrides: [
     {
       files: '*.astro',
