@@ -7,17 +7,15 @@ type Props = {
 
 const { class: className } = Astro.props
 
-const pathname = new URL(Astro.request.url).pathname
-const currentPath = pathname.slice(1)
+const pathname = Astro.url.pathname
 ---
 
 <nav class={cn('flex h-16', className)}>
-  {(Astro.request.url, pathname, currentPath)}
   <ul class="mx-auto flex h-full max-w-screen-md items-center sm:mx-0">
     <li>
       <a
         class={cn('px-4 py-2 font-medium hover:underline', {
-          'rounded bg-neutral-700 hover:bg-neutral-500': !currentPath,
+          'rounded bg-neutral-700 hover:bg-neutral-500': pathname === '/',
         })}
         href="/">Home</a
       >
@@ -26,7 +24,8 @@ const currentPath = pathname.slice(1)
     <li>
       <a
         class={cn('px-4 py-2 font-medium hover:underline', {
-          'rounded bg-neutral-700 hover:bg-neutral-500': currentPath === 'blog',
+          'rounded bg-neutral-700 hover:bg-neutral-500':
+            pathname.includes('blog'),
         })}
         href="/blog">Blog</a
       >
@@ -36,7 +35,7 @@ const currentPath = pathname.slice(1)
       <a
         class={cn('px-4 py-2 font-medium hover:underline', {
           'rounded bg-neutral-700 hover:bg-neutral-500':
-            currentPath === 'projects',
+            pathname.includes('projects'),
         })}
         href="projects"
       >
