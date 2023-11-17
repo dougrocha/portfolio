@@ -1,31 +1,17 @@
-import { defineConfig } from "astro/config";
+import { defineConfig } from 'astro/config'
 
 // https://astro.build/config
-import tailwind from "@astrojs/tailwind";
-import react from "@astrojs/react";
+import tailwind from '@astrojs/tailwind'
 
 // https://astro.build/config
-import mdx from "@astrojs/mdx";
+import mdx from '@astrojs/mdx'
 
 // https://astro.build/config
-import vercel from "@astrojs/vercel/static";
-
-// https://astro.build/config
-import image from "@astrojs/image";
+import vercel from '@astrojs/vercel/static'
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [
-    tailwind(),
-    react(),
-    mdx(),
-    image({
-      serviceEntryPoint: "@astrojs/image/sharp",
-    }),
-  ],
-  output: "static",
-  adapter: vercel({
-    analytics: true,
-  }),
-  site: "https://dougrocha.com",
-});
+  integrations: [mdx(), tailwind()],
+  adapter: vercel(),
+  site: 'https://dougrocha.com',
+})

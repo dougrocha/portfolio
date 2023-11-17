@@ -1,25 +1,28 @@
 ---
-import Layout from "../layouts/BaseLayout.astro";
-import Card from "../components/Card.astro";
-import type { Frontmatter } from "../layouts/BlogPostLayout.astro";
-import BlogCard from "../components/BlogCard.astro";
+import Layout from '../layouts/BaseLayout.astro'
+import Card from '../components/Card.astro'
+import BlogCard from '../components/BlogCard.astro'
+import { getCollection, type CollectionEntry } from 'astro:content'
 
-const allBlogs = await Astro.glob<Frontmatter>("../content/blog/*.mdx");
+type BlogData = CollectionEntry<'blog'>['data']
 
-const blogs = allBlogs
+const blogs = (
+  await getCollection('blog', ({ data }) =>
+    import.meta.env.PROD ? data.draft !== true : true,
+  )
+)
   .sort((a, b) => {
     return (
-      new Date(b.frontmatter.pubDate).getTime() -
-      new Date(a.frontmatter.pubDate).getTime()
-    );
+      new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
+    )
   })
-  .slice(0, 5);
+  .slice(0, 5)
 ---
 
 <Layout title="Douglas Rocha">
   <main>
     <div class="mb-4 space-y-4">
-      <h1 class="gradient-text text-3xl font-bold">Douglas Rocha</h1>
+      <h1 class="text-3xl font-bold">Douglas Rocha</h1>
       <p class="leading-6">
         Software Engineer currently studying Computer Science at Arizona State
         University.
@@ -31,17 +34,17 @@ const blogs = allBlogs
 
     <ul class="flex flex-wrap gap-4">
       <Card
-        href="https://quanty.xyz"
+        slug="https://quanty.xyz"
         title="Quanty"
         body="Supercharge your Discord server with new features."
       />
       <Card
-        href="https://github.com/dougrocha/KeyboardTracker"
+        slug="https://github.com/dougrocha/KeyboardTracker"
         title="Meka"
         body="Find your next keyboard with Meka and share your favorite keyboards with the community."
       />
       <Card
-        href="https://github.com/dougrocha/portfolio"
+        slug="https://github.com/dougrocha/portfolio"
         title="Portfolio"
         body="Check out my portfolio and see how I built it."
       />
@@ -58,42 +61,11 @@ const blogs = allBlogs
 
       <ul class="space-y-4 overflow-y-scroll">
         {
-          blogs.map(({ frontmatter }) => (
-            <BlogCard
-              title={frontmatter.title}
-              slug={frontmatter.slug}
-              pubDate={frontmatter.pubDate}
-              tags={frontmatter.tags}
-            />
+          blogs.map(({ data, slug }) => (
+            <BlogCard data={data as BlogData} slug={slug} />
           ))
         }
       </ul>
     </div>
   </main>
 </Layout>
-
-<style>
-  .gradient-text {
-    background: linear-gradient(to right, crimson, pink, springgreen);
-    background-size: 200% 200%;
-    animation: rainbow 2s ease-in-out infinite;
-    background-clip: text;
-    -webkit-background-clip: text;
-    transition: color 0.2s ease-in-out;
-    text-transform: uppercase;
-  }
-  .gradient-text:hover {
-    color: rgba(0, 0, 0, 0);
-  }
-  @keyframes rainbow {
-    0% {
-      background-position: left;
-    }
-    50% {
-      background-position: right;
-    }
-    100% {
-      background-position: left;
-    }
-  }
-</style>

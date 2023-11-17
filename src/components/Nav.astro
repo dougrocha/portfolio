@@ -1,8 +1,8 @@
 ---
-import { clsx } from "clsx";
+import { clsx } from 'clsx'
 
-const pathname = new URL(Astro.request.url).pathname;
-const currentPath = pathname.slice(1);
+const pathname = new URL(Astro.request.url).pathname
+const currentPath = pathname.slice(1)
 ---
 
 <nav class="mx-auto h-16 flex-shrink-0 px-4 sm:mx-0 md:px-6">
@@ -10,8 +10,8 @@ const currentPath = pathname.slice(1);
     <li>
       <a
         class={clsx(
-          currentPath === "" && "bg-neutral-700 rounded hover:bg-neutral-500",
-          "px-4 py-2 hover:underline font-medium"
+          currentPath === '' && 'bg-neutral-700 rounded hover:bg-neutral-500',
+          'px-4 py-2 hover:underline font-medium',
         )}
         href="/">Home</a
       >
@@ -20,9 +20,9 @@ const currentPath = pathname.slice(1);
     <li>
       <a
         class={clsx(
-          currentPath.includes("blog") &&
-            "bg-neutral-700 rounded hover:bg-neutral-500",
-          "px-4 py-2 hover:underline font-medium"
+          currentPath.includes('blog') &&
+            'bg-neutral-700 rounded hover:bg-neutral-500',
+          'px-4 py-2 hover:underline font-medium',
         )}
         href="/blog">Blog</a
       >
@@ -31,9 +31,9 @@ const currentPath = pathname.slice(1);
     <li>
       <a
         class={clsx(
-          currentPath.includes("projects") &&
-            "bg-neutral-700 rounded hover:bg-neutral-500",
-          "px-4 py-2 hover:underline font-medium"
+          currentPath.includes('projects') &&
+            'bg-neutral-700 rounded hover:bg-neutral-500',
+          'px-4 py-2 hover:underline font-medium',
         )}
         href="projects"
       >
