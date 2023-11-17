@@ -9,11 +9,10 @@ const { class: className } = Astro.props
 
 const pathname = new URL(Astro.request.url).pathname
 const currentPath = pathname.slice(1)
-
-console.log({ url: Astro.request.url, pathname, currentPath })
 ---
 
 <nav class={cn('flex h-16', className)}>
+  {(Astro.request.url, pathname, currentPath)}
   <ul class="mx-auto flex h-full max-w-screen-md items-center sm:mx-0">
     <li>
       <a
