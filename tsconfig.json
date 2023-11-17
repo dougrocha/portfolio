@@ -7,7 +7,9 @@
       "@layouts/*": ["src/layouts/*"],
       "@assets/*": ["src/assets/*"],
       "@utils/*": ["src/utils/*"]
-    }
+    },
+    "jsx": "react-jsx",
+    "jsxImportSource": "react"
   },
   "include": ["**/*.ts", "**/*.tsx", "**/*.astro"],
   "exclude": ["node_modules"]

@@ -11,24 +11,45 @@ dependencies:
   '@astrojs/mdx':
     specifier: ^1.1.5
     version: 1.1.5(astro@3.5.5)
+  '@astrojs/react':
+    specifier: ^3.0.5
+    version: 3.0.5(@types/react-dom@18.2.15)(@types/react@18.2.37)(react-dom@18.2.0)(react@18.2.0)(vite@4.5.0)
   '@astrojs/tailwind':
     specifier: ^5.0.2
     version: 5.0.2(astro@3.5.5)(tailwindcss@3.3.5)
   '@astrojs/vercel':
     specifier: ^5.2.0
     version: 5.2.0(astro@3.5.5)
+  '@types/react':
+    specifier: ^18.0.21
+    version: 18.2.37
+  '@types/react-dom':
+    specifier: ^18.0.6
+    version: 18.2.15
   astro:
     specifier: ^3.5.5
     version: 3.5.5(typescript@5.2.2)
+  class-variance-authority:
+    specifier: ^0.7.0
+    version: 0.7.0
   clsx:
     specifier: ^2.0.0
     version: 2.0.0
   date-fns:
     specifier: ^2.30.0
     version: 2.30.0
+  lucide:
+    specifier: ^0.292.0
+    version: 0.292.0
   lucide-react:
     specifier: ^0.292.0
     version: 0.292.0(react@18.2.0)
+  react:
+    specifier: ^18.0.0
+    version: 18.2.0
+  react-dom:
+    specifier: ^18.0.0
+    version: 18.2.0(react@18.2.0)
   sharp:
     specifier: ^0.32.6
     version: 0.32.6
@@ -243,6 +264,29 @@ packages:
     engines: { node: '>=18.14.1' }
     dependencies:
       prismjs: 1.29.0
+    dev: false
+
+  /@astrojs/react@3.0.5(@types/react-dom@18.2.15)(@types/react@18.2.37)(react-dom@18.2.0)(react@18.2.0)(vite@4.5.0):
+    resolution:
+      {
+        integrity: sha512-2tqKtSuN7eKlOsBka7RTxOeoSMti6W4IMHYWpAJlg96P49uTg3CCO3BNGIuoxmTXglpRa0O3CmcgXFjB8AlN9g==,
+      }
+    engines: { node: '>=18.14.1' }
+    peerDependencies:
+      '@types/react': ^17.0.50 || ^18.0.21
+      '@types/react-dom': ^17.0.17 || ^18.0.6
+      react: ^17.0.2 || ^18.0.0
+      react-dom: ^17.0.2 || ^18.0.0
+    dependencies:
+      '@types/react': 18.2.37
+      '@types/react-dom': 18.2.15
+      '@vitejs/plugin-react': 4.2.0(vite@4.5.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      ultrahtml: 1.5.2
+    transitivePeerDependencies:
+      - supports-color
+      - vite
     dev: false
 
   /@astrojs/tailwind@5.0.2(astro@3.5.5)(tailwindcss@3.3.5):
@@ -533,6 +577,32 @@ packages:
     resolution:
       {
         integrity: sha512-EB2MELswq55OHUoRZLGg/zC7QWUKfNLpE57m/S2yr1uEneIgsTgrSzXP3NXEsMkVn76OlaVVnzN+ugObuYGwhg==,
+      }
+    engines: { node: '>=6.9.0' }
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+    dependencies:
+      '@babel/core': 7.23.3
+      '@babel/helper-plugin-utils': 7.22.5
+    dev: false
+
+  /@babel/plugin-transform-react-jsx-self@7.23.3(@babel/core@7.23.3):
+    resolution:
+      {
+        integrity: sha512-qXRvbeKDSfwnlJnanVRp0SfuWE5DQhwQr5xtLBzp56Wabyo+4CMosF6Kfp+eOD/4FYpql64XVJ2W0pVLlJZxOQ==,
+      }
+    engines: { node: '>=6.9.0' }
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+    dependencies:
+      '@babel/core': 7.23.3
+      '@babel/helper-plugin-utils': 7.22.5
+    dev: false
+
+  /@babel/plugin-transform-react-jsx-source@7.23.3(@babel/core@7.23.3):
+    resolution:
+      {
+        integrity: sha512-91RS0MDnAWDNvGC6Wio5XYkyWI39FMFO+JK9+4AlgaTH+yWwVTsw7/sn6LK0lH7c5F+TFkpv/3LfCJ1Ydwof/g==,
       }
     engines: { node: '>=6.9.0' }
     peerDependencies:
@@ -1557,6 +1627,40 @@ packages:
       }
     dev: false
 
+  /@types/prop-types@15.7.10:
+    resolution:
+      {
+        integrity: sha512-mxSnDQxPqsZxmeShFH+uwQ4kO4gcJcGahjjMFeLbKE95IAZiiZyiEepGZjtXJ7hN/yfu0bu9xN2ajcU0JcxX6A==,
+      }
+    dev: false
+
+  /@types/react-dom@18.2.15:
+    resolution:
+      {
+        integrity: sha512-HWMdW+7r7MR5+PZqJF6YFNSCtjz1T0dsvo/f1BV6HkV+6erD/nA7wd9NM00KVG83zf2nJ7uATPO9ttdIPvi3gg==,
+      }
+    dependencies:
+      '@types/react': 18.2.37
+    dev: false
+
+  /@types/react@18.2.37:
+    resolution:
+      {
+        integrity: sha512-RGAYMi2bhRgEXT3f4B92WTohopH6bIXw05FuGlmJEnv/omEn190+QYEIYxIAuIBdKgboYYdVved2p1AxZVQnaw==,
+      }
+    dependencies:
+      '@types/prop-types': 15.7.10
+      '@types/scheduler': 0.16.6
+      csstype: 3.1.2
+    dev: false
+
+  /@types/scheduler@0.16.6:
+    resolution:
+      {
+        integrity: sha512-Vlktnchmkylvc9SnwwwozTv04L/e1NykF5vgoQ0XTmI8DD+wxfjQuHuvHS3p0r2jz2x2ghPs2h1FVeDirIteWA==,
+      }
+    dev: false
+
   /@types/semver@7.5.5:
     resolution:
       {
@@ -1799,6 +1903,25 @@ packages:
       resolve-from: 5.0.0
     transitivePeerDependencies:
       - encoding
+      - supports-color
+    dev: false
+
+  /@vitejs/plugin-react@4.2.0(vite@4.5.0):
+    resolution:
+      {
+        integrity: sha512-+MHTH/e6H12kRp5HUkzOGqPMksezRMmW+TNzlh/QXfI8rRf6l2Z2yH/v12no1UvTwhZgEDMuQ7g7rrfMseU6FQ==,
+      }
+    engines: { node: ^14.18.0 || >=16.0.0 }
+    peerDependencies:
+      vite: ^4.2.0 || ^5.0.0
+    dependencies:
+      '@babel/core': 7.23.3
+      '@babel/plugin-transform-react-jsx-self': 7.23.3(@babel/core@7.23.3)
+      '@babel/plugin-transform-react-jsx-source': 7.23.3(@babel/core@7.23.3)
+      '@types/babel__core': 7.20.4
+      react-refresh: 0.14.0
+      vite: 4.5.0
+    transitivePeerDependencies:
       - supports-color
     dev: false
 
@@ -2637,6 +2760,15 @@ packages:
     engines: { node: '>=8' }
     dev: false
 
+  /class-variance-authority@0.7.0:
+    resolution:
+      {
+        integrity: sha512-jFI8IQw4hczaL4ALINxqLEXQbWcNjoSkloa4IaufXCJr6QawJyw7tuRysRsrE8w2p/4gGaxKIt/hX3qz/IbD1A==,
+      }
+    dependencies:
+      clsx: 2.0.0
+    dev: false
+
   /cli-boxes@3.0.0:
     resolution:
       {
@@ -2810,6 +2942,13 @@ packages:
       }
     engines: { node: '>=4' }
     hasBin: true
+
+  /csstype@3.1.2:
+    resolution:
+      {
+        integrity: sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==,
+      }
+    dev: false
 
   /damerau-levenshtein@1.0.8:
     resolution:
@@ -5204,6 +5343,13 @@ packages:
       react: 18.2.0
     dev: false
 
+  /lucide@0.292.0:
+    resolution:
+      {
+        integrity: sha512-30r4YbM6nfLiDNzS/YSFLNt/g98XIxBfFwtxF9yYJNpYyAq+iwQx8kM6MWxnh21WuQSkAbEQyru46y5IbCoUjw==,
+      }
+    dev: false
+
   /magic-string@0.30.5:
     resolution:
       {
@@ -6982,6 +7128,27 @@ packages:
       strip-json-comments: 2.0.1
     dev: false
 
+  /react-dom@18.2.0(react@18.2.0):
+    resolution:
+      {
+        integrity: sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==,
+      }
+    peerDependencies:
+      react: ^18.2.0
+    dependencies:
+      loose-envify: 1.4.0
+      react: 18.2.0
+      scheduler: 0.23.0
+    dev: false
+
+  /react-refresh@0.14.0:
+    resolution:
+      {
+        integrity: sha512-wViHqhAd8OHeLS/IRMJjTSDHF3U9eWi62F/MledQGPdJGDhodXJ9PBLNGr6WWL7qlH12Mt3TyTpbS+hGXMjCzQ==,
+      }
+    engines: { node: '>=0.10.0' }
+    dev: false
+
   /react@18.2.0:
     resolution:
       {
@@ -7375,6 +7542,15 @@ packages:
       {
         integrity: sha512-0s+oAmw9zLl1V1cS9BtZN7JAd0cW5e0QH4W3LWEK6a4LaLEA2OTpGYWDY+6XasBLtz6wkm3u1xRw95mRuJ59WA==,
       }
+    dev: false
+
+  /scheduler@0.23.0:
+    resolution:
+      {
+        integrity: sha512-CtuThmgHNg7zIZWAXi3AsyIzA3n4xx7aNyjwC2VJldO2LMVDhFK+63xGqq6CsJH4rTAt6/M+N4GhZiDYPx9eUw==,
+      }
+    dependencies:
+      loose-envify: 1.4.0
     dev: false
 
   /section-matter@1.0.0:
@@ -8179,6 +8355,13 @@ packages:
       }
     engines: { node: '>=14.17' }
     hasBin: true
+
+  /ultrahtml@1.5.2:
+    resolution:
+      {
+        integrity: sha512-qh4mBffhlkiXwDAOxvSGxhL0QEQsTbnP9BozOK3OYPEGvPvdWzvAUaXNtUSMdNsKDtuyjEbyVUPFZ52SSLhLqw==,
+      }
+    dev: false
 
   /unbox-primitive@1.0.2:
     resolution:

@@ -11,7 +11,7 @@ module.exports = {
   plugins: ['prettier-plugin-astro', 'prettier-plugin-tailwindcss'],
 
   // Tailwind
-  tailwindAttributes: ['class'],
+  tailwindAttributes: ['class', 'class:list'],
   tailwindFunctions: ['cn'],
 
   // Astro
