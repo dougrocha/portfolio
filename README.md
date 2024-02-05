@@ -1,5 +1,9 @@
 # My Personal Portfolio
 
+Made with [Astro](https://astro.build) and [Tailwind CSS](https://tailwindcss.com).
+
+My personal portfolio site, showcasing my projects and some blog posts.
+
 ## Getting Started
 
 1\. Clone the repository
