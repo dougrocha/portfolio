@@ -1,29 +1,31 @@
 ---
+import Card from '@components/Card.astro'
 import BaseLayout from '@layouts/BaseLayout.astro'
-import localImage from '@assets/404.jpg'
-import { Picture } from 'astro:assets'
 ---
 
-<BaseLayout title="Uh Oh">
-  <Picture
-    src={localImage}
-    alt="404 - Bare room with two benches and coffee tables"
-    widths={[800, 640, 320]}
-    sizes="(min-width: 768px) 800px, 100vw"
-    quality={80}
-    class="max-h-64 rounded-lg object-cover"
-  />
+<BaseLayout title="Projects">
+  <h1 class="text-4xl font-bold">Projects</h1>
 
-  <div class="my-4 mb-8 space-y-2">
-    <h1 class="text-4xl font-bold">404 - Page Not Found</h1>
-
-    <p class="font-medium">
-      I sat down and must have forgotten about this page. I'll get to it
-      eventually.
-    </p>
-  </div>
-
-  <a href="/" class="rounded bg-neutral-600 px-2 py-2 text-center"
-    >Go back Home</a
-  >
+  <ul class="grid gap-4 sm:grid-cols-2">
+    <Card
+      slug="https://quanty.xyz"
+      title="Quanty"
+      body="Supercharge your Discord server with new features."
+    />
+    <Card
+      slug="https://github.com/dougrocha/KeyboardTracker"
+      title="Meka"
+      body="Find your next keyboard with Meka and share your favorite keyboards with the community."
+    />
+    <Card
+      slug="https://github.com/dougrocha/portfolio"
+      title="Portfolio"
+      body="Check out my portfolio and see how I built it."
+    />
+    <Card
+      slug="https://github.com/dougrocha/dotfiles"
+      title="Dotfiles"
+      body="My configurations for Windows and MacOS."
+    />
+  </ul>
 </BaseLayout>
