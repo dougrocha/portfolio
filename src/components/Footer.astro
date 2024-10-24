@@ -1,5 +1,5 @@
 ---
-import { cn } from '@utils/cn'
+import { cn } from '@lib/utils'
 import { Coffee, Github, Linkedin, Mail } from 'lucide-react'
 
 type Props = {
@@ -7,29 +7,48 @@ type Props = {
 }
 
 const { class: className } = Astro.props
+
+const current_year = new Date().getFullYear()
 ---
 
-<footer class={cn('flex items-center justify-between', className)}>
-  <span class="flex items-center space-x-1">
-    Made with care
-    <Coffee className="ml-1 h-5 w-5" />
-  </span>
+<footer
+  class={cn(
+    'flex flex-col items-center pb-8 sm:flex-row-reverse sm:justify-between',
+    className,
+  )}
+>
+  <section class="flex gap-4">
+    <a
+      href="https://github.com/dougrocha"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <span class="sr-only">Github </span>
+      <Github className="h-5 w-5" />
+    </a>
+    <a
+      href="https://www.linkedin.com/in/dougrocha/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <span class="sr-only">Linkedin</span>
+      <Linkedin className="h-5 w-5" />
+    </a>
+    <a href="mailto:douglas_junior@icloud.com" rel="noopener noreferrer">
+      <span class="sr-only">Email</span>
+      <Mail className="h-5 w-5" />
+    </a>
+  </section>
 
-  <ul class="flex items-center space-x-4">
-    <li>
-      <a href="https://github.com/dougrocha" target="_blank">
-        <Github className="h-5 w-5" />
-      </a>
-    </li>
-    <li>
-      <a href="https://www.linkedin.com/in/dougrocha/" target="_blank">
-        <Linkedin className="h-5 w-5" />
-      </a>
-    </li>
-    <li>
-      <a href="mailto:douglas_junior@icloud.com">
-        <Mail className="h-5 w-5" />
-      </a>
-    </li>
-  </ul>
+  <section class="mt-6 sm:mt-0">
+    <p class="flex text-center text-xs">
+      <span
+        >© {current_year}
+        Made with care
+      </span>
+      <span>
+        <Coffee className="ml-1 h-4 w-4" />
+      </span>
+    </p>
+  </section>
 </footer>

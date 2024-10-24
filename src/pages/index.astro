@@ -1,7 +1,7 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro'
-import Card from '../components/Card.astro'
-import BlogCard from '../components/BlogCard.astro'
+import BaseLayout from '@layouts/BaseLayout.astro'
+import Card from '@components/Card.astro'
+import BlogCard from '@components/BlogCard.astro'
 import { getCollection } from 'astro:content'
 import { ArrowRight } from 'lucide-react'
 import { differenceInYears } from 'date-fns'
@@ -21,70 +21,112 @@ const blogs = (
 const age = differenceInYears(new Date(), new Date(2001, 9, 3))
 ---
 
+<script src="../scripts/tabs.ts"></script>
+
 <BaseLayout title="Douglas Rocha">
-  <div>
-    <h1 class="opacity-60">Douglas Rocha</h1>
-    <p class="mt-4 leading-relaxed text-gray-300">
-      Hey there, My name's
-      <span class="font-semibold text-white">Doug</span>
-       and I'm a {age} y/o student at Arizona State University. I'm currently
-      interested in
-      <span class="font-semibold text-white">web development</span>
-       and
-      <span class="font-semibold text-white">game development with Rust</span>.
-    </p>
-  </div>
+  <article class="mt-8 flex flex-col gap-16 pb-16">
+    <div>
+      <p class="mt-4 leading-relaxed text-gray-700 dark:text-gray-300">
+        Hey there, My name's
+        <span class="font-semibold text-black dark:text-white">Doug</span>
+        and I'm a {age} y/o student at Arizona State University. I'm currently interested
+        in
+        <span class="font-semibold text-black dark:text-white"
+          >web development</span
+        >
+        and
+        <span class="font-semibold text-black dark:text-white"
+          >game development with Rust</span
+        >.
+      </p>
+    </div>
 
-  <div class="space-y-6">
-    <h2 class="text-2xl font-semibold">Projects</h2>
-    <hr class="!mt-4 border-gray-500" />
+    <div class="tabs-container space-y-4">
+      <ul
+        aria-labelledby="tabs-title"
+        class="grid grid-cols-2 items-center justify-center rounded-lg border p-1"
+      >
+        <li>
+          <a
+            id="tab-1"
+            href="#projects"
+            class="inline-flex w-full items-center justify-center rounded-md text-sm font-medium transition-all aria-selected:rounded-lg aria-selected:border"
+            aria-selected="true">Projects</a
+          >
+        </li>
+        <li>
+          <a
+            id="tab-2"
+            href="#experience"
+            class="inline-flex w-full items-center justify-center rounded-md text-sm font-medium transition-all aria-selected:rounded-lg aria-selected:border"
+            >Experience</a
+          >
+        </li>
+      </ul>
 
-    <ul class="grid gap-4 sm:grid-cols-2">
-      <Card
-        slug="https://quanty.xyz"
-        title="Quanty"
-        body="Supercharge your Discord server with new features."
-      />
-      <Card
-        slug="https://github.com/dougrocha/KeyboardTracker"
-        title="Meka"
-        body="Find your next keyboard with Meka and share your favorite keyboards with the community."
-      />
-      <Card
-        slug="https://github.com/dougrocha/portfolio"
-        title="Portfolio"
-        body="Check out my portfolio and see how I built it."
-      />
-      <Card
-        slug="https://github.com/dougrocha/dotfiles"
-        title="Dotfiles"
-        body="My configurations for Windows and MacOS."
-      />
-    </ul>
+      <div
+        class="tabs__panels transition-height mt-2 h-auto space-y-2 rounded-md border p-6"
+      >
+        <div id="projects" aria-labelledby="tab-1">
+          <h2 class="text-2xl font-semibold">Projects</h2>
+          <hr class="my-4 border-gray-500" />
 
-    <a
-      href="/projects"
-      class="ml-auto flex max-w-fit items-center rounded bg-neutral-600 px-4 py-2 text-sm"
-    >
-      More Projects
-      <ArrowRight className="ml-2 h-5 w-5" />
-    </a>
-  </div>
+          <ul class="grid gap-4 sm:grid-cols-2">
+            <Card
+              slug="https://quanty.xyz"
+              title="Quanty"
+              body="Supercharge your Discord server with new features."
+            />
+            <Card
+              slug="https://github.com/dougrocha/KeyboardTracker"
+              title="Meka"
+              body="Find your next keyboard with Meka and share your favorite keyboards with the community."
+            />
+            <Card
+              slug="https://github.com/dougrocha/portfolio"
+              title="Portfolio"
+              body="Check out my portfolio and see how I built it."
+            />
+            <Card
+              slug="https://github.com/dougrocha/dotfiles"
+              title="Dotfiles"
+              body="My configurations for Windows and MacOS."
+            />
+          </ul>
 
-  <div class="space-y-6">
-    <h2 class="text-2xl font-semibold">Blog</h2>
-    <hr class="!mt-4 border-gray-500" />
+          <a
+            href="/projects"
+            class="ml-auto mt-4 flex max-w-fit items-center rounded bg-neutral-600 px-4 py-2 text-sm"
+          >
+            More Projects
+            <ArrowRight className="ml-2 h-5 w-5" />
+          </a>
+        </div>
+        <div id="experience" aria-labelledby="tab-2" hidden="true">
+          <p>text</p>
+        </div>
+      </div>
+    </div>
 
-    <ul class="space-y-4 overflow-y-scroll">
-      {blogs.map(({ data, slug }) => <BlogCard slim data={data} slug={slug} />)}
-    </ul>
+    <div class="space-y-6">
+      <h2 class="text-2xl font-semibold">Blog</h2>
+      <hr class="!mt-4 border-gray-500" />
 
-    <a
-      href="/blog"
-      class="ml-auto flex max-w-fit items-center rounded bg-neutral-600 px-4 py-2 text-sm"
-    >
-      All Blog Posts
-      <ArrowRight className="ml-2 h-5 w-5" />
-    </a>
-  </div>
+      <ul class="space-y-4 overflow-y-scroll">
+        {
+          blogs.map(({ data, slug }) => (
+            <BlogCard slim data={data} slug={slug} />
+          ))
+        }
+      </ul>
+
+      <a
+        href="/blog"
+        class="ml-auto flex max-w-fit items-center rounded bg-neutral-600 px-4 py-2 text-sm"
+      >
+        All Blog Posts
+        <ArrowRight className="ml-2 h-5 w-5" />
+      </a>
+    </div>
+  </article>
 </BaseLayout>

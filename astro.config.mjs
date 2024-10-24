@@ -15,5 +15,5 @@ import react from '@astrojs/react'
 export default defineConfig({
   integrations: [mdx(), tailwind(), react()],
   adapter: vercel(),
-  site: 'https://dougrocha.com',
+  site: process.env.CI ? 'https://dougrocha.com' : 'http://localhost:4321',
 })
