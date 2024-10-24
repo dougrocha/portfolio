@@ -1,37 +1,42 @@
 ---
+import '@fontsource/inter'
+
 import { ViewTransitions } from 'astro:transitions'
 import Nav from '@components/Nav.astro'
 import Footer from '@components/Footer.astro'
-import { cn } from '@utils/cn'
+import { cn } from '@lib/utils'
 
 type Props = {
   title: string
   class?: string
 }
 
-const { title, class: className } = Astro.props
+const { class: className } = Astro.props
 ---
 
 <!doctype html>
-<html lang="en" class="h-full">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
+
+    <title>Douglas Rocha</title>
     <ViewTransitions />
   </head>
 
   <body
-    class="mx-auto flex min-h-full max-w-screen-md flex-col space-y-8 bg-[#171717] p-6 text-white md:px-6"
+    class="mx-auto flex min-h-screen max-w-screen-md flex-col space-y-6 px-8 dark:bg-[#22333b] dark:text-white"
   >
-    <Nav />
+    <header class="bg-background/75 sticky top-0 z-50 py-6 backdrop-blur-sm">
+      <Nav />
+    </header>
 
-    <main class={cn('flex flex-col space-y-10', className)}>
+    <main class={cn('grow', className)}>
       <slot />
     </main>
 
-    <Footer class:list={'!mt-auto !pt-14'} />
+    <Footer />
   </body>
 </html>

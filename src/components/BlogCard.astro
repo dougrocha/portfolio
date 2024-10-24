@@ -1,5 +1,5 @@
 ---
-import { cn } from '@utils/cn'
+import { cn } from '@lib/utils'
 import type { CollectionEntry } from 'astro:content'
 import { format } from 'date-fns'
 
@@ -16,7 +16,7 @@ const { title, pubDate, tags } = data
     <a
       href={`blog/${slug}`}
       class={cn('font-semibold text-white', {
-        'underline decoration-gray-400 underline-offset-2 hover:decoration-gray-200':
+        'underline underline-offset-2 dark:decoration-gray-400 dark:hover:decoration-gray-200':
           slim,
       })}
     >
@@ -34,7 +34,7 @@ const { title, pubDate, tags } = data
         <div class="flex flex-wrap gap-1">
           {tags.map(tag => {
             return (
-              <span class="rounded bg-neutral-600 p-1 text-sm uppercase">
+              <span class="rounded p-1 text-sm uppercase dark:bg-neutral-600">
                 {tag}
               </span>
             )
@@ -43,7 +43,7 @@ const { title, pubDate, tags } = data
 
         <a
           href={`blog/${slug}`}
-          class="ml-auto whitespace-nowrap rounded bg-neutral-600 px-2 py-1 text-sm"
+          class="ml-auto whitespace-nowrap rounded px-2 py-1 text-sm dark:bg-neutral-600"
         >
           Read More
         </a>

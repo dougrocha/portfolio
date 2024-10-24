@@ -1,5 +1,6 @@
 ---
-import { cn } from '@utils/cn'
+import { cn } from '@lib/utils'
+import ThemeIcon from '@components/ThemeIcon.astro'
 
 type Props = {
   class?: string
@@ -10,37 +11,43 @@ const { class: className } = Astro.props
 const pathname = Astro.url.pathname
 ---
 
-<nav class={cn('flex h-16', className)}>
-  <ul class="mx-auto flex h-full max-w-screen-md items-center sm:mx-0">
-    <li>
-      <a
-        class={cn('px-4 py-2 font-medium hover:underline', {
-          'rounded bg-neutral-700 hover:bg-neutral-500': pathname === '/',
-        })}
-        href="/">Home</a
-      >
+<nav class={cn('flex items-center justify-between', className)}>
+  <ul class="flex gap-4 sm:gap-8">
+    <li
+      class={cn(
+        'font-medium text-gray-400 transition-colors hover:text-black dark:hover:text-white',
+        {
+          'text-black dark:text-[#EB5E28]': pathname === '/',
+        },
+      )}
+    >
+      <a href="/">home</a>
     </li>
 
-    <li>
-      <a
-        class={cn('px-4 py-2 font-medium hover:underline', {
-          'rounded bg-neutral-700 hover:bg-neutral-500':
-            pathname.includes('blog'),
-        })}
-        href="/blog">Blog</a
-      >
+    <li
+      class={cn(
+        'font-medium text-gray-400 transition-colors hover:text-black dark:hover:text-white',
+        {
+          'text-black dark:text-[#EB5E28]': pathname.includes('blog'),
+        },
+      )}
+    >
+      <a href="/blog">blog</a>
     </li>
 
-    <li>
-      <a
-        class={cn('px-4 py-2 font-medium hover:underline', {
-          'rounded bg-neutral-700 hover:bg-neutral-500':
-            pathname.includes('projects'),
-        })}
-        href="/projects"
-      >
-        Projects</a
-      >
+    <li
+      class={cn(
+        'font-medium text-gray-400 transition-colors hover:text-black dark:hover:text-white',
+        {
+          'text-black dark:text-[#EB5E28]': pathname.includes('projects'),
+        },
+      )}
+    >
+      <a href="/projects"> projects</a>
     </li>
   </ul>
+
+  <div class="ml-auto">
+    <ThemeIcon />
+  </div>
 </nav>
