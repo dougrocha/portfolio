@@ -1,0 +1,103 @@
+---
+import Card from '@components/Card.astro'
+import { ArrowRight, Github, BookOpen } from 'lucide-react'
+---
+
+<script src="../scripts/tabs.ts"></script>
+
+<div class="tabs-container space-y-2">
+  <ul
+    aria-labelledby="tabs-title"
+    class="grid grid-cols-2 rounded-xl border border-[#1e1f39] bg-[#2c2d48] p-1"
+  >
+    <li>
+      <a
+        id="tab-1"
+        href="#projects"
+        class="inline-flex w-full items-center justify-center rounded-md px-3 py-1 text-sm font-medium aria-selected:rounded-md aria-selected:bg-[#080823]"
+        role="tab"
+        aria-selected="true">Projects</a
+      >
+    </li>
+    <li>
+      <a
+        id="tab-2"
+        href="#experience"
+        class="inline-flex w-full items-center justify-center rounded-md px-3 py-1 text-sm font-medium aria-selected:rounded-md aria-selected:bg-[#080823]"
+        role="tab"
+        aria-selected="false">Experience</a
+      >
+    </li>
+  </ul>
+
+  <div
+    class="tabs__panels space-y-2 rounded-xl border border-[#1e1f39] bg-[#080823] p-6"
+  >
+    <div id="projects" aria-labelledby="tab-1" class="space-y-4">
+      <Github className="h-6 w-6" />
+
+      <div class="flex items-center justify-between">
+        <h3
+          class="text-xl font-semibold leading-none tracking-tight sm:text-2xl"
+        >
+          featured projects
+        </h3>
+
+        <a
+          href="/projects"
+          class="flex items-center justify-center gap-2 text-sm text-gray-700 dark:text-gray-200"
+        >
+          view more
+          <ArrowRight className="h-6 w-6" />
+        </a>
+      </div>
+
+      <ul class="grid gap-4 sm:grid-cols-2">
+        <Card
+          title="Quanty"
+          body="Supercharge your Discord server with new features."
+          site_slug="https://quanty.xyz"
+        />
+        <Card
+          title="Meka"
+          body="Find your next keyboard with Meka and share your favorite keyboards with the community."
+          source_slug="https://github.com/dougrocha/KeyboardTracker"
+        />
+        <Card
+          title="Portfolio"
+          body="Check out my portfolio and see how I built it."
+          source_slug="https://github.com/dougrocha/portfolio"
+        />
+        <Card
+          title="Dotfiles"
+          body="My configurations for Windows, MacOS and Linux."
+          source_slug="https://github.com/dougrocha/dotfiles"
+        />
+      </ul>
+    </div>
+    <div
+      id="experience"
+      aria-labelledby="tab-2"
+      hidden="true"
+      class="space-y-4"
+    >
+      <BookOpen className="h-6 w-6" />
+
+      <section>
+        <h3
+          class="text-xl font-semibold leading-none tracking-tight sm:text-2xl"
+        >
+          experience
+        </h3>
+      </section>
+
+      <section>
+        <h3
+          class="text-xl font-semibold leading-none tracking-tight sm:text-2xl"
+        >
+          education
+        </h3>
+      </section>
+    </div>
+  </div>
+</div>
