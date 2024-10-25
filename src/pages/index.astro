@@ -1,10 +1,11 @@
 ---
-import BaseLayout from '@layouts/BaseLayout.astro'
-import Card from '@components/Card.astro'
-import BlogCard from '@components/BlogCard.astro'
 import { getCollection } from 'astro:content'
 import { ArrowRight } from 'lucide-react'
 import { differenceInYears } from 'date-fns'
+
+import BaseLayout from '@layouts/BaseLayout.astro'
+import BlogCard from '@components/BlogCard.astro'
+import Tabs from '@components/Tabs.astro'
 
 const blogs = (
   await getCollection('blog', ({ data }) =>
@@ -20,8 +21,6 @@ const blogs = (
 
 const age = differenceInYears(new Date(), new Date(2001, 9, 3))
 ---
-
-<script src="../scripts/tabs.ts"></script>
 
 <BaseLayout title="Douglas Rocha">
   <article class="mt-8 flex flex-col gap-16 pb-16">
@@ -41,76 +40,13 @@ const age = differenceInYears(new Date(), new Date(2001, 9, 3))
       </p>
     </div>
 
-    <div class="tabs-container space-y-4">
-      <ul
-        aria-labelledby="tabs-title"
-        class="grid grid-cols-2 items-center justify-center rounded-lg border p-1"
-      >
-        <li>
-          <a
-            id="tab-1"
-            href="#projects"
-            class="inline-flex w-full items-center justify-center rounded-md text-sm font-medium transition-all aria-selected:rounded-lg aria-selected:border"
-            aria-selected="true">Projects</a
-          >
-        </li>
-        <li>
-          <a
-            id="tab-2"
-            href="#experience"
-            class="inline-flex w-full items-center justify-center rounded-md text-sm font-medium transition-all aria-selected:rounded-lg aria-selected:border"
-            >Experience</a
-          >
-        </li>
-      </ul>
-
-      <div
-        class="tabs__panels transition-height mt-2 h-auto space-y-2 rounded-md border p-6"
-      >
-        <div id="projects" aria-labelledby="tab-1">
-          <h2 class="text-2xl font-semibold">Projects</h2>
-          <hr class="my-4 border-gray-500" />
-
-          <ul class="grid gap-4 sm:grid-cols-2">
-            <Card
-              slug="https://quanty.xyz"
-              title="Quanty"
-              body="Supercharge your Discord server with new features."
-            />
-            <Card
-              slug="https://github.com/dougrocha/KeyboardTracker"
-              title="Meka"
-              body="Find your next keyboard with Meka and share your favorite keyboards with the community."
-            />
-            <Card
-              slug="https://github.com/dougrocha/portfolio"
-              title="Portfolio"
-              body="Check out my portfolio and see how I built it."
-            />
-            <Card
-              slug="https://github.com/dougrocha/dotfiles"
-              title="Dotfiles"
-              body="My configurations for Windows and MacOS."
-            />
-          </ul>
-
-          <a
-            href="/projects"
-            class="ml-auto mt-4 flex max-w-fit items-center rounded bg-neutral-600 px-4 py-2 text-sm"
-          >
-            More Projects
-            <ArrowRight className="ml-2 h-5 w-5" />
-          </a>
-        </div>
-        <div id="experience" aria-labelledby="tab-2" hidden="true">
-          <p>text</p>
-        </div>
-      </div>
-    </div>
+    <Tabs />
 
     <div class="space-y-6">
-      <h2 class="text-2xl font-semibold">Blog</h2>
-      <hr class="!mt-4 border-gray-500" />
+      <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Blog</h2>
+        <hr class="border-gray-500" />
+      </div>
 
       <ul class="space-y-4 overflow-y-scroll">
         {

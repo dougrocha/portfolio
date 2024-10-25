@@ -1,23 +1,47 @@
 ---
-import { MoveRight } from 'lucide-react'
+import { MoveRight, Github, Globe } from 'lucide-react'
 
 type Props = {
   title: string
   body: string
-  slug: string
+  source_slug?: string
+  site_slug?: string
 }
 
-const { slug, title, body } = Astro.props
+const { source_slug, site_slug, title, body } = Astro.props
 ---
 
-<li class="flex w-full rounded-lg dark:bg-neutral-800">
-  <a href={slug} target="_blank" class="p-4">
-    <h3 class="flex items-center font-semibold dark:text-white">
-      {title}
-      <MoveRight className="ml-2 h-4 w-4" />
-    </h3>
-    <p class="dark:text-gray-300">
-      {body}
-    </p>
-  </a>
+<li class="flex flex-col rounded-lg p-4 dark:bg-[#2c2d48]">
+  <h3
+    class="mb-2 flex items-center gap-2 text-sm font-semibold leading-none dark:text-white"
+  >
+    {title}
+    <MoveRight className="h-4 w-4" />
+  </h3>
+  <p class="mb-4 tracking-tight dark:text-gray-300">
+    {body}
+  </p>
+
+  <div class="mt-auto flex gap-2">
+    {
+      source_slug && (
+        <a href={source_slug} target="_blank">
+          <div class="flex items-center gap-2 rounded px-2 py-1 text-sm leading-none transition-colors dark:bg-gray-50 dark:text-black dark:hover:bg-gray-300">
+            <Github className="h-4 w-4" />
+            Source
+          </div>
+        </a>
+      )
+    }
+    {
+      site_slug && (
+        <a href={site_slug} target="_blank">
+          <div class="flex items-center gap-2 rounded px-2 py-1 text-sm leading-none transition-colors dark:bg-gray-50 dark:text-black dark:hover:bg-gray-300">
+            <Globe className="h-4 w-4" />
+            Website
+          </div>
+        </a>
+      )
+    }
+  </div>
 </li>

@@ -17,19 +17,18 @@ tabButtons?.forEach((tab, index) => {
     tab.setAttribute('tabindex', '-1')
     tabPanels?.[index]?.setAttribute('hidden', '')
   }
+
+  tab?.addEventListener('click', e => {
+    e.preventDefault()
+    const clickedTab = (e.target as Element).closest('a')
+
+    switchTab(clickedTab)
+  })
 })
 
 tabPanels?.forEach(panel => {
   panel.setAttribute('role', 'tabpanel')
   panel.setAttribute('tabindex', '0')
-})
-
-tabsContainer?.addEventListener('click', e => {
-  e.preventDefault()
-
-  const clickedTab = (e.target as Element | null)?.closest('a')
-
-  switchTab(clickedTab)
 })
 
 tabsContainer?.addEventListener('keydown', e => {
@@ -69,6 +68,7 @@ function moveRightTab() {
 
 function switchTab(newTab: HTMLAnchorElement | null | undefined) {
   if (!newTab) return
+  if (!newTab.getAttribute('role')) return
 
   const activePanelId = newTab.getAttribute('href')!
   const activePanel = tabsContainer?.querySelector(activePanelId)
