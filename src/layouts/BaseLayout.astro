@@ -5,13 +5,15 @@ import { ViewTransitions } from 'astro:transitions'
 import Nav from '@components/Nav.astro'
 import Footer from '@components/Footer.astro'
 import { cn } from '@lib/utils'
+import Stars from '@components/Stars.astro'
 
 type Props = {
   title: string
   class?: string
+  hideStars?: boolean
 }
 
-const { class: className } = Astro.props
+const { class: className, hideStars } = Astro.props
 ---
 
 <!doctype html>
@@ -29,6 +31,8 @@ const { class: className } = Astro.props
   <body
     class="mx-auto flex min-h-screen max-w-screen-md flex-col space-y-6 px-8 dark:bg-[#050520] dark:text-white"
   >
+    {!hideStars && <Stars />}
+
     <header class="bg-background/75 sticky top-0 z-50 py-6 backdrop-blur-sm">
       <Nav />
     </header>

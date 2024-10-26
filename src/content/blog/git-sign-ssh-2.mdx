@@ -1,0 +1,172 @@
+---
+title: Signing Git Commits with SSH TEST
+description: Signing Git commits with SSHs on Windows
+pubDate: 2023-03-06
+slug: git-ssh-sign-2
+tags: ['git', 'ssh', 'gpg', 'windows']
+---
+
+I've been using GPG to sign my Git commits for a while now and have recently discovered that you can now use SSH keys to sign commits. I may be late to join this one but if you are like me, you hate typing in your GPG password to commit. And if you are even more like me, you could never get GPG or Git to cache your password for you. So, I'm going to show you how to use SSH keys to sign your commits.
+
+This is will be focused on Windows but should be similar on other platforms.
+
+## Generate an SSH Key
+
+If you already have an SSH key, you can skip this step. If you don't, you can generate a new one:
+
+```bash
+ssh-keygen -t ed25519 -C "your_email@example.com"
+```
+
+This will prompt you for a file name and a passphrase. I would recommend using the default file path and a secure passphrase.
+
+## Adding SSH Key to SSH Agent
+
+First we will check if the SSH agent is running, if not we will start it.
+
+```powershell
+Get-Service | ?{$_.Name -like '*ssh-agent*'} | select -Property Name, StartType, Status
+```
+
+If the SSH agent is not running or disabled, you will need to enable it.
+
+```powershell
+# Enable the Service if it is disabled (will require powershell to be run as admin):
+Set-Service -Name ssh-agent -StartupType Manual
+# Start the service if it is not running:
+Start-Service ssh-agent
+```
+
+Now add your key to the SSH agent:
+
+```bash
+ssh-add ~/.ssh/id_ed25519
+```
+
+## Adding SSH Key to GitHub
+
+Now we need to add our SSH public key to GitHub. You can do this by going to your GitHub profile settings and clicking on SSH and GPG keys. To add your key to your GitHub account, we are going to need to do a little bit of work. First lets get our SSH public key ready:
+
+```bash
+$ cat ~/.ssh/id_ed25519.pub | clip
+# Copies your public key to your clipboard
+```
+
+Use this easy [url](https://github.com/settings/keys) to quickly navigate to the SSH and GPG keys page on GitHub. Then click on the "New SSH key" button. You will create two keys for both authentication and signing key. The Authentication key is used for connecting to Github without a username and a token at each visit. The Signing key is used for signing commits.
+
+Now that we have our SSH key added to our GitHub account, let's finally test our connection to see if everything is working:
+
+```bash
+ssh -T git@github.com
+```
+
+You may see a warning like this:
+
+Before you can continue, verify that the fingerprint is correct here
+[GitHub's public key fingerprint](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints).
+If it is correct, type `yes` and press enter.
+
+```plaintext
+> The authenticity of host 'github.com (IP ADDRESS)' can't be established.
+> RSA key fingerprint is SHA256:nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8.
+> Are you sure you want to continue connecting (yes/no)?
+```
+
+If the connection is successful, you will see something like this:
+
+```plaintext
+> Hi username! You've successfully authenticated, but GitHub does not provide shell access.
+```
+
+## Configuring Git to Use SSH
+
+Now that we have our SSH key added to our GitHub account and ready to go on our local machine, we need to configure Git to use it.
+
+```bash
+git config --global commit.gpgsign true
+git config --global gpg.format ssh
+```
+
+Now let's tell Git which SSH key to use. I'm going to use the default SSH key path but you can use whichever path your SSH key is located at.
+
+```bash
+git config --global user.signingkey "~/.ssh/id_ed25519"
+```
+
+Now lets test it out. Before we continue, you will have to navigate to the directory of the repository you want to sign commits for. If you are using a new repository, you will need to initialize it first.
+
+If you do need to start a new repository, you can do so by running the following command:
+
+```bash
+git init
+```
+
+Now we can create a new commit and sign it with our SSH key:
+
+```bash
+git commit --allow-empty -S -m "Signed SSH Commit"
+```
+
+You should see something like this: `[master 58f39d7] Signed SSH Commit` if everything is correct.
+
+To double check that your commit is signed, you can use the following command:
+
+```bash
+git log --show-signature
+```
+
+You should see something like this:
+
+```plaintext
+commit f6e0367385aacd68ec5daa2b77c1092e115d5aa9
+Good "git" signature with ED25519 key SHA256:yjwtDJIvOG6qSFo3eDSKnK8YK213Y0ldxDwaTa9QFFc
+sig_find_principals: sshsig_find_principal: No such file or directory^M
+No principal matched.
+Author: Douglas Rocha <79188161+dougrocha@users.noreply.github.com>
+Date:   Mon Mar 6 17:52:55 2023 -0700
+
+    Signed SSH Commit
+```
+
+Now you may be wondering why you are seeing `No principal matched.`. This is because the SSH key gives a valid signature but cannot be found as one of the allowed signers. To fix this we can create a file called `~/.ssh/allowed_signers"` and add our SSH key contents to it. When checking the signature now, you should see something like this:
+
+```bash
+# Create the ~/.ssh/allowed_signers file
+New-Item -Path ~/.ssh/allowed_signers
+```
+
+One thing to note is that the `~/.ssh/allowed_signers` file contents must all start with an email address. So if you are copying your public SSH key into the file, you will need to add your email address to the beginning of the line.
+
+We also need to add the following to our `~/.gitconfig` file:
+
+```bash
+git config --global gpg.ssh.allowedsignersfile ~/.ssh/allowed_signers
+```
+
+Now when we rerun the `git log --show-signature` command, we should see something like this:
+
+```plaintext
+commit f6e0367385aacd68ec5daa2b77c1092e115d5aa9
+Good "git" signature for douglas_junior@icloud.com with ED25519 key SHA256:yjwtDJIvOG6qSFo3eDSKnK8YK213Y0ldxDwaTa9QFFc
+Author: Douglas Rocha <79188161+dougrocha@users.noreply.github.com>
+Date:   Mon Mar 6 17:52:55 2023 -0700
+
+    Signed SSH Commit
+```
+
+## The End
+
+After all this, your `~/.gitconfig` file should look something like this:
+
+```plaintext
+[user]
+    signingkey = ~/.ssh/id_ed25519
+[gpg]
+    format = ssh
+[commit]
+    gpgsign = true
+[gpg "ssh"]
+    allowedSignersFile = ~/.ssh/allowed_signers
+```
+
+You should now be able to sign Git commits with your SSH key. It is a great alternative to GPG and is much easier to setup. I hope this helps you out!
