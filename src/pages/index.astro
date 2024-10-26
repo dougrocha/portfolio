@@ -1,6 +1,6 @@
 ---
 import { getCollection } from 'astro:content'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, BookOpenCheck } from 'lucide-react'
 import { differenceInYears } from 'date-fns'
 
 import BaseLayout from '@layouts/BaseLayout.astro'
@@ -23,7 +23,7 @@ const age = differenceInYears(new Date(), new Date(2001, 9, 3))
 ---
 
 <BaseLayout title="Douglas Rocha">
-  <article class="mt-8 flex flex-col gap-16 pb-16">
+  <article class="relative mt-8 flex flex-col gap-16 pb-16">
     <div>
       <p class="mt-4 leading-relaxed text-gray-700 dark:text-gray-300">
         Hey there, My name's
@@ -42,27 +42,38 @@ const age = differenceInYears(new Date(), new Date(2001, 9, 3))
 
     <Tabs />
 
-    <div class="space-y-6">
-      <div class="space-y-4">
-        <h2 class="text-2xl font-semibold">Blog</h2>
-        <hr class="border-gray-500" />
+    <div class="rounded-xl border border-[#1e1f39] bg-[#080823]">
+      <div class="space-y-4 p-6">
+        <BookOpenCheck className="h-6 w-6" />
+
+        <div class="flex items-center justify-between">
+          <h3
+            class="text-xl font-semibold leading-none tracking-tight sm:text-2xl"
+          >
+            recent posts
+          </h3>
+
+          <a
+            href="/blogs"
+            class="flex items-center justify-center gap-2 text-sm text-gray-700 dark:text-gray-200"
+          >
+            read more
+            <ArrowRight className="h-6 w-6" />
+          </a>
+        </div>
       </div>
 
-      <ul class="space-y-4 overflow-y-scroll">
+      <ul
+        class="flex flex-col divide-y-[1px] divide-[#1e1f39] border-t border-[#1e1f39]"
+      >
         {
           blogs.map(({ data, slug }) => (
-            <BlogCard slim data={data} slug={slug} />
+            <li class="px-6 py-4">
+              <BlogCard slim data={data} slug={slug} />
+            </li>
           ))
         }
       </ul>
-
-      <a
-        href="/blog"
-        class="ml-auto flex max-w-fit items-center rounded bg-neutral-600 px-4 py-2 text-sm"
-      >
-        All Blog Posts
-        <ArrowRight className="ml-2 h-5 w-5" />
-      </a>
     </div>
   </article>
 </BaseLayout>

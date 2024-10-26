@@ -11,43 +11,40 @@ const { data, slug, slim } = Astro.props
 const { title, pubDate, tags } = data
 ---
 
-<li class="w-full py-1">
-  <div class="flex w-full flex-row justify-between space-x-1">
-    <a
-      href={`blog/${slug}`}
-      class={cn('font-semibold text-white', {
-        'underline underline-offset-2 dark:decoration-gray-400 dark:hover:decoration-gray-200':
-          slim,
-      })}
-    >
-      {title}
-    </a>
+<div class="flex w-full flex-row justify-between space-x-1">
+  <a
+    href={`blog/${slug}`}
+    class={cn('font-semibold text-white', {
+      'dark:decoration-gray-400 dark:hover:decoration-gray-200': slim,
+    })}
+  >
+    {title}
+  </a>
 
-    <span class="ml-2">
-      {format(new Date(pubDate), 'MMM d, yyyy')}
-    </span>
-  </div>
+  <span class="ml-2 text-sm">
+    {format(new Date(pubDate), 'MMM d, yyyy')}
+  </span>
+</div>
 
-  {
-    slim ? null : (
-      <div class="flex items-center pt-4 sm:justify-between">
-        <div class="flex flex-wrap gap-1">
-          {tags.map(tag => {
-            return (
-              <span class="rounded p-1 text-sm uppercase dark:bg-neutral-600">
-                {tag}
-              </span>
-            )
-          })}
-        </div>
-
-        <a
-          href={`blog/${slug}`}
-          class="ml-auto whitespace-nowrap rounded px-2 py-1 text-sm dark:bg-neutral-600"
-        >
-          Read More
-        </a>
+{
+  slim ? null : (
+    <div class="flex items-center pt-4 sm:justify-between">
+      <div class="flex flex-wrap gap-1">
+        {tags.map(tag => {
+          return (
+            <span class="rounded p-1 text-sm uppercase dark:bg-neutral-600">
+              {tag}
+            </span>
+          )
+        })}
       </div>
-    )
-  }
-</li>
+
+      <a
+        href={`blog/${slug}`}
+        class="ml-auto whitespace-nowrap rounded px-2 py-1 text-sm dark:bg-neutral-600"
+      >
+        Read More
+      </a>
+    </div>
+  )
+}
