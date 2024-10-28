@@ -1,0 +1,22 @@
+[
+  {
+    "title": "Quanty",
+    "body": "Supercharge your Discord server with new features.",
+    "site_url": "https://quanty.xyz"
+  },
+  {
+    "title": "Meka",
+    "body": "Find your next keyboard with Meka and share your favorite keyboards with the community.",
+    "source_url": "https://github.com/dougrocha/KeyboardTracker"
+  },
+  {
+    "title": "Portfolio",
+    "body": "Check out my portfolio and see how I built it.",
+    "source_url": "https://github.com/dougrocha/portfolio"
+  },
+  {
+    "title": "Dotfiles",
+    "body": "My configurations for Windows, MacOS and Linux.",
+    "source_url": "https://github.com/dougrocha/dotfiles"
+  }
+]

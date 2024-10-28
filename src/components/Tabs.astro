@@ -1,6 +1,7 @@
 ---
 import Card from '@components/Card.astro'
 import { ArrowRight, Github, BookOpen } from 'lucide-react'
+import projects from '@data/projects.json'
 ---
 
 <script src="../scripts/tabs.ts"></script>
@@ -53,26 +54,16 @@ import { ArrowRight, Github, BookOpen } from 'lucide-react'
       </div>
 
       <ul class="grid gap-4 sm:grid-cols-2">
-        <Card
-          title="Quanty"
-          body="Supercharge your Discord server with new features."
-          site_slug="https://quanty.xyz"
-        />
-        <Card
-          title="Meka"
-          body="Find your next keyboard with Meka and share your favorite keyboards with the community."
-          source_slug="https://github.com/dougrocha/KeyboardTracker"
-        />
-        <Card
-          title="Portfolio"
-          body="Check out my portfolio and see how I built it."
-          source_slug="https://github.com/dougrocha/portfolio"
-        />
-        <Card
-          title="Dotfiles"
-          body="My configurations for Windows, MacOS and Linux."
-          source_slug="https://github.com/dougrocha/dotfiles"
-        />
+        {
+          projects.map(i => (
+            <Card
+              title={i.title}
+              body={i.body}
+              site_url={i.site_url}
+              source_url={i.source_url}
+            />
+          ))
+        }
       </ul>
     </div>
     <div
@@ -82,6 +73,8 @@ import { ArrowRight, Github, BookOpen } from 'lucide-react'
       class="space-y-4"
     >
       <BookOpen className="h-6 w-6" />
+
+      <!--TODO: ADD INFORMATION HERE-->
 
       <section>
         <h3
