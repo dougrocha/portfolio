@@ -4,11 +4,11 @@ import { MoveRight, Github, Globe } from 'lucide-react'
 type Props = {
   title: string
   body: string
-  source_slug?: string
-  site_slug?: string
+  source_url?: string
+  site_url?: string
 }
 
-const { source_slug, site_slug, title, body } = Astro.props
+const { source_url, site_url, title, body } = Astro.props
 ---
 
 <li class="flex flex-col rounded-lg p-4 dark:bg-[#2c2d48]">
@@ -24,8 +24,8 @@ const { source_slug, site_slug, title, body } = Astro.props
 
   <div class="mt-auto flex gap-2">
     {
-      source_slug && (
-        <a href={source_slug} target="_blank">
+      source_url && (
+        <a href={source_url} target="_blank">
           <div class="flex items-center gap-2 rounded px-2 py-1 text-sm leading-none transition-colors dark:bg-gray-50 dark:text-black dark:hover:bg-gray-300">
             <Github className="h-4 w-4" />
             Source
@@ -34,8 +34,8 @@ const { source_slug, site_slug, title, body } = Astro.props
       )
     }
     {
-      site_slug && (
-        <a href={site_slug} target="_blank">
+      site_url && (
+        <a href={site_url} target="_blank">
           <div class="flex items-center gap-2 rounded px-2 py-1 text-sm leading-none transition-colors dark:bg-gray-50 dark:text-black dark:hover:bg-gray-300">
             <Globe className="h-4 w-4" />
             Website

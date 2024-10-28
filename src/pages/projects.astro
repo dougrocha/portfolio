@@ -1,31 +1,22 @@
 ---
 import Card from '@components/Card.astro'
 import BaseLayout from '@layouts/BaseLayout.astro'
+import projects from '@data/projects.json'
 ---
 
 <BaseLayout title="Projects" class="space-y-6">
   <h1 class="text-4xl font-semibold leading-none tracking-tight">Projects</h1>
 
   <ul class="flex flex-col gap-4">
-    <Card
-      site_slug="https://quanty.xyz"
-      title="Quanty"
-      body="Supercharge your Discord server with new features."
-    />
-    <Card
-      source_slug="https://github.com/dougrocha/KeyboardTracker"
-      title="Meka"
-      body="Find your next keyboard with Meka and share your favorite keyboards with the community."
-    />
-    <Card
-      source_slug="https://github.com/dougrocha/portfolio"
-      title="Portfolio"
-      body="Check out my portfolio and see how I built it."
-    />
-    <Card
-      source_slug="https://github.com/dougrocha/dotfiles"
-      title="Dotfiles"
-      body="My configurations for Windows, MacOS and Linux."
-    />
+    {
+      projects.map(i => (
+        <Card
+          title={i.title}
+          body={i.body}
+          site_url={i.site_url}
+          source_url={i.source_url}
+        />
+      ))
+    }
   </ul>
 </BaseLayout>
