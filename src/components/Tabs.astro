@@ -1,7 +1,11 @@
 ---
-import Card from '@components/Card.astro'
+import { Image } from 'astro:assets'
 import { ArrowRight, Github, BookOpen } from 'lucide-react'
+import Card from '@components/Card.astro'
 import projects from '@data/projects.json'
+import asu_logo from '@assets/asu_logo.jpg'
+import brookdale_logo from '@assets/brookdale_logo.jpg'
+import blue_cross_blue_shield_logo from '@assets/blue_cross_blue_shield_logo.png'
 ---
 
 <script src="../scripts/tabs.ts"></script>
@@ -38,11 +42,11 @@ import projects from '@data/projects.json'
       <Github className="h-6 w-6" />
 
       <div class="flex items-center justify-between">
-        <h3
+        <h2
           class="text-xl font-semibold leading-none tracking-tight sm:text-2xl"
         >
           featured projects
-        </h3>
+        </h2>
 
         <a
           href="/projects"
@@ -69,27 +73,96 @@ import projects from '@data/projects.json'
     <div
       id="experience"
       aria-labelledby="tab-2"
+      class="space-y-6"
       hidden="true"
-      class="space-y-4"
     >
       <BookOpen className="h-6 w-6" />
 
-      <!--TODO: ADD INFORMATION HERE-->
-
-      <section>
-        <h3
+      <section class="space-y-4">
+        <h2
           class="text-xl font-semibold leading-none tracking-tight sm:text-2xl"
         >
           experience
-        </h3>
+        </h2>
+
+        <ul class="space-y-4 pl-2">
+          <li class="flex items-center space-x-6">
+            <Image
+              src={blue_cross_blue_shield_logo}
+              alt="Blue Cross Blue Shield of Arizona logo"
+              class="h-10 w-10 rounded-full"
+            />
+            <div class="flex flex-1 flex-col gap-1">
+              <time class="text-xs text-gray-400">
+                <span>May 2023</span>
+                <span>-</span>
+                <span>Nov 2023</span>
+              </time>
+              <h3 class="font-semibold leading-none">
+                Blue Cross Blue Shield of Arizona
+              </h3>
+              <p class="text-xs text-gray-400">
+                Full-Stack Software Engineer (Intern)
+              </p>
+              <ul class="ml-2 list-outside list-disc">
+                <li class="prose ml-4 pr-8 text-sm dark:prose-invert">
+                  BULLET POINT
+                </li>
+                <li class="prose ml-4 pr-8 text-sm dark:prose-invert">
+                  BULLET POINT
+                </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
       </section>
 
-      <section>
-        <h3
+      <section class="space-y-4">
+        <h2
           class="text-xl font-semibold leading-none tracking-tight sm:text-2xl"
         >
           education
-        </h3>
+        </h2>
+
+        <ul class="space-y-4 pl-2">
+          <li class="flex items-center space-x-6">
+            <Image
+              src={asu_logo}
+              alt="Arizona State University logo"
+              class="h-10 w-10 rounded-full"
+            />
+            <div class="flex flex-1 flex-col gap-1">
+              <time class="text-xs text-gray-400">
+                <span>May 2023</span>
+                <span>-</span>
+                <span>May 2026</span>
+                <span>(expected)</span>
+              </time>
+              <h3 class="font-semibold leading-none">
+                Arizona State University
+              </h3>
+              <p class="text-xs text-gray-400">BS in Computer Science</p>
+            </div>
+          </li>
+          <li class="flex items-center space-x-6">
+            <Image
+              src={brookdale_logo}
+              alt="Brookdale community college logo"
+              class="h-10 w-10 rounded-full"
+            />
+            <div class="flex flex-1 flex-col gap-1">
+              <time class="text-xs text-gray-400">
+                <span>Sep 2020</span>
+                <span>-</span>
+                <span>Dec 2022</span>
+              </time>
+              <h3 class="font-semibold leading-none">
+                Brookdale Community College
+              </h3>
+              <p class="text-xs text-gray-400">AS in Computer Science</p>
+            </div>
+          </li>
+        </ul>
       </section>
     </div>
   </div>

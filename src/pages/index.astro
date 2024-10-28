@@ -6,6 +6,7 @@ import { differenceInYears } from 'date-fns'
 import BaseLayout from '@layouts/BaseLayout.astro'
 import BlogCard from '@components/BlogCard.astro'
 import Tabs from '@components/Tabs.astro'
+import CurrentTech from '@components/CurrentTech.astro'
 
 const blogs = (
   await getCollection('blog', ({ data }) =>
@@ -40,6 +41,8 @@ const age = differenceInYears(new Date(), new Date(2001, 9, 3))
       </p>
     </div>
 
+    <CurrentTech />
+
     <Tabs />
 
     <div class="rounded-xl border border-[#1e1f39] bg-[#080823]">
@@ -47,11 +50,11 @@ const age = differenceInYears(new Date(), new Date(2001, 9, 3))
         <BookOpenCheck className="h-6 w-6" />
 
         <div class="flex items-center justify-between">
-          <h3
+          <h2
             class="text-xl font-semibold leading-none tracking-tight sm:text-2xl"
           >
             recent posts
-          </h3>
+          </h2>
 
           <a
             href="/blogs"
