@@ -6,7 +6,6 @@ import { differenceInYears } from 'date-fns'
 import BaseLayout from '@layouts/BaseLayout.astro'
 import BlogCard from '@components/BlogCard.astro'
 import Tabs from '@components/Tabs.astro'
-import CurrentTech from '@components/CurrentTech.astro'
 
 const blogs = (
   await getCollection('blog', ({ data }) =>
@@ -40,8 +39,6 @@ const age = differenceInYears(new Date(), new Date(2001, 9, 3))
         >.
       </p>
     </div>
-
-    <CurrentTech />
 
     <Tabs />
 
