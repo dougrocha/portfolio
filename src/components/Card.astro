@@ -11,7 +11,9 @@ type Props = {
 const { source_url, site_url, title, body } = Astro.props
 ---
 
-<li class="flex flex-col rounded-lg p-4 dark:bg-[#2c2d48]">
+<li
+  class="flex flex-col rounded-lg p-4 transition-transform hover:-translate-y-2 dark:bg-[#2c2d48]"
+>
   <h3
     class="mb-2 flex items-center gap-2 text-sm font-semibold leading-none dark:text-white"
   >
