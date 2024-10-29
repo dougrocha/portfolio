@@ -9,7 +9,7 @@ import Tabs from '@components/Tabs.astro'
 
 const blogs = (
   await getCollection('blog', ({ data }) =>
-    import.meta.env.PROD ? data.draft !== true : true,
+    import.meta.env.PROD ? data.isDraft !== true : true,
   )
 )
   .sort((a, b) => {

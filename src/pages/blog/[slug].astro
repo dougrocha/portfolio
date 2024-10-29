@@ -4,7 +4,7 @@ import { getCollection, type CollectionEntry } from 'astro:content'
 
 export async function getStaticPaths() {
   const blogs = await getCollection('blog', ({ data }) =>
-    import.meta.env.PROD ? data.draft !== true : true,
+    import.meta.env.PROD ? data.isDraft !== true : true,
   )
 
   return blogs.map(blog => ({

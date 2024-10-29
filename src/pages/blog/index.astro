@@ -5,7 +5,7 @@ import { getCollection } from 'astro:content'
 
 const blogs = (
   await getCollection('blog', ({ data }) =>
-    import.meta.env.PROD ? data.draft !== true : true,
+    import.meta.env.PROD ? data.isDraft !== true : true,
   )
 ).sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf())
 ---
