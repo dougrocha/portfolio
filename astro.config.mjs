@@ -14,6 +14,8 @@ import react from '@astrojs/react'
 // https://astro.build/config
 export default defineConfig({
   integrations: [mdx(), tailwind(), react()],
-  adapter: vercel(),
+  adapter: vercel({
+    webAnalytics: { enabled: true },
+  }),
   site: process.env.CI ? 'https://dougrocha.com' : 'http://localhost:4321',
 })
