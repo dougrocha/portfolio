@@ -1,31 +1,31 @@
 ---
-import type { CollectionEntry } from 'astro:content'
-import BaseLayout from './BaseLayout.astro'
-import { format } from 'date-fns'
+import type { CollectionEntry } from "astro:content";
+import { format } from "date-fns";
+import BaseLayout from "./BaseLayout.astro";
 
 type Props = {
-  data: CollectionEntry<'blog'>['data']
-  slug: string
-}
+  data: CollectionEntry<"blog">["data"];
+  slug: string;
+};
 
-const { title, pubDate, updatedDate, tags } = Astro.props.data
+const { title, pubDate, updatedDate, tags } = Astro.props.data;
 ---
 
 <BaseLayout title={title}>
-  <article class="prose max-w-full dark:prose-invert">
+  <article class="prose dark:prose-invert max-w-full">
     <div class="mb-4">
       <h1>{title}</h1>
       <span>
-        Published: {format(new Date(pubDate), 'MMMM dd, yyyy')}
+        Published: {format(new Date(pubDate), "MMMM dd, yyyy")}
       </span>
       {
         updatedDate && (
           <span class="ml-2">
-            Updated: {format(new Date(updatedDate), 'MMMM dd, yyyy')}
+            Updated: {format(new Date(updatedDate), "MMMM dd, yyyy")}
           </span>
         )
       }
-      •<span class="ml-2">{tags.join(' - ')}</span>
+      •<span class="ml-2">{tags.join(" - ")}</span>
     </div>
 
     <slot>

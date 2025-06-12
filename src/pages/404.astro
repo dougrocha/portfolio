@@ -1,7 +1,7 @@
 ---
-import BaseLayout from '@layouts/BaseLayout.astro'
-import localImage from '@assets/404.jpg'
-import { Picture } from 'astro:assets'
+import { Picture } from "astro:assets";
+import localImage from "@/assets/404.jpg";
+import BaseLayout from "@/layouts/BaseLayout.astro";
 ---
 
 <BaseLayout title="Uh Oh">
@@ -9,7 +9,7 @@ import { Picture } from 'astro:assets'
     src={localImage}
     alt="404 - Bare room with two benches and coffee tables"
     widths={[800, 640, 320]}
-    sizes="(min-width: 768px) 800px, 100vw"
+    sizes="(&uri) 800px, 100vw"
     quality={80}
     class="max-h-64 rounded-lg object-cover"
   />

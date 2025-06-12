@@ -1,19 +1,17 @@
 ---
-import '@fontsource/inter'
-
-import { ViewTransitions } from 'astro:transitions'
-import Nav from '@components/Nav.astro'
-import Footer from '@components/Footer.astro'
-import { cn } from '@lib/utils'
-import Stars from '@components/Stars.astro'
+import "@fontsource/inter";
+import "../styles/global.css";
+import { ClientRouter } from "astro:transitions";
+import Footer from "@/components/Footer.astro";
+import Nav from "@/components/Nav.astro";
+import { cn } from "@/lib/utils";
 
 type Props = {
-  title: string
-  class?: string
-  hideStars?: boolean
-}
+  title: string;
+  class?: string;
+};
 
-const { class: className } = Astro.props
+const { class: className } = Astro.props;
 ---
 
 <!doctype html>
@@ -25,22 +23,22 @@ const { class: className } = Astro.props
     <meta name="generator" content={Astro.generator} />
 
     <title>Douglas Rocha</title>
-    <ViewTransitions />
+    <ClientRouter />
   </head>
 
-  <body
-    class="mx-auto flex min-h-screen max-w-screen-md flex-col space-y-6 px-8 dark:bg-[#050520] dark:text-white"
-  >
-    <!--{!hideStars && <Stars />}-->
-
-    <header class="bg-background/75 sticky top-0 py-6 backdrop-blur-sm">
-      <Nav />
+  <body class="flex min-h-screen flex-col space-y-6">
+    <header
+      class="border-b-accent-foreground/10 sticky top-0 w-full border py-6 backdrop-blur-xl"
+    >
+      <Nav class={"mx-auto max-w-(--breakpoint-md) px-8"} />
     </header>
 
-    <main class={cn('grow', className)}>
+    <main
+      class={cn("mx-auto w-full max-w-(--breakpoint-md) grow px-8", className)}
+    >
       <slot />
     </main>
 
-    <Footer />
+    <Footer class={"w-full mx-auto max-w-(--breakpoint-md) px-8"} />
   </body>
 </html>

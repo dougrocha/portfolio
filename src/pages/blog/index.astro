@@ -1,21 +1,19 @@
 ---
-import BlogCard from '@components/BlogCard.astro'
-import BaseLayout from '@layouts/BaseLayout.astro'
-import { getCollection } from 'astro:content'
+import { getCollection } from "astro:content";
+import BlogCard from "@/components/BlogCard.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
 
 const blogs = (
-  await getCollection('blog', ({ data }) =>
+  await getCollection("blog", ({ data }) =>
     import.meta.env.PROD ? data.isDraft !== true : true,
   )
-).sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf())
+).sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
 ---
 
 <BaseLayout title="Blog Posts" class="space-y-6">
-  <h1 class="text-4xl font-semibold leading-none tracking-tight">Blog posts</h1>
+  <h1 class="text-4xl leading-none font-semibold tracking-tight">Blog posts</h1>
 
-  <ul
-    class="flex flex-col divide-y-[1px] divide-[#1e1f39] border-t border-t-[#2c2d48]"
-  >
+  <ul class="flex flex-col divide-y border-t">
     {
       blogs.map(({ data, slug }) => (
         <li class="py-4">
