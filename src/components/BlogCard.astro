@@ -1,28 +1,24 @@
 ---
-import { cn } from '@lib/utils'
-import type { CollectionEntry } from 'astro:content'
-import { format } from 'date-fns'
+import type { CollectionEntry } from "astro:content";
+import { format } from "date-fns";
+import { Badge } from "./ui/badge";
+import { buttonVariants } from "./ui/button";
 
-type Props = Pick<CollectionEntry<'blog'>, 'data' | 'slug'> & {
-  slim?: boolean
-}
+type Props = Pick<CollectionEntry<"blog">, "data" | "slug"> & {
+  slim?: boolean;
+};
 
-const { data, slug, slim } = Astro.props
-const { title, pubDate, tags } = data
+const { data, slug, slim } = Astro.props;
+const { title, pubDate, tags } = data;
 ---
 
 <div class="flex w-full flex-row justify-between space-x-1">
-  <a
-    href={`blog/${slug}`}
-    class={cn('font-semibold text-white', {
-      'dark:decoration-gray-400 dark:hover:decoration-gray-200': slim,
-    })}
-  >
+  <a href={`blog/${slug}`} class="font-semibold">
     {title}
   </a>
 
   <span class="ml-2 text-sm">
-    {format(new Date(pubDate), 'MMM d, yyyy')}
+    {format(new Date(pubDate), "MMM d, yyyy")}
   </span>
 </div>
 
@@ -30,19 +26,12 @@ const { title, pubDate, tags } = data
   slim ? null : (
     <div class="flex items-center pt-4 sm:justify-between">
       <div class="flex flex-wrap gap-1">
-        {tags.map(tag => {
-          return (
-            <span class="rounded p-1 text-sm uppercase dark:bg-neutral-600">
-              {tag}
-            </span>
-          )
-        })}
+        {tags.map((tag) => (
+          <Badge>{tag}</Badge>
+        ))}
       </div>
 
-      <a
-        href={`blog/${slug}`}
-        class="ml-auto whitespace-nowrap rounded px-2 py-1 text-sm dark:bg-neutral-600"
-      >
+      <a href={`blog/${slug}`} class={buttonVariants({ size: "sm" })}>
         Read More
       </a>
     </div>

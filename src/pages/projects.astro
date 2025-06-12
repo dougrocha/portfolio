@@ -1,20 +1,21 @@
 ---
-import Card from '@components/Card.astro'
-import BaseLayout from '@layouts/BaseLayout.astro'
-import projects from '@data/projects.json'
+import ProjectCard from "@/components/project_card.tsx";
+import projects from "@/data/projects.json";
+import BaseLayout from "@/layouts/BaseLayout.astro";
 ---
 
 <BaseLayout title="Projects" class="space-y-6">
-  <h1 class="text-4xl font-semibold leading-none tracking-tight">Projects</h1>
+  <h1 class="text-4xl leading-none font-semibold tracking-tight">Projects</h1>
 
-  <ul class="flex flex-col gap-4">
+  <ul class="grid grid-cols-2 gap-4">
     {
-      projects.map(i => (
-        <Card
+      projects.map((i) => (
+        <ProjectCard
           title={i.title}
-          body={i.body}
+          description={i.description}
           site_url={i.site_url}
           source_url={i.source_url}
+          tags={i.tags}
         />
       ))
     }

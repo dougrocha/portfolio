@@ -1,23 +1,23 @@
 ---
-import { cn } from '@lib/utils'
-import ThemeIcon from '@components/ThemeIcon.astro'
+import ThemeIcon from "@/components/ThemeIcon.astro";
+import { cn } from "@/lib/utils";
 
 type Props = {
-  class?: string
-}
+  class?: string;
+};
 
-const { class: className } = Astro.props
+const { class: className } = Astro.props;
 
-const pathname = Astro.url.pathname
+const pathname = Astro.url.pathname;
 ---
 
-<nav class={cn('flex items-center justify-between', className)}>
+<nav class={cn("flex items-center justify-between", className)}>
   <ul class="flex gap-4 sm:gap-8">
     <li
       class={cn(
-        'font-medium text-gray-400 transition-colors hover:text-black dark:hover:text-white',
+        "font-medium text-gray-400 transition-colors hover:text-black dark:hover:text-white",
         {
-          'text-black dark:text-[#EB5E28]': pathname === '/',
+          "text-black dark:text-[#EB5E28]": pathname === "/",
         },
       )}
     >
@@ -26,9 +26,9 @@ const pathname = Astro.url.pathname
 
     <li
       class={cn(
-        'font-medium text-gray-400 transition-colors hover:text-black dark:hover:text-white',
+        "font-medium text-gray-400 transition-colors hover:text-black dark:hover:text-white",
         {
-          'text-black dark:text-[#EB5E28]': pathname.includes('blog'),
+          "text-black dark:text-[#EB5E28]": pathname.includes("blog"),
         },
       )}
     >
@@ -37,9 +37,9 @@ const pathname = Astro.url.pathname
 
     <li
       class={cn(
-        'font-medium text-gray-400 transition-colors hover:text-black dark:hover:text-white',
+        "font-medium text-gray-400 transition-colors hover:text-black dark:hover:text-white",
         {
-          'text-black dark:text-[#EB5E28]': pathname.includes('projects'),
+          "text-black dark:text-[#EB5E28]": pathname.includes("projects"),
         },
       )}
     >

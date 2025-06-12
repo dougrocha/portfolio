@@ -1,61 +1,59 @@
 ---
-import { getCollection } from 'astro:content'
-import { ArrowRight, BookOpenCheck } from 'lucide-react'
-import { differenceInYears } from 'date-fns'
-
-import BaseLayout from '@layouts/BaseLayout.astro'
-import BlogCard from '@components/BlogCard.astro'
-import Tabs from '@components/Tabs.astro'
+import { getCollection } from "astro:content";
+import { differenceInYears } from "date-fns";
+import { ArrowRight, BookOpenCheck } from "lucide-react";
+import BlogCard from "@/components/BlogCard.astro";
+import ProjectExperienceTabs from "@/components/ProjectExperienceTabs.tsx";
+import BaseLayout from "@/layouts/BaseLayout.astro";
 
 const blogs = (
-  await getCollection('blog', ({ data }) =>
+  await getCollection("blog", ({ data }) =>
     import.meta.env.PROD ? data.isDraft !== true : true,
   )
 )
   .sort((a, b) => {
     return (
       new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
-    )
+    );
   })
-  .slice(0, 5)
+  .slice(0, 5);
 
-const age = differenceInYears(new Date(), new Date(2001, 9, 3))
+const age = differenceInYears(new Date(), new Date(2001, 9, 3));
 ---
 
 <BaseLayout title="Douglas Rocha">
-  <article class="mt-8 flex flex-col gap-16 pb-16">
+  <article class="flex flex-col gap-16 pb-16">
     <div>
-      <p class="mt-4 leading-relaxed text-gray-700 dark:text-gray-300">
+      <p class="text-muted-foreground mt-4 leading-relaxed">
         Hey there, My name's
-        <span class="font-semibold text-black dark:text-white">Doug</span>
+        <span class="text-foreground font-semibold">Doug</span>
         and I'm a {age} y/o student at Arizona State University. I'm currently interested
         in
-        <span class="font-semibold text-black dark:text-white"
-          >web development</span
-        >
+        <span class="text-foreground font-semibold">web development</span>
         and
-        <span class="font-semibold text-black dark:text-white"
+        <span class="text-foreground font-semibold"
           >game development with Rust</span
         >.
       </p>
     </div>
 
-    <Tabs />
+    <ProjectExperienceTabs client:only="react" />
 
-    <div class="rounded-xl border border-[#1e1f39] bg-[#080823]">
+    <div class="rounded-xl border">
       <div class="space-y-4 p-6">
-        <BookOpenCheck className="h-6 w-6" />
-
         <div class="flex items-center justify-between">
-          <h2
-            class="text-xl font-semibold leading-none tracking-tight sm:text-2xl"
-          >
-            recent posts
-          </h2>
+          <div class="flex gap-2">
+            <BookOpenCheck className="h-6 w-6" />
+            <h2
+              class="text-xl leading-none font-semibold tracking-tight sm:text-2xl"
+            >
+              recent posts
+            </h2>
+          </div>
 
           <a
             href="/blog"
-            class="flex items-center justify-center gap-2 text-sm text-gray-700 dark:text-gray-200"
+            class="flex items-center justify-center gap-2 text-sm"
           >
             read more
             <ArrowRight className="h-6 w-6" />
@@ -63,9 +61,7 @@ const age = differenceInYears(new Date(), new Date(2001, 9, 3))
         </div>
       </div>
 
-      <ul
-        class="flex flex-col divide-y-[1px] divide-[#1e1f39] border-t border-[#1e1f39]"
-      >
+      <ul class="flex flex-col divide-y border-t">
         {
           blogs.map(({ data, slug }) => (
             <li class="px-6 py-4">

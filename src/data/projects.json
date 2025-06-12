@@ -1,22 +1,27 @@
 [
   {
     "title": "Quanty",
-    "body": "Supercharge your Discord server with new features.",
-    "site_url": "https://quanty.xyz"
+    "description": "Supercharge your Discord server with new features.",
+    "site_url": "https://quanty.xyz",
+    "source_url": "https://github.com/dougrocha/quanty",
+    "tags": ["Next.js", "Typescript", "Bot"]
   },
   {
     "title": "Meka",
-    "body": "Find your next keyboard with Meka and share your favorite keyboards with the community.",
-    "source_url": "https://github.com/dougrocha/KeyboardTracker"
+    "description": "Find your next keyboard with Meka and share your favorite keyboards with the community.",
+    "source_url": "https://github.com/dougrocha/KeyboardTracker",
+    "tags": ["Next.js", "NextJS", "Dashboard"]
   },
   {
     "title": "Portfolio",
-    "body": "Check out my portfolio and see how I built it.",
-    "source_url": "https://github.com/dougrocha/portfolio"
+    "description": "Check out my portfolio and see how I built it.",
+    "source_url": "https://github.com/dougrocha/portfolio",
+    "tags": ["Astro"]
   },
   {
     "title": "Dotfiles",
-    "body": "My configurations for Windows, MacOS and Linux.",
-    "source_url": "https://github.com/dougrocha/dotfiles"
+    "description": "My configurations for Windows, MacOS and Linux.",
+    "source_url": "https://github.com/dougrocha/dotfiles",
+    "tags": ["Config"]
   }
 ]

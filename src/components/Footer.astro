@@ -1,19 +1,21 @@
 ---
-import { cn } from '@lib/utils'
-import { Coffee, Github, Linkedin, Mail } from 'lucide-react'
+import { Coffee, Mail } from "lucide-react";
+import Github from "@/components/icons/Github.tsx";
+import Linkedin from "@/components/icons/Linkedin.tsx";
+import { cn } from "@/lib/utils";
 
 type Props = {
-  class?: string
-}
+  class?: string;
+};
 
-const { class: className } = Astro.props
+const { class: className } = Astro.props;
 
-const current_year = new Date().getFullYear()
+const current_year = new Date().getFullYear();
 ---
 
 <footer
   class={cn(
-    'flex flex-col items-center pb-8 sm:flex-row-reverse sm:justify-between',
+    "flex flex-col items-center pb-8 sm:flex-row-reverse sm:justify-between",
     className,
   )}
 >
@@ -34,7 +36,7 @@ const current_year = new Date().getFullYear()
       <span class="sr-only">Linkedin</span>
       <Linkedin className="h-5 w-5" />
     </a>
-    <a href="mailto:douglas_junior@icloud.com" rel="noopener noreferrer">
+    <a href="mailto:dougsrocha3@gmail.com" rel="noopener noreferrer">
       <span class="sr-only">Email</span>
       <Mail className="h-5 w-5" />
     </a>
