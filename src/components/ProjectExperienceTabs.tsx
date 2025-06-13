@@ -72,7 +72,7 @@ export const ProjectsExperienceTabs = () => {
           </div>
 
           <ul className="grid gap-4 sm:grid-cols-2">
-            {projects.map((i) => (
+            {projects.slice(0, 4).map((i) => (
               <ProjectCard
                 title={i.title}
                 description={i.description}
