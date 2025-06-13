@@ -1,27 +1,39 @@
 [
   {
+    "title": "Forms",
+    "description": "A form builder that allows users to create and share custom forms. Allows users to share and view their statistics from their results.",
+    "source_url": "https://github.com/dougrocha/form_builder",
+    "tags": ["Postgres", "React", "Next.js", "TanStack", "tRPC"]
+  },
+  {
+    "title": "Markdown LSP Server",
+    "description": "A Language Server Protocol (LSP) implementation for Markdown, written in Rust, providing a customized flow for taking zettelkasten style notes.",
+    "source_url": "https://github.com/dougrocha/rust_markdown_lsp_server",
+    "tags": ["Rust", "Markdown", "LSP"]
+  },
+  {
+    "title": "Portfolio",
+    "description": "The source code for my personal portfolio, built with Astro.",
+    "source_url": "https://github.com/dougrocha/portfolio",
+    "tags": ["Astro"]
+  },
+  {
+    "title": "Dotfiles",
+    "description": "My PDE (Personal Development Environment). Blazing FAST IN THE TERMINAL!",
+    "source_url": "https://github.com/dougrocha/dotfiles",
+    "tags": ["Terminal", "Neovim", "Config"]
+  },
+  {
     "title": "Quanty",
-    "description": "Supercharge your Discord server with new features.",
+    "description": "An all-in-one Discord bot designed to elevate server management and community engagement with a rich suite of customizable features and commands.",
     "site_url": "https://quanty.xyz",
     "source_url": "https://github.com/dougrocha/quanty",
     "tags": ["Next.js", "Typescript", "Bot"]
   },
   {
     "title": "Meka",
-    "description": "Find your next keyboard with Meka and share your favorite keyboards with the community.",
+    "description": "A ecommerce platform for mechanical keyboard enthusiasts to explore new builds, track their collections, and share creations with others.",
     "source_url": "https://github.com/dougrocha/KeyboardTracker",
     "tags": ["Next.js", "NextJS", "Dashboard"]
-  },
-  {
-    "title": "Portfolio",
-    "description": "Check out my portfolio and see how I built it.",
-    "source_url": "https://github.com/dougrocha/portfolio",
-    "tags": ["Astro"]
-  },
-  {
-    "title": "Dotfiles",
-    "description": "My configurations for Windows, MacOS and Linux.",
-    "source_url": "https://github.com/dougrocha/dotfiles",
-    "tags": ["Config"]
   }
 ]
