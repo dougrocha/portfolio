@@ -4,7 +4,9 @@ import blue_cross_blue_shield_logo from "@/assets/blue_cross_blue_shield_logo.pn
 import brookdale_logo from "@/assets/brookdale_logo.jpg";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import projects from "@/data/projects.json";
-import ProjectCard from "./project_card.tsx";
+import ProjectCard from "./ProjectCard.tsx";
+import { Button } from "./ui/button.tsx";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card.tsx";
 
 const experiences = [
   {
@@ -17,7 +19,7 @@ const experiences = [
   {
     company: "Blue Cross Blue Shield of Arizona",
     role: "Full-Stack Software Engineer (Intern)",
-    period: "May 2023-Nov 2023",
+    period: "May 2023 - Nov 2023",
     logo: blue_cross_blue_shield_logo.src,
     achievements: [
       "Contributed to the development of key features using Next.js, TypeScript, and Sitecore for customer-facing product releases, enhancing user experience.",
@@ -33,13 +35,13 @@ const education = [
   {
     school: "Arizona State University",
     degree: "BS in Computer Science",
-    period: "May 2023-May 2026(expected)",
+    period: "May 2023 - May 2026 (expected)",
     logo: asu_logo.src,
   },
   {
     school: "Brookdale Community College",
     degree: "AS in Computer Science",
-    period: "Sep 2020-Dec 2022",
+    period: "Sep 2020 - Dec 2022",
     logo: brookdale_logo.src,
   },
 ];
@@ -52,28 +54,27 @@ export const ProjectsExperienceTabs = () => {
           Projects
         </TabsTrigger>
         <TabsTrigger value="experience" className="cursor-pointer">
-          Experience
+          Experience & Education
         </TabsTrigger>
       </TabsList>
       <div className="space-y-2 rounded-xl border p-6">
         <TabsContent value="projects" className="space-y-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl leading-none font-semibold tracking-tight sm:text-2xl">
+            <h2 className="text-xl leading-none font-semibold sm:text-2xl">
               Featured Projects
             </h2>
-
-            <a
-              href="/projects"
-              className="flex items-center justify-center gap-2 text-sm"
-            >
-              view more
-              <ArrowRight className="h-6 w-6" />
-            </a>
+            <Button variant="ghost" size="sm" asChild>
+              <a href="/projects">
+                view more
+                <ArrowRight />
+              </a>
+            </Button>
           </div>
 
           <ul className="grid gap-4 sm:grid-cols-2">
-            {projects.slice(0, 4).map((i) => (
+            {projects.slice(0, 4).map((i, index) => (
               <ProjectCard
+                key={index}
                 title={i.title}
                 description={i.description}
                 site_url={i.site_url}
@@ -83,59 +84,89 @@ export const ProjectsExperienceTabs = () => {
             ))}
           </ul>
         </TabsContent>
+
         <TabsContent value="experience" className="space-y-6">
-          <section className="space-y-4">
-            <h2 className="text-xl leading-none font-semibold tracking-tight sm:text-2xl">
+          <div className="space-y-4">
+            <h2 className="text-xl leading-none font-semibold sm:text-2xl">
               Experience
             </h2>
+            <ul className="space-y-4">
+              {experiences.map((exp, index) => (
+                <li key={index}>
+                  <Card>
+                    <CardHeader className="gap-4 sm:grid-cols-[1fr_auto]">
+                      <div className="flex items-center gap-2">
+                        <img
+                          src={exp.logo}
+                          alt={`${exp.company} logo`}
+                          className="size-10 shrink-0 rounded-full"
+                        />
+                        <CardTitle className="flex flex-col justify-between">
+                          <h3 className="text-base font-semibold sm:text-lg">
+                            {exp.company}
+                          </h3>
+                          <p className="text-xs font-light text-muted-foreground sm:text-sm">
+                            {exp.role}
+                          </p>
+                        </CardTitle>
+                      </div>
 
-            <ul className="space-y-4 pl-2">
-              {experiences.map((exp) => (
-                <li className="flex space-x-6">
-                  <img
-                    src={exp.logo}
-                    alt={`${exp.company} logo`}
-                    className="mt-2 h-10 w-10 rounded-full"
-                  />
-                  <div className="flex flex-1 flex-col gap-1">
-                    <time className="text-xs">{exp.period}</time>
-                    <h3 className="leading-none font-semibold">
-                      {exp.company}
-                    </h3>
-                    <p className="text-xs">{exp.role}</p>
-                    <ul className="prose list-outside list-disc space-y-2 pr-8 pl-2 dark:prose-invert">
-                      {exp.achievements.map((ach) => (
-                        <li className="text-sm">{ach}</li>
-                      ))}
-                    </ul>
-                  </div>
+                      <time className="text-xs whitespace-nowrap text-muted-foreground sm:text-sm">
+                        {exp.period}
+                      </time>
+                    </CardHeader>
+                    <CardContent>
+                      <ul className="prose ml-4 list-outside list-disc space-y-2 sm:ml-8 dark:prose-invert">
+                        {exp.achievements.map((ach, index) => (
+                          <li
+                            key={index}
+                            className="text-xs leading-relaxed sm:text-sm"
+                          >
+                            {ach}
+                          </li>
+                        ))}
+                      </ul>
+                    </CardContent>
+                  </Card>
                 </li>
               ))}
             </ul>
-          </section>
+          </div>
 
-          <section className="space-y-4">
+          <div className="space-y-4">
             <h2 className="text-xl leading-none font-semibold tracking-tight sm:text-2xl">
               Education
             </h2>
-
             <ul className="space-y-4 pl-2">
-              {education.map((edu) => (
-                <li className="flex items-center space-x-6">
-                  <img
-                    src={edu.logo}
-                    alt={`${edu.school} logo`}
-                    className="h-10 w-10 rounded-full"
-                  />
-                  <div className="flex flex-1 flex-col gap-1">
-                    <time className="text-xs">{edu.period}</time>
-                    <h3 className="leading-none font-semibold">{edu.school}</h3>
-                    <p className="text-xs">{edu.degree}</p>
-                  </div>
+              {education.map((edu, index) => (
+                <li key={index}>
+                  <Card>
+                    <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                      <div className="flex items-center gap-2">
+                        <img
+                          src={edu.logo}
+                          alt={`${edu.school} logo`}
+                          className="size-10 shrink-0 rounded-full"
+                        />
+                        <CardTitle className="flex flex-col justify-between">
+                          <p className="text-base font-semibold sm:text-lg">
+                            {edu.school}
+                          </p>
+                          <p className="text-xs font-light text-muted-foreground sm:text-sm">
+                            {edu.degree}
+                          </p>
+                        </CardTitle>
+                      </div>
+
+                      <time className="mt-1 text-xs whitespace-nowrap text-muted-foreground sm:text-sm">
+                        {edu.period}
+                      </time>
+                    </CardHeader>
+                  </Card>
                 </li>
               ))}
             </ul>
-          </section>
+          </div>
         </TabsContent>
       </div>
     </Tabs>

@@ -3,15 +3,16 @@ import "@fontsource/inter";
 import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
 import Footer from "@/components/Footer.astro";
-import Nav from "@/components/Nav.astro";
+import Header from "@/components/Header.astro";
 import { cn } from "@/lib/utils";
 
 type Props = {
   title: string;
+  description?: string;
   class?: string;
 };
 
-const { title, class: className } = Astro.props;
+const { title, description, class: className } = Astro.props;
 ---
 
 <!doctype html>
@@ -23,18 +24,19 @@ const { title, class: className } = Astro.props;
     <meta name="generator" content={Astro.generator} />
 
     <title>{title ? title : "Douglas Rocha"}</title>
+    <meta
+      name="description"
+      content={description ? description : "My personal blog."}
+    />
+
     <ClientRouter />
-  </head>
+  </head><body class="flex min-h-screen flex-col items-center space-y-6">
+    <Header />
 
-  <body class="flex min-h-screen flex-col space-y-6">
-    <Nav />
-
-    <main
-      class={cn("mx-auto w-full max-w-(--breakpoint-md) grow px-8", className)}
-    >
+    <main class={cn("w-full max-w-(--breakpoint-md) grow px-8", className)}>
       <slot />
     </main>
 
-    <Footer class="mx-auto w-full max-w-(--breakpoint-md) px-8" />
+    <Footer class="w-full max-w-(--breakpoint-md) px-8" />
   </body>
 </html>

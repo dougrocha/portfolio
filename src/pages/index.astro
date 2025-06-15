@@ -1,10 +1,12 @@
 ---
 import { getCollection } from "astro:content";
 import { differenceInYears } from "date-fns";
-import { ArrowRight, BookOpenCheck } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import BlogCard from "@/components/BlogCard.astro";
 import ProjectExperienceTabs from "@/components/ProjectExperienceTabs.tsx";
+import { buttonVariants } from "@/components/ui/button";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import { cn } from "@/lib/utils";
 
 const blogs = (
   await getCollection("blog", ({ data }) =>
@@ -42,21 +44,16 @@ const age = differenceInYears(new Date(), new Date(2001, 9, 3));
     <div class="rounded-xl border">
       <div class="space-y-4 p-6">
         <div class="flex items-center justify-between">
-          <div class="flex gap-2">
-            <BookOpenCheck className="h-6 w-6" />
-            <h2
-              class="text-xl leading-none font-semibold tracking-tight sm:text-2xl"
-            >
-              recent posts
-            </h2>
-          </div>
+          <h2 class="text-xl leading-none font-semibold sm:text-2xl">
+            Recent Posts
+          </h2>
 
           <a
             href="/blog"
-            class="flex items-center justify-center gap-2 text-sm"
+            class={cn(buttonVariants({ variant: "ghost", size: "sm" }))}
           >
             read more
-            <ArrowRight className="h-6 w-6" />
+            <ArrowRight />
           </a>
         </div>
       </div>

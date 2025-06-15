@@ -13,7 +13,7 @@ const pathname = Astro.url.pathname;
 
 <header
   class={cn(
-    "sticky top-0 w-full border border-b-accent-foreground/10 py-6 backdrop-blur-xl",
+    "sticky top-0 z-50 w-full border border-b-accent-foreground/10 bg-background/95 py-6 backdrop-blur supports-[backdrop-filter]:bg-background/60",
     className,
   )}
 >
@@ -23,9 +23,9 @@ const pathname = Astro.url.pathname;
     <ul class="flex gap-4 sm:gap-8">
       <li
         class={cn(
-          "font-medium text-gray-400 transition-colors hover:text-black dark:hover:text-white",
+          "font-medium text-muted-foreground transition-colors hover:text-black dark:hover:text-white",
           {
-            "text-black dark:text-[#EB5E28]": pathname === "/",
+            "text-orange-500": pathname === "/",
           },
         )}
       >
@@ -34,9 +34,9 @@ const pathname = Astro.url.pathname;
 
       <li
         class={cn(
-          "font-medium text-gray-400 transition-colors hover:text-black dark:hover:text-white",
+          "font-medium text-muted-foreground transition-colors hover:text-black dark:hover:text-white",
           {
-            "text-black dark:text-[#EB5E28]": pathname.includes("blog"),
+            "text-orange-500": pathname.includes("blog"),
           },
         )}
       >
@@ -45,9 +45,9 @@ const pathname = Astro.url.pathname;
 
       <li
         class={cn(
-          "font-medium text-gray-400 transition-colors hover:text-black dark:hover:text-white",
+          "font-medium text-muted-foreground transition-colors hover:text-black dark:hover:text-white",
           {
-            "text-black dark:text-[#EB5E28]": pathname.includes("projects"),
+            "text-orange-500": pathname.includes("projects"),
           },
         )}
       >
@@ -55,8 +55,6 @@ const pathname = Astro.url.pathname;
       </li>
     </ul>
 
-    <div class="ml-auto">
-      <ThemeIcon />
-    </div>
+    <ThemeIcon />
   </nav>
 </header>

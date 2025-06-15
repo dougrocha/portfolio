@@ -24,14 +24,17 @@ const { title, pubDate, tags } = data;
 
 {
   slim ? null : (
-    <div class="flex items-center pt-4 sm:justify-between">
+    <div class="flex items-center justify-between pt-4">
       <div class="flex flex-wrap gap-1">
         {tags.map((tag) => (
-          <Badge>{tag}</Badge>
+          <Badge key={tag}>{tag}</Badge>
         ))}
       </div>
 
-      <a href={`blog/${slug}`} class={buttonVariants({ size: "sm" })}>
+      <a
+        href={`blog/${slug}`}
+        class={buttonVariants({ variant: "outline", size: "sm" })}
+      >
         Read More
       </a>
     </div>

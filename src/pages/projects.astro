@@ -1,5 +1,5 @@
 ---
-import ProjectCard from "@/components/project_card.tsx";
+import ProjectCard from "@/components/ProjectCard.tsx";
 import projects from "@/data/projects.json";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 ---
@@ -7,7 +7,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 <BaseLayout title="Projects" class="space-y-6">
   <h1 class="text-4xl leading-none font-semibold tracking-tight">Projects</h1>
 
-  <ul class="grid grid-cols-2 gap-4">
+  <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
     {
       projects.map((i) => (
         <ProjectCard

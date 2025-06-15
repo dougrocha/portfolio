@@ -29,17 +29,13 @@ const ProjectCard: React.FC<Props> = ({
   return (
     <Card key={title} className="gap-4">
       <CardHeader>
-        <CardTitle>{title}</CardTitle>
+        <CardTitle className="text-base sm:text-lg">{title}</CardTitle>
       </CardHeader>
       <CardContent>
-        <CardDescription className="tracking-tight">
-          {description}
-        </CardDescription>
+        <CardDescription>{description}</CardDescription>
         <div className="mt-4 flex flex-wrap gap-2">
           {tags.map((tag) => (
-            <Badge key={tag} variant="secondary">
-              {tag}
-            </Badge>
+            <Badge key={tag}>{tag}</Badge>
           ))}
         </div>
       </CardContent>
@@ -58,12 +54,7 @@ const ProjectCard: React.FC<Props> = ({
           </Button>
         )}
         {site_url && (
-          <Button
-            className="cursor-pointer"
-            // variant={source_url ? "secondary" : "default"}
-            size="sm"
-            asChild
-          >
+          <Button className="cursor-pointer" size="sm" asChild>
             <a href={site_url} target="_blank" rel="noopener noreferrer">
               <ExternalLink />
               Website
