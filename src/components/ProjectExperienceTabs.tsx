@@ -103,7 +103,7 @@ export const ProjectsExperienceTabs = () => {
                       {exp.company}
                     </h3>
                     <p className="text-xs">{exp.role}</p>
-                    <ul className="prose dark:prose-invert list-outside list-disc space-y-2 pr-8 pl-2">
+                    <ul className="prose list-outside list-disc space-y-2 pr-8 pl-2 dark:prose-invert">
                       {exp.achievements.map((ach) => (
                         <li className="text-sm">{ach}</li>
                       ))}

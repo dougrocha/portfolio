@@ -11,7 +11,7 @@ type Props = {
   class?: string;
 };
 
-const { class: className } = Astro.props;
+const { title, class: className } = Astro.props;
 ---
 
 <!doctype html>
@@ -22,16 +22,12 @@ const { class: className } = Astro.props;
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
 
-    <title>Douglas Rocha</title>
+    <title>{title ? title : "Douglas Rocha"}</title>
     <ClientRouter />
   </head>
 
   <body class="flex min-h-screen flex-col space-y-6">
-    <header
-      class="border-b-accent-foreground/10 sticky top-0 w-full border py-6 backdrop-blur-xl"
-    >
-      <Nav class={"mx-auto max-w-(--breakpoint-md) px-8"} />
-    </header>
+    <Nav />
 
     <main
       class={cn("mx-auto w-full max-w-(--breakpoint-md) grow px-8", className)}
@@ -39,6 +35,6 @@ const { class: className } = Astro.props;
       <slot />
     </main>
 
-    <Footer class={"w-full mx-auto max-w-(--breakpoint-md) px-8"} />
+    <Footer class="mx-auto w-full max-w-(--breakpoint-md) px-8" />
   </body>
 </html>

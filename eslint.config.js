@@ -9,6 +9,11 @@ export default tseslint.config(
 
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
+
+  // Astro
+  ...eslintPluginAstro.configs["flat/recommended"],
+  ...eslintPluginAstro.configs["flat/jsx-a11y-recommended"],
+
   {
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
@@ -25,7 +30,4 @@ export default tseslint.config(
       "@typescript-eslint/triple-slash-reference": "off",
     },
   },
-
-  // Astro
-  ...eslintPluginAstro.configs.recommended,
 );

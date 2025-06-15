@@ -4,9 +4,11 @@
 export default {
   plugins: [
     "prettier-plugin-astro",
-    "prettier-plugin-tailwindcss",
     "@ianvs/prettier-plugin-sort-imports",
+    "prettier-plugin-tailwindcss",
   ],
+  tailwindStylesheet: "./src/styles/global.css",
+  tailwindFunctions: ["cn", "cva"],
   overrides: [
     {
       files: "*.astro",
