@@ -1,12 +1,13 @@
 ---
 import { MoonStar, Sun } from "lucide-react";
+import { Button } from "@/components/ui/button";
 ---
 
-<button transition:persist id="theme-toggle" class="bg-none">
-  <MoonStar className="w-8 text-indigo-500 dark:hidden" />
-  <Sun className="hidden w-8 text-yellow-500 dark:block" />
+<Button id="theme-toggle" variant="ghost" size="icon" transition:persist>
+  <MoonStar className="text-indigo-500 dark:hidden" />
+  <Sun className="hidden text-yellow-500 dark:block" />
   <span class="sr-only">Theme Toggle</span>
-</button>
+</Button>
 
 <script is:inline>
   const getTheme = () => {
@@ -45,5 +46,11 @@ import { MoonStar, Sun } from "lucide-react";
 
   document.addEventListener("astro:after-swap", () => {
     setTheme(getTheme());
+  });
+
+  document.addEventListener("astro:page-load", () => {
+    document
+      .getElementById("theme-toggle")
+      ?.addEventListener("click", handleToggleClick);
   });
 </script>

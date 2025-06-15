@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { format } from "date-fns";
+import { Badge } from "@/components/ui/badge";
 import BaseLayout from "./BaseLayout.astro";
 
 type Props = {
@@ -13,19 +14,21 @@ const { title, pubDate, updatedDate, tags } = Astro.props.data;
 
 <BaseLayout title={title}>
   <article class="prose max-w-full dark:prose-invert">
-    <div class="mb-4">
-      <h1>{title}</h1>
+    <h1>{title}</h1>
+
+    <div class="flex flex-col">
       <span>
         Published: {format(new Date(pubDate), "MMMM dd, yyyy")}
       </span>
       {
         updatedDate && (
-          <span class="ml-2">
-            Updated: {format(new Date(updatedDate), "MMMM dd, yyyy")}
-          </span>
+          <span>Updated: {format(new Date(updatedDate), "MMMM dd, yyyy")}</span>
         )
       }
-      •<span class="ml-2">{tags.join(" - ")}</span>
+    </div>
+
+    <div class="flex flex-wrap gap-1">
+      {tags.map((tag) => <Badge key={tag}>{tag}</Badge>)}
     </div>
 
     <slot>

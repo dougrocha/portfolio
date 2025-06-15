@@ -6,7 +6,12 @@ import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 
 export default defineConfig({
-  integrations: [mdx(), react()],
+  integrations: [
+    mdx(),
+    react({
+      experimentalReactChildren: true,
+    }),
+  ],
 
   adapter: vercel({
     webAnalytics: { enabled: true },
