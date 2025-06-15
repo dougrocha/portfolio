@@ -11,43 +11,52 @@ const { class: className } = Astro.props;
 const pathname = Astro.url.pathname;
 ---
 
-<nav class={cn("flex items-center justify-between", className)}>
-  <ul class="flex gap-4 sm:gap-8">
-    <li
-      class={cn(
-        "font-medium text-gray-400 transition-colors hover:text-black dark:hover:text-white",
-        {
-          "text-black dark:text-[#EB5E28]": pathname === "/",
-        },
-      )}
-    >
-      <a href="/">home</a>
-    </li>
+<header
+  class={cn(
+    "sticky top-0 w-full border border-b-accent-foreground/10 py-6 backdrop-blur-xl",
+    className,
+  )}
+>
+  <nav
+    class="mx-auto flex max-w-(--breakpoint-md) items-center justify-between px-8"
+  >
+    <ul class="flex gap-4 sm:gap-8">
+      <li
+        class={cn(
+          "font-medium text-gray-400 transition-colors hover:text-black dark:hover:text-white",
+          {
+            "text-black dark:text-[#EB5E28]": pathname === "/",
+          },
+        )}
+      >
+        <a href="/">home</a>
+      </li>
 
-    <li
-      class={cn(
-        "font-medium text-gray-400 transition-colors hover:text-black dark:hover:text-white",
-        {
-          "text-black dark:text-[#EB5E28]": pathname.includes("blog"),
-        },
-      )}
-    >
-      <a href="/blog">blog</a>
-    </li>
+      <li
+        class={cn(
+          "font-medium text-gray-400 transition-colors hover:text-black dark:hover:text-white",
+          {
+            "text-black dark:text-[#EB5E28]": pathname.includes("blog"),
+          },
+        )}
+      >
+        <a href="/blog">blog</a>
+      </li>
 
-    <li
-      class={cn(
-        "font-medium text-gray-400 transition-colors hover:text-black dark:hover:text-white",
-        {
-          "text-black dark:text-[#EB5E28]": pathname.includes("projects"),
-        },
-      )}
-    >
-      <a href="/projects"> projects</a>
-    </li>
-  </ul>
+      <li
+        class={cn(
+          "font-medium text-gray-400 transition-colors hover:text-black dark:hover:text-white",
+          {
+            "text-black dark:text-[#EB5E28]": pathname.includes("projects"),
+          },
+        )}
+      >
+        <a href="/projects"> projects</a>
+      </li>
+    </ul>
 
-  <div class="ml-auto">
-    <ThemeIcon />
-  </div>
-</nav>
+    <div class="ml-auto">
+      <ThemeIcon />
+    </div>
+  </nav>
+</header>
