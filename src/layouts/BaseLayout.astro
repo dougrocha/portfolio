@@ -3,7 +3,7 @@ import "@fontsource/inter";
 import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
 import Footer from "@/components/Footer.astro";
-import Nav from "@/components/Nav.astro";
+import Header from "@/components/Header.astro";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -27,7 +27,7 @@ const { title, class: className } = Astro.props;
   </head>
 
   <body class="flex min-h-screen flex-col space-y-6">
-    <Nav />
+    <Header />
 
     <main
       class={cn("mx-auto w-full max-w-(--breakpoint-md) grow px-8", className)}

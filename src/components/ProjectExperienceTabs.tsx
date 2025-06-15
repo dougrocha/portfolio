@@ -4,7 +4,8 @@ import blue_cross_blue_shield_logo from "@/assets/blue_cross_blue_shield_logo.pn
 import brookdale_logo from "@/assets/brookdale_logo.jpg";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import projects from "@/data/projects.json";
-import ProjectCard from "./project_card.tsx";
+import ProjectCard from "./ProjectCard.tsx";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card.tsx";
 
 const experiences = [
   {
@@ -52,7 +53,7 @@ export const ProjectsExperienceTabs = () => {
           Projects
         </TabsTrigger>
         <TabsTrigger value="experience" className="cursor-pointer">
-          Experience
+          Experience & Education
         </TabsTrigger>
       </TabsList>
       <div className="space-y-2 rounded-xl border p-6">
@@ -84,58 +85,68 @@ export const ProjectsExperienceTabs = () => {
           </ul>
         </TabsContent>
         <TabsContent value="experience" className="space-y-6">
-          <section className="space-y-4">
-            <h2 className="text-xl leading-none font-semibold tracking-tight sm:text-2xl">
-              Experience
-            </h2>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-xl tracking-tight sm:text-2xl">
+                Experience
+              </CardTitle>
+            </CardHeader>
 
-            <ul className="space-y-4 pl-2">
-              {experiences.map((exp) => (
-                <li className="flex space-x-6">
-                  <img
-                    src={exp.logo}
-                    alt={`${exp.company} logo`}
-                    className="mt-2 h-10 w-10 rounded-full"
-                  />
-                  <div className="flex flex-1 flex-col gap-1">
-                    <time className="text-xs">{exp.period}</time>
-                    <h3 className="leading-none font-semibold">
-                      {exp.company}
-                    </h3>
-                    <p className="text-xs">{exp.role}</p>
-                    <ul className="prose list-outside list-disc space-y-2 pr-8 pl-2 dark:prose-invert">
-                      {exp.achievements.map((ach) => (
-                        <li className="text-sm">{ach}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </section>
+            <CardContent>
+              <ul className="space-y-4 pl-2">
+                {experiences.map((exp) => (
+                  <li className="flex space-x-6">
+                    <img
+                      src={exp.logo}
+                      alt={`${exp.company} logo`}
+                      className="mt-2 h-10 w-10 rounded-full"
+                    />
+                    <div className="flex flex-1 flex-col gap-1">
+                      <time className="text-xs">{exp.period}</time>
+                      <h3 className="leading-none font-semibold">
+                        {exp.company}
+                      </h3>
+                      <p className="text-xs">{exp.role}</p>
+                      <ul className="prose list-outside list-disc space-y-2 pr-8 pl-2 dark:prose-invert">
+                        {exp.achievements.map((ach) => (
+                          <li className="text-sm">{ach}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
 
-          <section className="space-y-4">
-            <h2 className="text-xl leading-none font-semibold tracking-tight sm:text-2xl">
-              Education
-            </h2>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-xl tracking-tight sm:text-2xl">
+                Education
+              </CardTitle>
+            </CardHeader>
 
-            <ul className="space-y-4 pl-2">
-              {education.map((edu) => (
-                <li className="flex items-center space-x-6">
-                  <img
-                    src={edu.logo}
-                    alt={`${edu.school} logo`}
-                    className="h-10 w-10 rounded-full"
-                  />
-                  <div className="flex flex-1 flex-col gap-1">
-                    <time className="text-xs">{edu.period}</time>
-                    <h3 className="leading-none font-semibold">{edu.school}</h3>
-                    <p className="text-xs">{edu.degree}</p>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </section>
+            <CardContent>
+              <ul className="space-y-4 pl-2">
+                {education.map((edu) => (
+                  <li className="flex items-center space-x-6">
+                    <img
+                      src={edu.logo}
+                      alt={`${edu.school} logo`}
+                      className="h-10 w-10 rounded-full"
+                    />
+                    <div className="flex flex-1 flex-col gap-1">
+                      <time className="text-xs">{edu.period}</time>
+                      <h3 className="leading-none font-semibold">
+                        {edu.school}
+                      </h3>
+                      <p className="text-xs">{edu.degree}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
         </TabsContent>
       </div>
     </Tabs>
