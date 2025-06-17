@@ -1,10 +1,10 @@
 ---
 import "@fontsource/inter";
-import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
 import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
 import { cn } from "@/lib/utils";
+import "../styles/global.css";
 
 type Props = {
   title: string;
@@ -21,13 +21,17 @@ const { title, description, class: className } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="/favicon.ico" />
-    <meta name="generator" content={Astro.generator} />
 
-    <title>{title ? title : "Douglas Rocha"}</title>
+    <title>{title ? title : "Douglas Rocha Portfolio 2025"}</title>
     <meta
       name="description"
-      content={description ? description : "My personal blog."}
+      content={description
+        ? description
+        : "Douglas Rocha, Student at ASU and Developer of things"}
     />
+    <meta property="og:url" content={import.meta.env.SITE} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Douglas Rocha - Portfolio 2025" />
 
     <ClientRouter />
   </head><body class="flex min-h-screen flex-col items-center space-y-6">
