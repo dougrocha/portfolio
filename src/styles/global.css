@@ -1,11 +1,21 @@
 @import "tailwindcss";
-@plugin "@tailwindcss/typography";
 @import "tw-animate-css";
+
+@plugin "@tailwindcss/typography";
+@import "./fonts.css";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme {
   --font-sans: "Inter", "sans-serif";
+  --font-editorial: "PPEditorialNew", "serif";
+  --font-grotesk: "OverusedGrotesk", "sans-serif";
+
+  --color-soft-mint: oklch(0.8139 0.0733 9.17);
+  --color-vibrant-coral: oklch(0.9249 0.0278 46.08);
+  --color-light-lavender: oklch(0.8913 0.0126 91.53);
+  --color-deep-teal: oklch(0.7997 0.0343 146.63);
+  --color-rich-blue: oklch(0.4463 0.0166 207.84);
 }
 
 :root {
@@ -123,6 +133,6 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background font-grotesk text-foreground;
   }
 }
