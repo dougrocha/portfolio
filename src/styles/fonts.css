@@ -1,0 +1,26 @@
+@font-face {
+  font-family: "PPEditorialNew";
+  src: url("/fonts/PPEditorialNew/PPEditorialNew-Regular.otf")
+    format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PPEditorialNew";
+  src: url("/fonts/PPEditorialNew/PPEditorialNew-Italic.otf") format("opentype");
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "OverusedGrotesk";
+  src:
+    url("/fonts/OverusedGrotesk/OverusedGrotesk-VF.woff2") format("woff2"),
+    url("/fonts/OverusedGrotesk/OverusedGrotesk-VF.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
