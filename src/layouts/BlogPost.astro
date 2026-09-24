@@ -20,18 +20,16 @@ const { title, description, pubDate, updatedDate, tags } = Astro.props.data;
     <h1>{title}</h1>
 
     <div class="flex flex-col">
-      <span>
-        Published: {format(new Date(pubDate), "MMMM dd, yyyy")}
-      </span>
-      {
-        updatedDate && (
-          <span>Updated: {format(new Date(updatedDate), "MMMM dd, yyyy")}</span>
-        )
-      }
+      <span>Published: {format(new Date(pubDate), "MMMM dd, yyyy")}</span>
+      {updatedDate && (
+        <span>Updated: {format(new Date(updatedDate), "MMMM dd, yyyy")}</span>
+      )}
     </div>
 
     <div class="flex flex-wrap gap-1">
-      {tags.map((tag) => <Badge key={tag}>{tag}</Badge>)}
+      {tags.map((tag) => (
+        <Badge key={tag}>{tag}</Badge>
+      ))}
     </div>
 
     <slot>

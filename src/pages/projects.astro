@@ -12,16 +12,14 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
   <h1 class="text-4xl leading-none font-semibold tracking-tight">Projects</h1>
 
   <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-    {
-      projects.map((i) => (
-        <ProjectCard
-          title={i.title}
-          description={i.description}
-          site_url={i.site_url}
-          source_url={i.source_url}
-          tags={i.tags}
-        />
-      ))
-    }
+    {projects.map((i) => (
+      <ProjectCard
+        title={i.title}
+        description={i.description}
+        site_url={i.site_url}
+        source_url={i.source_url}
+        tags={i.tags}
+      />
+    ))}
   </ul>
 </BaseLayout>

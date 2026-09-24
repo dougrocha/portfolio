@@ -40,7 +40,8 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
     <meta name="twitter:card" content="summary" />
 
     <ClientRouter />
-  </head><body class="flex min-h-screen flex-col items-center space-y-6">
+  </head>
+  <body class="flex min-h-screen flex-col items-center space-y-6">
     <Header />
 
     <main class={cn("w-full max-w-(--breakpoint-md) grow px-8", className)}>
