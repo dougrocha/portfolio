@@ -1,6 +1,7 @@
 export const site = {
   name: "Doug Rocha",
   title: "Software Engineer",
+  tagline: "Low-level programming in Rust and Odin. Tools, web dev and full stack.",
   url: "https://dougrocha.com",
   description: "Doug Rocha is a software engineer building web apps and Rust tools.",
 }
