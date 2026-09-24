@@ -6,7 +6,9 @@ export default function Home() {
   return (
     <div className="flex flex-col gap-16 pt-8">
       <div className="flex flex-col gap-1">
-        <h1 className="text-2xl font-medium tracking-tight">{site.name}</h1>
+        <h1 className="text-xl font-medium tracking-tight text-balance">
+          {site.tagline}
+        </h1>
         <p className="text-muted-foreground">{site.title}</p>
       </div>
 
