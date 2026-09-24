@@ -5,13 +5,11 @@ import { education, experience, projects, site } from "@/lib/content"
 export default function Home() {
   return (
     <div className="flex flex-col gap-16 pt-8">
-      <div className="flex flex-col gap-1">
-        <h1 className="text-xl font-medium tracking-tight text-balance">
-          {site.tagline}
-        </h1>
-        <p className="text-muted-foreground">{site.title}</p>
-        <p className="mt-3 text-sm text-muted-foreground">{site.currently}</p>
-      </div>
+      <h1 className="sr-only">{site.name}</h1>
+
+      <Section title="Currently">
+        <p>{site.currently}</p>
+      </Section>
 
       <Section
         title="Projects"
