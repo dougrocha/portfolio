@@ -86,7 +86,7 @@ export const experience = [
     role: "Software Engineer",
     org: "Blue Cross Blue Shield of Arizona",
     period: "Jun 2026 – now",
-    summary: "Fixed lost and duplicate enrollment leads during Open Enrollment.",
+    summary: "Working on Next.js, .NET and Sitecore codebases.",
   },
   {
     role: "Software Engineer Intern",
