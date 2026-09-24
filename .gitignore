@@ -33,3 +33,4 @@ vercel.json
 !.yarn/sdks
 !.yarn/versions
 \n.astro
+.env*
