@@ -23,17 +23,13 @@ export default function Home() {
         <ul className="flex flex-col gap-6">
           {experience.map((item) => (
             <li key={item.period} className="flex flex-col gap-1">
-              <div className="flex flex-wrap items-baseline justify-between gap-x-4">
-                <h3 className="font-medium">
-                  {item.role}{" "}
-                  <span className="font-normal text-muted-foreground">
-                    at {item.org}
-                  </span>
-                </h3>
-                <p className="text-sm text-muted-foreground tabular-nums">
+              <div className="flex items-baseline justify-between gap-4">
+                <h3 className="font-medium">{item.role}</h3>
+                <p className="shrink-0 text-sm text-muted-foreground tabular-nums">
                   {item.period}
                 </p>
               </div>
+              <p className="text-sm text-muted-foreground">{item.org}</p>
               <p className="text-sm text-muted-foreground">{item.summary}</p>
             </li>
           ))}
@@ -43,19 +39,14 @@ export default function Home() {
       <Section title="Education">
         <ul className="flex flex-col gap-6">
           {education.map((item) => (
-            <li
-              key={item.degree}
-              className="flex flex-wrap items-baseline justify-between gap-x-4"
-            >
-              <h3 className="font-medium">
-                {item.degree}{" "}
-                <span className="font-normal text-muted-foreground">
-                  at {item.school}
-                </span>
-              </h3>
-              <p className="text-sm text-muted-foreground tabular-nums">
-                {item.period}
-              </p>
+            <li key={item.degree} className="flex flex-col gap-1">
+              <div className="flex items-baseline justify-between gap-4">
+                <h3 className="font-medium">{item.degree}</h3>
+                <p className="shrink-0 text-sm text-muted-foreground tabular-nums">
+                  {item.period}
+                </p>
+              </div>
+              <p className="text-sm text-muted-foreground">{item.school}</p>
             </li>
           ))}
         </ul>
