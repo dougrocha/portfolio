@@ -1,6 +1,9 @@
 import type { Metadata } from "next"
 
 import { ScuttlePlayground } from "@/components/scuttle-playground"
+import build from "@/lib/scuttle/build.json"
+
+const REPO = "https://github.com/dougrocha/scuttle-db"
 
 export const metadata: Metadata = {
   title: "Scuttle DB",
@@ -17,8 +20,20 @@ export default function ScuttleDbPage() {
           Relational database from scratch in Rust, running in your browser
           through WebAssembly. Nothing is saved.
         </p>
+        <p className="text-sm text-muted-foreground">
+          No server: queries run on commit{" "}
+          <a
+            href={`${REPO}/commit/${build.commit}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-sm font-mono text-foreground underline underline-offset-4 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none"
+          >
+            {build.commit}
+          </a>
+          , compiled to a {Math.round(build.bytes / 1024)} KB WebAssembly file.
+        </p>
         <a
-          href="https://github.com/dougrocha/scuttle-db"
+          href={REPO}
           target="_blank"
           rel="noopener noreferrer"
           className="w-fit rounded-sm text-sm underline underline-offset-4 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none"

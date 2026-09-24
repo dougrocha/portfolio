@@ -29,7 +29,14 @@ type Output =
   | { kind: "done" }
   | { kind: "error"; message: string }
 
-type Db = { run(sql: string): string; free(): void }
+/** The last statement's output, its plan, and time spent inside the database. */
+type RunResult = { output: Output; plan: string | null; ms: number }
+
+type Db = {
+  run(sql: string): string
+  explain(sql: string): string
+  free(): void
+}
 
 async function createDatabase(): Promise<Db> {
   const scuttle = await import("@/lib/scuttle/scuttle_wasm")
@@ -41,6 +48,16 @@ async function createDatabase(): Promise<Db> {
 
 function formatCell(value: Cell) {
   return value === null ? "NULL" : String(value)
+}
+
+/** Browsers round `performance.now()`, so a zero reading means "too fast to measure". */
+function formatDuration(ms: number) {
+  if (ms === 0) return "under 1 ms"
+  return `${ms < 1 ? ms.toFixed(2) : ms.toFixed(1)} ms`
+}
+
+function plural(count: number, noun: string) {
+  return `${count} ${count === 1 ? noun : `${noun}s`}`
 }
 
 /** Rows in `a` that are not in `b`, counting duplicates. */
@@ -79,17 +96,24 @@ function selectAll(db: Db, table: string) {
 class CrashedError extends Error {}
 
 /** Runs each statement in `query` and returns the last result, stopping at the first error. */
-function execute(db: Db, query: string): Output {
-  let result: Output = { kind: "done" }
+function execute(db: Db, query: string): RunResult {
+  let output: Output = { kind: "done" }
+  let plan: string | null = null
+  let ms = 0
 
   for (const statement of splitStatements(query)) {
     try {
       const target = writeTarget(statement)
       const before = target ? selectAll(db, target) : null
-      const response = JSON.parse(db.run(statement))
-      const after = target && before ? selectAll(db, target) : null
 
-      result =
+      const start = performance.now()
+      const response = JSON.parse(db.run(statement))
+      ms += performance.now() - start
+
+      const after = target && before ? selectAll(db, target) : null
+      plan = db.explain(statement)
+
+      output =
         response.rowsAffected !== null
           ? {
               kind: "affected",
@@ -109,13 +133,17 @@ function execute(db: Db, query: string): Output {
     } catch (error) {
       if (error instanceof WebAssembly.RuntimeError) throw new CrashedError()
       return {
-        kind: "error",
-        message: error instanceof Error ? error.message : String(error),
+        output: {
+          kind: "error",
+          message: error instanceof Error ? error.message : String(error),
+        },
+        plan: null,
+        ms,
       }
     }
   }
 
-  return result
+  return { output, plan, ms }
 }
 
 export function ScuttlePlayground() {
@@ -125,8 +153,10 @@ export function ScuttlePlayground() {
     "loading"
   )
   const [sql, setSql] = React.useState(examples[0].sql)
-  const [output, setOutput] = React.useState<Output | null>(null)
+  const [result, setResult] = React.useState<RunResult | null>(null)
   const [notice, setNotice] = React.useState<string | null>(null)
+  const [showPlan, setShowPlan] = React.useState(false)
+  const output = result?.output
 
   React.useEffect(() => {
     let cancelled = false
@@ -158,21 +188,25 @@ export function ScuttlePlayground() {
 
     setNotice(null)
     try {
-      setOutput(execute(db, query))
+      setResult(execute(db, query))
     } catch (error) {
       if (!(error instanceof CrashedError)) throw error
       await reset()
-      setOutput({
-        kind: "error",
-        message:
-          "That query crashed the database. It has been restarted with the sample data.",
+      setResult({
+        output: {
+          kind: "error",
+          message:
+            "That query crashed the database. It has been restarted with the sample data.",
+        },
+        plan: null,
+        ms: 0,
       })
     }
   }
 
   async function resetData() {
     await reset()
-    setOutput(null)
+    setResult(null)
     setNotice("Sample data restored.")
   }
 
@@ -249,6 +283,14 @@ export function ScuttlePlayground() {
           <Button
             type="button"
             variant="ghost"
+            aria-pressed={showPlan}
+            onClick={() => setShowPlan((show) => !show)}
+          >
+            {showPlan ? "Hide plan" : "Show plan"}
+          </Button>
+          <Button
+            type="button"
+            variant="ghost"
             disabled={!ready}
             onClick={resetData}
           >
@@ -270,7 +312,8 @@ export function ScuttlePlayground() {
         {output?.kind === "affected" && (
           <>
             <p className="text-sm text-muted-foreground">
-              {output.count} {output.count === 1 ? "row" : "rows"} affected.
+              {plural(output.count, "row")} affected in{" "}
+              {formatDuration(result!.ms)}.
             </p>
             {output.change &&
               output.change.before.length === 0 &&
@@ -305,15 +348,26 @@ export function ScuttlePlayground() {
           </>
         )}
         {output?.kind === "done" && (
-          <p className="text-sm text-muted-foreground">Done.</p>
+          <p className="text-sm text-muted-foreground">
+            Done in {formatDuration(result!.ms)}.
+          </p>
         )}
         {output?.kind === "rows" && (
           <>
             <ResultTable columns={output.columns} rows={output.rows} />
             <p className="text-sm text-muted-foreground">
-              {output.rows.length} {output.rows.length === 1 ? "row" : "rows"}
+              {plural(output.rows.length, "row")} in{" "}
+              {formatDuration(result!.ms)}
             </p>
           </>
+        )}
+        {showPlan && result?.plan && (
+          <div className="mt-4 flex flex-col gap-2">
+            <h3 className="text-sm font-medium text-muted-foreground">Plan</h3>
+            <pre className="overflow-x-auto rounded-lg bg-muted p-3 font-mono text-sm">
+              {result.plan}
+            </pre>
+          </div>
         )}
       </div>
     </div>

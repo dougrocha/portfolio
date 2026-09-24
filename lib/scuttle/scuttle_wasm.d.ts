@@ -11,6 +11,30 @@ export class Db {
     free(): void;
     [Symbol.dispose](): void;
     /**
+     * Describes how a SQL statement would run, without running it.
+     *
+     * # Arguments
+     *
+     * * `sql` - A single SQL statement, without a trailing semicolon
+     *
+     * # Returns
+     *
+     * The logical plan as an indented tree, one node per line.
+     *
+     * # Errors
+     *
+     * Throws a JavaScript `Error` when the statement fails to parse or references a
+     * missing table or column.
+     *
+     * # Example
+     *
+     * ```js
+     * db.explain("SELECT name FROM users WHERE age > 30");
+     * // "Projection: name\n  Filter: age > 30\n    Scan: users"
+     * ```
+     */
+    explain(sql: string): string;
+    /**
      * Creates an empty in-memory database.
      *
      * # Returns
@@ -58,6 +82,7 @@ export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembl
 export interface InitOutput {
     readonly memory: WebAssembly.Memory;
     readonly __wbg_db_free: (a: number, b: number) => void;
+    readonly db_explain: (a: number, b: number, c: number) => [number, number, number, number];
     readonly db_new: () => number;
     readonly db_run: (a: number, b: number, c: number) => [number, number, number, number];
     readonly __wbindgen_externrefs: WebAssembly.Table;
