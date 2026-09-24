@@ -51,14 +51,14 @@ export const projects: Project[] = [
   },
   {
     name: "Quanty",
-    tags: ["TypeScript", "Full Stack"],
+    tags: ["TypeScript", "Full stack"],
     summary: "All-in-one Discord bot.",
     href: "https://github.com/dougrocha/quanty",
     featured: true,
   },
   {
     name: "Forms",
-    tags: ["TypeScript", "Full Stack"],
+    tags: ["TypeScript", "Full stack"],
     summary: "Build forms, share them, see the stats.",
     href: "https://github.com/dougrocha/form_builder",
   },
@@ -76,7 +76,7 @@ export const projects: Project[] = [
   },
   {
     name: "Meka",
-    tags: ["TypeScript", "Full Stack"],
+    tags: ["TypeScript", "Full stack"],
     summary: "Track and share mechanical keyboard builds.",
     href: "https://github.com/dougrocha/KeyboardTracker",
   },

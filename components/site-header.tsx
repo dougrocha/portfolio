@@ -15,7 +15,7 @@ export function SiteHeader() {
     <header className="flex items-center justify-between py-8">
       <Link
         href="/"
-        className="rounded-sm font-mono text-sm font-medium focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none"
+        className="rounded-sm font-mono text-sm font-medium focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
       >
         {site.name}
       </Link>
@@ -29,7 +29,7 @@ export function SiteHeader() {
                   href={item.href}
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "rounded-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none",
+                    "rounded-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden",
                     active && "text-foreground"
                   )}
                 >

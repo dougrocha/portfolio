@@ -29,7 +29,9 @@ export default function Home() {
                 </p>
               </div>
               <p className="text-sm text-muted-foreground">{item.org}</p>
-              <p className="text-sm text-muted-foreground">{item.summary}</p>
+              <p className="max-w-prose text-sm text-pretty text-muted-foreground">
+                {item.summary}
+              </p>
             </li>
           ))}
         </ul>

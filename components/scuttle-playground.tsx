@@ -12,6 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Textarea } from "@/components/ui/textarea"
+import { cn } from "@/lib/utils"
 import {
   examples,
   seedStatements,
@@ -44,6 +45,17 @@ async function createDatabase(): Promise<Db> {
   const db = new scuttle.Db()
   for (const statement of seedStatements) db.run(statement)
   return db
+}
+
+const subscribeNever = () => () => {}
+
+/** True on Apple devices, where the run shortcut uses ⌘ instead of Ctrl. */
+function useIsApple() {
+  return React.useSyncExternalStore(
+    subscribeNever,
+    () => /Mac|iPhone|iPad|iPod/.test(navigator.userAgent),
+    () => false
+  )
 }
 
 function formatCell(value: Cell) {
@@ -89,6 +101,29 @@ function selectAll(db: Db, table: string) {
   } catch (error) {
     if (error instanceof WebAssembly.RuntimeError) throw error
     return null
+  }
+}
+
+/** One-line summary of a run, announced to screen readers through the status region. */
+function summarize(result: RunResult | null) {
+  if (!result) return ""
+  const { output, ms } = result
+  const time = formatDuration(ms)
+
+  switch (output.kind) {
+    case "rows":
+      return `${plural(output.rows.length, "row")} in ${time}`
+    case "affected": {
+      const unchanged =
+        output.change &&
+        output.change.before.length === 0 &&
+        output.change.after.length === 0
+      return `${plural(output.count, "row")} affected in ${time}.${unchanged ? " No values changed." : ""}`
+    }
+    case "done":
+      return `Done in ${time}.`
+    case "error":
+      return ""
   }
 }
 
@@ -157,6 +192,7 @@ export function ScuttlePlayground() {
   const [notice, setNotice] = React.useState<string | null>(null)
   const [showPlan, setShowPlan] = React.useState(false)
   const output = result?.output
+  const isApple = useIsApple()
 
   React.useEffect(() => {
     let cancelled = false
@@ -219,8 +255,8 @@ export function ScuttlePlayground() {
   if (status === "failed") {
     return (
       <p role="alert" className="text-sm text-destructive">
-        The database couldn&apos;t start in this browser. WebAssembly may be
-        turned off.
+        The database couldn’t start in this browser. WebAssembly may be turned
+        off.
       </p>
     )
   }
@@ -283,11 +319,11 @@ export function ScuttlePlayground() {
           </Button>
           <Button
             type="button"
-            variant="ghost"
+            variant={showPlan ? "secondary" : "ghost"}
             aria-pressed={showPlan}
             onClick={() => setShowPlan((show) => !show)}
           >
-            {showPlan ? "Hide plan" : "Show plan"}
+            Show plan
           </Button>
           <Button
             type="button"
@@ -298,73 +334,49 @@ export function ScuttlePlayground() {
             Reset data
           </Button>
           <span className="ml-auto hidden text-xs text-muted-foreground sm:inline">
-            Ctrl + Enter to run
+            {isApple ? "⌘" : "Ctrl"} + Enter to run
           </span>
         </div>
       </form>
 
-      <div aria-live="polite" className="flex flex-col gap-2">
-        {notice && <p className="text-sm text-muted-foreground">{notice}</p>}
+      <div className="flex flex-col gap-4">
+        <p
+          role="status"
+          className="text-sm text-muted-foreground tabular-nums empty:hidden"
+        >
+          {notice ?? summarize(result)}
+        </p>
         {output?.kind === "error" && (
           <p role="alert" className="font-mono text-sm text-destructive">
             {output.message}
           </p>
         )}
-        {output?.kind === "affected" && (
-          <>
-            <p className="text-sm text-muted-foreground">
-              {plural(output.count, "row")} affected in{" "}
-              {formatDuration(result!.ms)}.
-            </p>
-            {output.change &&
-              output.change.before.length === 0 &&
-              output.change.after.length === 0 && (
+        {output?.kind === "rows" && (
+          <ResultTable columns={output.columns} rows={output.rows} />
+        )}
+        {output?.kind === "affected" &&
+          output.change &&
+          (output.change.before.length > 0 || output.change.after.length > 0) &&
+          (["before", "after"] as const).map((when) => (
+            <div key={when} className="flex flex-col gap-2">
+              <h2 className="text-sm font-medium text-muted-foreground capitalize">
+                {when}
+              </h2>
+              {output.change![when].length > 0 ? (
+                <ResultTable
+                  columns={output.change!.columns}
+                  rows={output.change![when]}
+                />
+              ) : (
                 <p className="text-sm text-muted-foreground">
-                  No values changed.
+                  {when === "after" ? "Removed." : "No rows."}
                 </p>
               )}
-            {output.change &&
-              (output.change.before.length > 0 ||
-                output.change.after.length > 0) && (
-                <div className="flex flex-col gap-4">
-                  {(["before", "after"] as const).map((when) => (
-                    <div key={when} className="flex flex-col gap-2">
-                      <h3 className="text-sm font-medium text-muted-foreground capitalize">
-                        {when}
-                      </h3>
-                      {output.change![when].length > 0 ? (
-                        <ResultTable
-                          columns={output.change!.columns}
-                          rows={output.change![when]}
-                        />
-                      ) : (
-                        <p className="text-sm text-muted-foreground">
-                          {when === "after" ? "Removed." : "No rows."}
-                        </p>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )}
-          </>
-        )}
-        {output?.kind === "done" && (
-          <p className="text-sm text-muted-foreground">
-            Done in {formatDuration(result!.ms)}.
-          </p>
-        )}
-        {output?.kind === "rows" && (
-          <>
-            <ResultTable columns={output.columns} rows={output.rows} />
-            <p className="text-sm text-muted-foreground">
-              {plural(output.rows.length, "row")} in{" "}
-              {formatDuration(result!.ms)}
-            </p>
-          </>
-        )}
+            </div>
+          ))}
         {showPlan && result?.plan && (
           <div className="mt-4 flex flex-col gap-2">
-            <h3 className="text-sm font-medium text-muted-foreground">Plan</h3>
+            <h2 className="text-sm font-medium text-muted-foreground">Plan</h2>
             <pre className="overflow-x-auto rounded-lg bg-muted p-3 font-mono text-sm">
               {result.plan}
             </pre>
@@ -377,12 +389,12 @@ export function ScuttlePlayground() {
 
 function ResultTable({ columns, rows }: { columns: string[]; rows: Cell[][] }) {
   return (
-    <div className="rounded-lg border">
+    <div className="scroll-shadow-x rounded-lg border">
       <Table>
         <TableHeader>
           <TableRow>
             {columns.map((column, i) => (
-              <TableHead key={i} className="font-mono">
+              <TableHead key={i} className="font-mono whitespace-normal">
                 {column}
               </TableHead>
             ))}
@@ -394,9 +406,10 @@ function ResultTable({ columns, rows }: { columns: string[]; rows: Cell[][] }) {
               {row.map((cell, j) => (
                 <TableCell
                   key={j}
-                  className={
-                    cell === null ? "text-muted-foreground" : undefined
-                  }
+                  className={cn(
+                    "break-words whitespace-normal",
+                    cell === null && "text-muted-foreground"
+                  )}
                 >
                   {formatCell(cell)}
                 </TableCell>

@@ -11,11 +11,7 @@ export function SiteFooter() {
           <li key={link.label}>
             <a
               href={link.href}
-              className="rounded-sm transition-colors hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none"
-              {...(link.href.startsWith("http") && {
-                target: "_blank",
-                rel: "noopener noreferrer",
-              })}
+              className="rounded-sm transition-colors hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
             >
               {link.label}
             </a>
