@@ -26,7 +26,7 @@ url="$(grep -oE 'https://[a-z0-9-]+\.vercel\.app' <<< "$output" | head -1)"
 }
 
 for alias in $aliases; do
-  bunx vercel alias set "$url" "$alias" > /dev/null
+  bunx vercel alias set "$url" "$alias" > /dev/null 2>&1
 done
 
 echo "Preview ready: $url"
