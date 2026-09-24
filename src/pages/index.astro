@@ -29,13 +29,14 @@ const age = differenceInYears(new Date(), new Date(2001, 9, 3));
       <p class="mt-4 leading-relaxed text-muted-foreground">
         Hey there, My name's
         <span class="font-semibold text-foreground">Doug</span>
-        and I'm a {age} y/o student at Arizona State University. I'm currently interested
-        in
+        and I'm a {age} y/o student at Arizona State University. I'm currently
+        interested in
         <span class="font-semibold text-foreground">web development</span>
         and
-        <span class="font-semibold text-foreground"
-          >game development with Rust</span
-        >.
+        <span class="font-semibold text-foreground">
+          game development with Rust
+        </span>
+        .
       </p>
 
       <a
@@ -67,13 +68,11 @@ const age = differenceInYears(new Date(), new Date(2001, 9, 3));
       </div>
 
       <ul class="flex flex-col divide-y border-t">
-        {
-          blogs.map(({ data, slug }) => (
-            <li class="px-6 py-4">
-              <BlogCard slim data={data} slug={slug} />
-            </li>
-          ))
-        }
+        {blogs.map(({ data, id: slug }) => (
+          <li class="px-6 py-4">
+            <BlogCard slim data={data} slug={slug} />
+          </li>
+        ))}
       </ul>
     </div>
   </article>

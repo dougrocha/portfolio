@@ -18,12 +18,10 @@ const blogs = (
   <h1 class="text-4xl leading-none font-semibold tracking-tight">Blog posts</h1>
 
   <ul class="flex flex-col divide-y border-t">
-    {
-      blogs.map(({ data, slug }) => (
-        <li class="py-4">
-          <BlogCard data={data} slug={slug} />
-        </li>
-      ))
-    }
+    {blogs.map(({ data, id: slug }) => (
+      <li class="py-4">
+        <BlogCard data={data} slug={slug} />
+      </li>
+    ))}
   </ul>
 </BaseLayout>
