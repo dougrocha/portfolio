@@ -21,9 +21,11 @@ import {
 
 type Cell = string | number | boolean | null
 
+type Change = { columns: string[]; before: Cell[][]; after: Cell[][] }
+
 type Output =
   | { kind: "rows"; columns: string[]; rows: Cell[][] }
-  | { kind: "affected"; count: number }
+  | { kind: "affected"; count: number; change: Change | null }
   | { kind: "done" }
   | { kind: "error"; message: string }
 
@@ -41,6 +43,38 @@ function formatCell(value: Cell) {
   return value === null ? "NULL" : String(value)
 }
 
+/** Rows in `a` that are not in `b`, counting duplicates. */
+function missingFrom(a: Cell[][], b: Cell[][]) {
+  const remaining = new Map<string, number>()
+  for (const row of b) {
+    const key = JSON.stringify(row)
+    remaining.set(key, (remaining.get(key) ?? 0) + 1)
+  }
+  return a.filter((row) => {
+    const key = JSON.stringify(row)
+    const count = remaining.get(key) ?? 0
+    if (count === 0) return true
+    remaining.set(key, count - 1)
+    return false
+  })
+}
+
+/** The table an UPDATE or DELETE writes to, or `null` for other statements. */
+function writeTarget(statement: string) {
+  const match = /^\s*(?:update\s+(\w+)|delete\s+from\s+(\w+))/i.exec(statement)
+  return match ? (match[1] ?? match[2]) : null
+}
+
+function selectAll(db: Db, table: string) {
+  try {
+    const { columns, rows } = JSON.parse(db.run(`SELECT * FROM ${table}`))
+    return { columns: columns as string[], rows: rows as Cell[][] }
+  } catch (error) {
+    if (error instanceof WebAssembly.RuntimeError) throw error
+    return null
+  }
+}
+
 /** Thrown when a panic inside the database has left the instance unusable. */
 class CrashedError extends Error {}
 
@@ -50,10 +84,25 @@ function execute(db: Db, query: string): Output {
 
   for (const statement of splitStatements(query)) {
     try {
+      const target = writeTarget(statement)
+      const before = target ? selectAll(db, target) : null
       const response = JSON.parse(db.run(statement))
+      const after = target && before ? selectAll(db, target) : null
+
       result =
         response.rowsAffected !== null
-          ? { kind: "affected", count: response.rowsAffected }
+          ? {
+              kind: "affected",
+              count: response.rowsAffected,
+              change:
+                before && after
+                  ? {
+                      columns: before.columns,
+                      before: missingFrom(before.rows, after.rows),
+                      after: missingFrom(after.rows, before.rows),
+                    }
+                  : null,
+            }
           : response.columns.length > 0
             ? { kind: "rows", columns: response.columns, rows: response.rows }
             : { kind: "done" }
@@ -218,50 +267,88 @@ export function ScuttlePlayground() {
           </p>
         )}
         {output?.kind === "affected" && (
-          <p className="text-sm text-muted-foreground">
-            {output.count} {output.count === 1 ? "row" : "rows"} affected.
-          </p>
+          <>
+            <p className="text-sm text-muted-foreground">
+              {output.count} {output.count === 1 ? "row" : "rows"} affected.
+            </p>
+            {output.change &&
+              output.change.before.length === 0 &&
+              output.change.after.length === 0 && (
+                <p className="text-sm text-muted-foreground">
+                  No values changed.
+                </p>
+              )}
+            {output.change &&
+              (output.change.before.length > 0 ||
+                output.change.after.length > 0) && (
+                <div className="flex flex-col gap-4">
+                  {(["before", "after"] as const).map((when) => (
+                    <div key={when} className="flex flex-col gap-2">
+                      <h3 className="text-sm font-medium text-muted-foreground capitalize">
+                        {when}
+                      </h3>
+                      {output.change![when].length > 0 ? (
+                        <ResultTable
+                          columns={output.change!.columns}
+                          rows={output.change![when]}
+                        />
+                      ) : (
+                        <p className="text-sm text-muted-foreground">
+                          {when === "after" ? "Removed." : "No rows."}
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+          </>
         )}
         {output?.kind === "done" && (
           <p className="text-sm text-muted-foreground">Done.</p>
         )}
         {output?.kind === "rows" && (
           <>
-            <div className="rounded-lg border">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    {output.columns.map((column, i) => (
-                      <TableHead key={i} className="font-mono">
-                        {column}
-                      </TableHead>
-                    ))}
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {output.rows.map((row, i) => (
-                    <TableRow key={i}>
-                      {row.map((cell, j) => (
-                        <TableCell
-                          key={j}
-                          className={
-                            cell === null ? "text-muted-foreground" : undefined
-                          }
-                        >
-                          {formatCell(cell)}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
+            <ResultTable columns={output.columns} rows={output.rows} />
             <p className="text-sm text-muted-foreground">
               {output.rows.length} {output.rows.length === 1 ? "row" : "rows"}
             </p>
           </>
         )}
       </div>
+    </div>
+  )
+}
+
+function ResultTable({ columns, rows }: { columns: string[]; rows: Cell[][] }) {
+  return (
+    <div className="rounded-lg border">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            {columns.map((column, i) => (
+              <TableHead key={i} className="font-mono">
+                {column}
+              </TableHead>
+            ))}
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {rows.map((row, i) => (
+            <TableRow key={i}>
+              {row.map((cell, j) => (
+                <TableCell
+                  key={j}
+                  className={
+                    cell === null ? "text-muted-foreground" : undefined
+                  }
+                >
+                  {formatCell(cell)}
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
     </div>
   )
 }
