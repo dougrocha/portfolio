@@ -14,7 +14,7 @@ export function ProjectList({
   const Heading = headingLevel
 
   return (
-    <ul className="-mx-3 flex flex-col">
+    <ul className="-mx-3 -my-3 flex flex-col">
       {projects.map((project) => (
         <li key={project.name}>
           <ProjectLink
