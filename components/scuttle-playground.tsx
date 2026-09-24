@@ -120,6 +120,7 @@ function execute(db: Db, query: string): Output {
 
 export function ScuttlePlayground() {
   const dbRef = React.useRef<Db | null>(null)
+  const editorRef = React.useRef<HTMLTextAreaElement>(null)
   const [status, setStatus] = React.useState<"loading" | "ready" | "failed">(
     "loading"
   )
@@ -135,7 +136,6 @@ export function ScuttlePlayground() {
         if (cancelled) return db.free()
         dbRef.current = db
         setStatus("ready")
-        setOutput(execute(db, examples[0].sql))
       },
       () => !cancelled && setStatus("failed")
     )
@@ -176,9 +176,9 @@ export function ScuttlePlayground() {
     setNotice("Sample data restored.")
   }
 
-  function runExample(query: string) {
+  function loadExample(query: string) {
     setSql(query)
-    run(query)
+    editorRef.current?.focus()
   }
 
   if (status === "failed") {
@@ -210,7 +210,7 @@ export function ScuttlePlayground() {
             variant="outline"
             size="sm"
             disabled={!ready}
-            onClick={() => runExample(example.sql)}
+            onClick={() => loadExample(example.sql)}
           >
             {example.label}
           </Button>
@@ -229,6 +229,7 @@ export function ScuttlePlayground() {
         </label>
         <Textarea
           id="scuttle-sql"
+          ref={editorRef}
           value={sql}
           onChange={(event) => setSql(event.target.value)}
           onKeyDown={(event) => {
