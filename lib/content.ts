@@ -98,7 +98,7 @@ export const experience = [
     role: "Full-Stack Intern",
     org: "Blue Cross Blue Shield of Arizona",
     period: "May – Nov 2023",
-    summary: "Shipped SMS account recovery.",
+    summary: "Shipped the forgot-password flow with SMS account recovery.",
   },
 ]
 
