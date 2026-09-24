@@ -18,6 +18,8 @@ export type Project = {
   tags: string[]
   summary: string
   href: string
+  /** Links to an in-browser demo on this site instead of an external page. */
+  demo?: boolean
   featured?: boolean
 }
 
@@ -26,7 +28,8 @@ export const projects: Project[] = [
     name: "Scuttle DB",
     tags: ["Rust", "Systems"],
     summary: "Relational database from scratch. SQL parser to B\u2011trees.",
-    href: "https://github.com/dougrocha/scuttle-db",
+    href: "/projects/scuttle-db",
+    demo: true,
     featured: true,
   },
   {
