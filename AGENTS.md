@@ -12,3 +12,4 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - Site content (projects, experience, education) lives in `lib/content.ts`.
 - `bun run build:scuttle` rebuilds the Scuttle DB WebAssembly package from `../scuttle-db` (clean `main` only). `bun run preview` deploys a Vercel preview and points `next.dougrocha.com` at it; it never deploys to production.
 - Design and review skills are in `.claude/skills` (`frontend-design`, `apple-design`, `better-interface` and the `better-*` domain skills).
+- Follow the official docs (Next.js, Vercel, shadcn, Base UI) for how to set things up. When a skill's generic advice conflicts with them, the docs win.
