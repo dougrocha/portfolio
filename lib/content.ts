@@ -84,19 +84,19 @@ export const projects: Project[] = [
 export const experience = [
   {
     role: "Software Engineer",
-    org: "BCBSAZ",
+    org: "Blue Cross Blue Shield of Arizona",
     period: "Jun 2026 – now",
     summary: "Fixed lost and duplicate enrollment leads during Open Enrollment.",
   },
   {
     role: "Software Engineer Intern",
-    org: "BCBSAZ",
+    org: "Blue Cross Blue Shield of Arizona",
     period: "May – Nov 2025",
     summary: "Rebuilt global site search. Added search analytics.",
   },
   {
     role: "Full-Stack Intern",
-    org: "BCBSAZ",
+    org: "Blue Cross Blue Shield of Arizona",
     period: "May – Nov 2023",
     summary: "Shipped SMS account recovery.",
   },
