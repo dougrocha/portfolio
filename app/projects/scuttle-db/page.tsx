@@ -21,16 +21,26 @@ export default function ScuttleDbPage() {
           through WebAssembly. Nothing is saved.
         </p>
         <p className="text-sm text-muted-foreground">
-          No server: queries run on commit{" "}
+          No server: queries run on{" "}
           <a
-            href={`${REPO}/commit/${build.commit}`}
+            href={`${REPO}/tree/${build.branch}`}
             target="_blank"
             rel="noopener noreferrer"
             className="rounded-sm font-mono text-foreground underline underline-offset-4 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none"
           >
+            {build.branch}
+          </a>{" "}
+          (
+          <a
+            href={`${REPO}/commit/${build.commit}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-sm font-mono underline underline-offset-4 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none"
+          >
             {build.commit}
           </a>
-          , compiled to a {Math.round(build.bytes / 1024)} KB WebAssembly file.
+          ) , compiled to a {Math.round(build.bytes / 1024)} KB WebAssembly
+          file.
         </p>
         <a
           href={REPO}
