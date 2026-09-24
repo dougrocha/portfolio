@@ -96,7 +96,7 @@ export const experience = [
     org: "Blue Cross Blue Shield of Arizona",
     period: "May – Nov 2025",
     summary:
-      "Improved the Prior Auth lookup form flow and built its print view. Built the Blue Card medical policy lookup and a shared search hook with Coveo analytics.",
+      "Worked on the Prior Auth lookup form flow and built its print view. Built the Blue Card medical policy lookup and a shared search hook with Coveo analytics.",
   },
   {
     role: "Full-Stack Intern",
