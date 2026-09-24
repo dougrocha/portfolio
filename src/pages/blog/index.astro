@@ -10,7 +10,11 @@ const blogs = (
 ).sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf());
 ---
 
-<BaseLayout title="Blog Posts" class="space-y-6">
+<BaseLayout
+  title="Blog Posts"
+  description="Notes and guides by Douglas Rocha on development tools, the web and Rust."
+  class="space-y-6"
+>
   <h1 class="text-4xl leading-none font-semibold tracking-tight">Blog posts</h1>
 
   <ul class="flex flex-col divide-y border-t">
