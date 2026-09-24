@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import { differenceInYears } from "date-fns";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Mail } from "lucide-react";
 import BlogCard from "@/components/BlogCard.astro";
 import ProjectExperienceTabs from "@/components/ProjectExperienceTabs.tsx";
 import { buttonVariants } from "@/components/ui/button";
@@ -23,7 +23,7 @@ const blogs = (
 const age = differenceInYears(new Date(), new Date(2001, 9, 3));
 ---
 
-<BaseLayout title="Douglas Rocha">
+<BaseLayout>
   <article class="flex flex-col gap-16 pb-16">
     <div>
       <p class="mt-4 leading-relaxed text-muted-foreground">
@@ -37,6 +37,14 @@ const age = differenceInYears(new Date(), new Date(2001, 9, 3));
           >game development with Rust</span
         >.
       </p>
+
+      <a
+        href="mailto:dougsrocha3@gmail.com"
+        class={cn(buttonVariants({ size: "sm" }), "mt-6")}
+      >
+        <Mail />
+        Contact me
+      </a>
     </div>
 
     <ProjectExperienceTabs client:only="react" />

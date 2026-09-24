@@ -1,7 +1,10 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { format } from "date-fns";
+import { ArrowRight, Mail } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import BaseLayout from "./BaseLayout.astro";
 
 type Props = {
@@ -9,10 +12,10 @@ type Props = {
   slug: string;
 };
 
-const { title, pubDate, updatedDate, tags } = Astro.props.data;
+const { title, description, pubDate, updatedDate, tags } = Astro.props.data;
 ---
 
-<BaseLayout title={title}>
+<BaseLayout title={title} description={description}>
   <article class="prose max-w-full dark:prose-invert">
     <h1>{title}</h1>
 
@@ -35,4 +38,28 @@ const { title, pubDate, updatedDate, tags } = Astro.props.data;
       <p>There is no content for this post.</p>
     </slot>
   </article>
+
+  <aside class="mt-12 space-y-4 rounded-xl border p-6">
+    <p class="text-muted-foreground">
+      Thanks for reading! If you want to work together or just say hi, reach
+      out.
+    </p>
+
+    <div class="flex flex-wrap gap-2">
+      <a
+        href="mailto:dougsrocha3@gmail.com"
+        class={cn(buttonVariants({ size: "sm" }))}
+      >
+        <Mail />
+        Contact me
+      </a>
+      <a
+        href="/projects"
+        class={cn(buttonVariants({ variant: "ghost", size: "sm" }))}
+      >
+        See my projects
+        <ArrowRight />
+      </a>
+    </div>
+  </aside>
 </BaseLayout>
