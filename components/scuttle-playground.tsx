@@ -3,6 +3,7 @@
 import * as React from "react"
 
 import { Button } from "@/components/ui/button"
+import { Kbd, KbdGroup } from "@/components/ui/kbd"
 import {
   Table,
   TableBody,
@@ -49,12 +50,15 @@ async function createDatabase(): Promise<Db> {
 
 const subscribeNever = () => () => {}
 
-/** True on Apple devices, where the run shortcut uses ⌘ instead of Ctrl. */
-function useIsApple() {
+/**
+ * True on Apple devices, where the run shortcut uses ⌘ instead of Ctrl.
+ * `null` until hydrated, since the server can't know the platform.
+ */
+function useIsApple(): boolean | null {
   return React.useSyncExternalStore(
     subscribeNever,
     () => /Mac|iPhone|iPad|iPod/.test(navigator.userAgent),
-    () => false
+    () => null
   )
 }
 
@@ -314,8 +318,31 @@ export function ScuttlePlayground() {
           className="font-mono"
         />
         <div className="flex items-center gap-2">
-          <Button type="submit" disabled={!ready}>
-            {ready ? "Run" : "Starting database…"}
+          <Button
+            type="submit"
+            disabled={!ready}
+            aria-keyshortcuts={
+              isApple === null
+                ? undefined
+                : isApple
+                  ? "Meta+Enter"
+                  : "Control+Enter"
+            }
+          >
+            Run
+            {isApple !== null && (
+              <KbdGroup
+                aria-hidden
+                className="-mr-1 ml-0.5 hidden pointer-fine:inline-flex"
+              >
+                <Kbd className="bg-primary-foreground/15 text-primary-foreground">
+                  {isApple ? "⌘" : "Ctrl"}
+                </Kbd>
+                <Kbd className="bg-primary-foreground/15 text-primary-foreground">
+                  ↵
+                </Kbd>
+              </KbdGroup>
+            )}
           </Button>
           <Button
             type="button"
@@ -333,9 +360,6 @@ export function ScuttlePlayground() {
           >
             Reset data
           </Button>
-          <span className="ml-auto hidden text-xs text-muted-foreground sm:inline">
-            {isApple ? "⌘" : "Ctrl"} + Enter to run
-          </span>
         </div>
       </form>
 
@@ -344,7 +368,9 @@ export function ScuttlePlayground() {
           role="status"
           className="text-sm text-muted-foreground tabular-nums empty:hidden"
         >
-          {notice ?? summarize(result)}
+          {status === "loading"
+            ? "Starting database…"
+            : (notice ?? summarize(result))}
         </p>
         {output?.kind === "error" && (
           <p role="alert" className="font-mono text-sm text-destructive">
