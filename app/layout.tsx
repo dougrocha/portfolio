@@ -47,9 +47,17 @@ export default function RootLayout({
     >
       <body>
         <ThemeProvider forcedTheme="light">
+          <a
+            href="#main"
+            className="sr-only rounded-md bg-background px-3 py-2 text-sm font-medium focus-visible:not-sr-only focus-visible:fixed focus-visible:px-3 focus-visible:py-2 focus-visible:top-4 focus-visible:left-4 focus-visible:z-50 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
+          >
+            Skip to content
+          </a>
           <div className="mx-auto flex min-h-svh max-w-2xl flex-col px-6">
             <SiteHeader />
-            <main className="flex-1">{children}</main>
+            <main id="main" className="flex-1">
+              {children}
+            </main>
             <SiteFooter />
           </div>
         </ThemeProvider>

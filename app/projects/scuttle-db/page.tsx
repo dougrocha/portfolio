@@ -15,27 +15,25 @@ export default function ScuttleDbPage() {
   return (
     <div className="flex flex-col gap-8 pt-8">
       <div className="flex flex-col gap-2">
-        <h1 className="text-2xl font-medium tracking-tight">Scuttle DB</h1>
-        <p className="text-muted-foreground">
+        <h1 className="text-2xl font-medium tracking-tight text-balance">
+          Scuttle DB
+        </h1>
+        <p className="max-w-prose text-pretty text-muted-foreground">
           Relational database from scratch in Rust, running in your browser
           through WebAssembly. Nothing is saved.
         </p>
-        <p className="text-sm text-muted-foreground">
+        <p className="max-w-prose text-sm text-pretty text-muted-foreground">
           No server: queries run on{" "}
           <a
             href={`${REPO}/tree/${build.branch}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-sm font-mono text-foreground underline underline-offset-4 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none"
+            className="rounded-sm font-mono text-foreground underline underline-offset-4 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
           >
             {build.branch}
           </a>{" "}
           (
           <a
             href={`${REPO}/commit/${build.commit}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-sm font-mono underline underline-offset-4 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none"
+            className="rounded-sm font-mono underline underline-offset-4 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
           >
             {build.commit}
           </a>
@@ -43,9 +41,7 @@ export default function ScuttleDbPage() {
         </p>
         <a
           href={REPO}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="w-fit rounded-sm text-sm underline underline-offset-4 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-none"
+          className="w-fit rounded-sm text-sm underline underline-offset-4 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
         >
           Source on GitHub
         </a>
