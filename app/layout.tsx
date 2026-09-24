@@ -1,8 +1,8 @@
 import type { Metadata } from "next"
-import { Analytics } from "@vercel/analytics/next"
 import { Geist, Geist_Mono } from "next/font/google"
 
 import "./globals.css"
+import { Analytics } from "@/components/analytics"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -45,11 +45,19 @@ export default function RootLayout({
       suppressHydrationWarning
       className={cn("antialiased", geistSans.variable, geistMono.variable)}
     >
+      <head>
+        {/* Marks Apple platforms before first paint, so shortcut hints never flip after hydration. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `document.documentElement.dataset.platform=/Mac|iPhone|iPad|iPod/.test(navigator.userAgent)?"apple":"other"`,
+          }}
+        />
+      </head>
       <body>
         <ThemeProvider forcedTheme="light">
           <a
             href="#main"
-            className="sr-only rounded-md bg-background px-3 py-2 text-sm font-medium focus-visible:not-sr-only focus-visible:fixed focus-visible:px-3 focus-visible:py-2 focus-visible:top-4 focus-visible:left-4 focus-visible:z-50 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
+            className="sr-only rounded-md bg-background px-3 py-2 text-sm font-medium focus-visible:not-sr-only focus-visible:fixed focus-visible:top-4 focus-visible:left-4 focus-visible:z-50 focus-visible:px-3 focus-visible:py-2 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
           >
             Skip to content
           </a>
