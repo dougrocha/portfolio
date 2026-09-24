@@ -3,7 +3,7 @@ export const site = {
   title: "Software Engineer",
   tagline:
     "Low-level programming in Rust and Odin. Tools, web dev and full stack.",
-  currently: "Learning Odin, inference and graphics.",
+  currently: "Currently learning Odin, inference and graphics.",
   url: "https://dougrocha.com",
   description:
     "Doug Rocha is a software engineer building web apps and Rust tools.",

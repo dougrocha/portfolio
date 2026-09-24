@@ -10,11 +10,8 @@ export default function Home() {
           {site.tagline}
         </h1>
         <p className="text-muted-foreground">{site.title}</p>
+        <p className="mt-3 text-sm text-muted-foreground">{site.currently}</p>
       </div>
-
-      <Section title="Currently">
-        <p>{site.currently}</p>
-      </Section>
 
       <Section
         title="Projects"
