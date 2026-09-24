@@ -10,7 +10,8 @@
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",
-    "build:scuttle": "./scripts/build-scuttle.sh"
+    "build:scuttle": "./scripts/build-scuttle.sh",
+    "preview": "./scripts/preview.sh"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
