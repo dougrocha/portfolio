@@ -46,7 +46,7 @@ export const projects: Project[] = [
   {
     name: "Quanty",
     tags: ["TypeScript", "Full Stack"],
-    summary: "All-in-one Discord bot. 11★ on GitHub.",
+    summary: "All-in-one Discord bot.",
     href: "https://github.com/dougrocha/quanty",
     featured: true,
   },
