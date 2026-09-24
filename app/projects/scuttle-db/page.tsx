@@ -39,8 +39,7 @@ export default function ScuttleDbPage() {
           >
             {build.commit}
           </a>
-          ) , compiled to a {Math.round(build.bytes / 1024)} KB WebAssembly
-          file.
+          ), compiled to a {Math.round(build.bytes / 1024)} KB WebAssembly file.
         </p>
         <a
           href={REPO}
