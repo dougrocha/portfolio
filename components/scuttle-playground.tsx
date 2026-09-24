@@ -50,14 +50,18 @@ async function createDatabase(): Promise<Db> {
 
 const subscribeNever = () => () => {}
 
+const APPLE_PLATFORM = /Mac|iPhone|iPad|iPod/
+const WRITE_STATEMENT = /^\s*(?:update\s+(\w+)|delete\s+from\s+(\w+))/i
+
 /**
  * True on Apple devices, where the run shortcut uses ⌘ instead of Ctrl.
- * `null` until hydrated, since the server can't know the platform.
+ * `null` until hydrated, since the server can't know the platform. The visible
+ * key comes from the `data-platform` attribute set in the root layout instead.
  */
 function useIsApple(): boolean | null {
   return React.useSyncExternalStore(
     subscribeNever,
-    () => /Mac|iPhone|iPad|iPod/.test(navigator.userAgent),
+    () => APPLE_PLATFORM.test(navigator.userAgent),
     () => null
   )
 }
@@ -94,7 +98,7 @@ function missingFrom(a: Cell[][], b: Cell[][]) {
 
 /** The table an UPDATE or DELETE writes to, or `null` for other statements. */
 function writeTarget(statement: string) {
-  const match = /^\s*(?:update\s+(\w+)|delete\s+from\s+(\w+))/i.exec(statement)
+  const match = WRITE_STATEMENT.exec(statement)
   return match ? (match[1] ?? match[2]) : null
 }
 
@@ -330,19 +334,20 @@ export function ScuttlePlayground() {
             }
           >
             Run
-            {isApple !== null && (
-              <KbdGroup
-                aria-hidden
-                className="-mr-1 ml-0.5 hidden pointer-fine:inline-flex"
-              >
-                <Kbd className="bg-primary-foreground/15 text-primary-foreground">
-                  {isApple ? "⌘" : "Ctrl"}
-                </Kbd>
-                <Kbd className="bg-primary-foreground/15 text-primary-foreground">
-                  ↵
-                </Kbd>
-              </KbdGroup>
-            )}
+            <KbdGroup
+              aria-hidden
+              className="-mr-1 ml-0.5 hidden pointer-fine:inline-flex"
+            >
+              <Kbd className="hidden bg-primary-foreground/15 text-primary-foreground in-data-[platform=apple]:inline-flex">
+                ⌘
+              </Kbd>
+              <Kbd className="bg-primary-foreground/15 text-primary-foreground in-data-[platform=apple]:hidden">
+                Ctrl
+              </Kbd>
+              <Kbd className="bg-primary-foreground/15 text-primary-foreground">
+                ↵
+              </Kbd>
+            </KbdGroup>
           </Button>
           <Button
             type="button"
