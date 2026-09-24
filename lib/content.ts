@@ -1,10 +1,12 @@
 export const site = {
   name: "Doug Rocha",
   title: "Software Engineer",
-  tagline: "Low-level programming in Rust and Odin. Tools, web dev and full stack.",
+  tagline:
+    "Low-level programming in Rust and Odin. Tools, web dev and full stack.",
   currently: "Learning Odin, inference and graphics.",
   url: "https://dougrocha.com",
-  description: "Doug Rocha is a software engineer building web apps and Rust tools.",
+  description:
+    "Doug Rocha is a software engineer building web apps and Rust tools.",
 }
 
 export const links = [
@@ -93,7 +95,8 @@ export const experience = [
     role: "Software Engineer Intern",
     org: "Blue Cross Blue Shield of Arizona",
     period: "May – Nov 2025",
-    summary: "Next.js, Sitecore, Coveo.",
+    summary:
+      "Worked on the Prior Auth lookup, including its print view. Built the Blue Card medical policy lookup and a shared search hook with Coveo analytics.",
   },
   {
     role: "Full-Stack Intern",
