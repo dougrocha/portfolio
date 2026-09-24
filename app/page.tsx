@@ -12,6 +12,10 @@ export default function Home() {
         <p className="text-muted-foreground">{site.title}</p>
       </div>
 
+      <Section title="Currently">
+        <p>{site.currently}</p>
+      </Section>
+
       <Section
         title="Projects"
         more={{ label: "All projects", href: "/projects" }}
