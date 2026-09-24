@@ -7,7 +7,7 @@ export default function Home() {
     <div className="flex flex-col gap-16 pt-8">
       <h1 className="sr-only">{site.name}</h1>
 
-      <Section title="Currently">
+      <Section title="Currently learning">
         <p>{site.currently}</p>
       </Section>
 

@@ -1,7 +1,7 @@
 export const site = {
   name: "Doug Rocha",
   title: "Software Engineer",
-  currently: "Learning Odin, inference and graphics.",
+  currently: "Odin, inference and graphics.",
   url: "https://dougrocha.com",
   description:
     "Doug Rocha is a software engineer building web apps and Rust tools.",
