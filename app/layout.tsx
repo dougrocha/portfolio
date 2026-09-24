@@ -6,7 +6,7 @@ import "./globals.css"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
 import { ThemeProvider } from "@/components/theme-provider"
-import { site } from "@/lib/content"
+import { isProduction, site } from "@/lib/content"
 import { cn } from "@/lib/utils"
 
 const geistSans = Geist({
@@ -26,6 +26,7 @@ export const metadata: Metadata = {
     template: `%s · ${site.name}`,
   },
   description: site.description,
+  robots: isProduction ? undefined : { index: false, follow: false },
   openGraph: {
     type: "website",
     siteName: site.name,
