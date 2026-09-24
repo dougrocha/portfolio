@@ -13,4 +13,8 @@ pkg="$scuttle/scuttle-wasm/pkg"
 mkdir -p "$root/lib/scuttle"
 cp "$pkg/scuttle_wasm.js" "$pkg/scuttle_wasm.d.ts" "$pkg/scuttle_wasm_bg.wasm" "$root/lib/scuttle/"
 
-echo "Scuttle DB $(git -C "$scuttle" rev-parse --short HEAD) copied into the site."
+commit="$(git -C "$scuttle" rev-parse --short HEAD)"
+bytes="$(wc -c < "$root/lib/scuttle/scuttle_wasm_bg.wasm" | tr -d ' ')"
+printf '{ "commit": "%s", "bytes": %s }\n' "$commit" "$bytes" > "$root/lib/scuttle/build.json"
+
+echo "Scuttle DB $commit copied into the site."
