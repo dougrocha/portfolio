@@ -212,7 +212,8 @@ export function ScuttlePlayground() {
 
   function loadExample(query: string) {
     setSql(query)
-    editorRef.current?.focus()
+    // On touch screens, focusing would pop up the keyboard over the results.
+    if (window.matchMedia("(pointer: fine)").matches) editorRef.current?.focus()
   }
 
   if (status === "failed") {
@@ -274,7 +275,7 @@ export function ScuttlePlayground() {
           }}
           spellCheck={false}
           rows={4}
-          className="font-mono text-sm"
+          className="font-mono"
         />
         <div className="flex items-center gap-2">
           <Button type="submit" disabled={!ready}>
