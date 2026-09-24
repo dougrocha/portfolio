@@ -21,6 +21,9 @@
 # misc
 .DS_Store
 *.pem
+AGENTS.override.md
+CLAUDE.local.md
+.claude/settings.local.json
 
 # debug
 npm-debug.log*
