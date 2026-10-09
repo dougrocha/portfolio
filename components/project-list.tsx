@@ -1,6 +1,5 @@
 import Link from "next/link"
 
-import { Badge } from "@/components/ui/badge"
 import type { Project } from "@/lib/content"
 
 export function ProjectList({
@@ -21,16 +20,16 @@ export function ProjectList({
             href={project.href}
             className="group flex flex-col gap-1 rounded-lg px-3 py-3 transition-colors hover:bg-muted focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
           >
-            <div className="flex flex-wrap items-center gap-2">
-              <Heading className="font-medium">{project.name}</Heading>
-              {project.demo && <Badge variant="outline">Live demo</Badge>}
-              {project.tags.map((tag) => (
-                <Badge key={tag} variant="secondary">
-                  {tag}
-                </Badge>
-              ))}
+            <div className="flex flex-wrap items-baseline gap-x-3">
+              <Heading className="font-title">{project.name}</Heading>
+              <p className="text-muted-foreground">
+                {project.demo && (
+                  <span className="text-foreground italic">Live demo, </span>
+                )}
+                {project.tags.join(", ")}
+              </p>
             </div>
-            <p className="text-sm text-pretty text-muted-foreground">
+            <p className="text-pretty text-muted-foreground">
               {project.summary}
             </p>
           </ProjectLink>

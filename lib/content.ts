@@ -4,6 +4,7 @@ export const isProduction = process.env.VERCEL_ENV === "production"
 export const site = {
   name: "Doug Rocha",
   title: "Software Engineer",
+  intro: "I'm a software engineer with a grudge against bad tooling.",
   currently: "Odin, inference and graphics.",
   url: "https://dougrocha.com",
   description:
@@ -12,8 +13,9 @@ export const site = {
 
 export const links = [
   { label: "Email", href: "mailto:dougsrocha3@gmail.com" },
-  { label: "GitHub", href: "https://github.com/dougrocha" },
   { label: "LinkedIn", href: "https://www.linkedin.com/in/dougrocha/" },
+  { label: "GitHub", href: "https://github.com/dougrocha" },
+  { label: "X", href: "https://x.com/dougcoded" },
 ]
 
 export type Project = {
@@ -30,7 +32,8 @@ export const projects: Project[] = [
   {
     name: "Scuttle DB",
     tags: ["Rust", "Systems"],
-    summary: "Relational database from scratch. SQL parser to B\u2011trees.",
+    summary:
+      "A relational database written from scratch, with its own SQL parser and B\u2011tree storage.",
     href: "/projects/scuttle-db",
     demo: true,
     featured: true,
@@ -52,7 +55,8 @@ export const projects: Project[] = [
   {
     name: "Quanty",
     tags: ["TypeScript", "Full stack"],
-    summary: "All-in-one Discord bot.",
+    summary:
+      "Discord bot with moderation and fun commands, configured from a web dashboard.",
     href: "https://github.com/dougrocha/quanty",
     featured: true,
   },

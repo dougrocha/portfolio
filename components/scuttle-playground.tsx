@@ -240,7 +240,7 @@ export function ScuttlePlayground() {
         output: {
           kind: "error",
           message:
-            "That query crashed the database. It has been restarted with the sample data.",
+            "That query crashed the database, so it restarted with the sample data.",
         },
         plan: null,
         ms: 0,

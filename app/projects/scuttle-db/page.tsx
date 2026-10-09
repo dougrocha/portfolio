@@ -15,15 +15,15 @@ export default function ScuttleDbPage() {
   return (
     <div className="flex flex-col gap-8 pt-8">
       <div className="flex flex-col gap-2">
-        <h1 className="text-2xl font-medium tracking-tight text-balance">
+        <h1 className="text-2xl font-title tracking-tight text-balance">
           Scuttle DB
         </h1>
         <p className="max-w-prose text-pretty text-muted-foreground">
           Relational database from scratch in Rust, running in your browser
-          through WebAssembly. Nothing is saved.
+          through WebAssembly. There is no server, and nothing is saved.
         </p>
-        <p className="max-w-prose text-sm text-pretty text-muted-foreground">
-          No server: queries run on{" "}
+        <p className="max-w-prose text-pretty text-muted-foreground">
+          Queries run on{" "}
           <a
             href={`${REPO}/tree/${build.branch}`}
             className="rounded-sm font-mono text-foreground underline underline-offset-4 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
@@ -41,7 +41,7 @@ export default function ScuttleDbPage() {
         </p>
         <a
           href={REPO}
-          className="w-fit rounded-sm text-sm underline underline-offset-4 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
+          className="w-fit rounded-sm underline underline-offset-4 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
         >
           Source on GitHub
         </a>
