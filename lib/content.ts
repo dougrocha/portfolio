@@ -58,7 +58,6 @@ export const projects: Project[] = [
     summary:
       "Discord bot with moderation and fun commands, configured from a web dashboard.",
     href: "https://github.com/dougrocha/quanty",
-    featured: true,
   },
   {
     name: "Forms",
@@ -74,8 +73,9 @@ export const projects: Project[] = [
   },
   {
     name: "Kura",
-    tags: ["Rust", "Early"],
-    summary: "Store and find my memes from a TUI.",
+    tags: ["Rust", "TUI"],
+    summary:
+      "Tagged meme library for the terminal, built on Hako, my own TUI framework.",
     href: "https://github.com/dougrocha/kura",
   },
   {
