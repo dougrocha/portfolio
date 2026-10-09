@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function ProjectsPage() {
   return (
     <div className="flex flex-col gap-8 pt-8">
-      <h1 className="text-2xl font-medium tracking-tight text-balance">
+      <h1 className="text-2xl font-title tracking-tight text-balance">
         Projects
       </h1>
       <ProjectList projects={projects} headingLevel="h2" />

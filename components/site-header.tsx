@@ -15,12 +15,12 @@ export function SiteHeader() {
     <header className="flex items-center justify-between py-8">
       <Link
         href="/"
-        className="rounded-sm font-mono text-sm font-medium focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
+        className="rounded-sm font-mono text-sm font-title focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
       >
         {site.name}
       </Link>
       <nav aria-label="Main">
-        <ul className="flex gap-6 text-sm">
+        <ul className="flex gap-6">
           {nav.map((item) => {
             const active = pathname.startsWith(item.href)
             return (
