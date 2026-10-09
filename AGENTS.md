@@ -45,6 +45,8 @@
 
 - Styling uses Tailwind CSS v4 in `app/globals.css`.
 - Theme tokens are CSS variables. Prefer existing tokens such as `bg-background`, `text-muted-foreground`, `border-border`, and `ring-ring`.
+- Text uses Newsreader (`font-serif`, the default). Headings and code-like names, such as project names, use Geist Mono (`font-heading` or `font-mono`).
+- Font weights: 400 for body text (the default, no class), 550 for titles and subtitles via `font-title` (`--font-weight-title` in `app/globals.css`). Do not use other weights outside `components/ui/`.
 - Use `cn` from `@/lib/utils` or `cn` when composing class names, matching the surrounding file.
 - For reusable primitives, follow the existing shadcn/Base UI patterns in `components/ui/`.
 - Do not add new UI dependencies unless necessary.
