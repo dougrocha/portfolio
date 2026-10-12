@@ -7,7 +7,7 @@ import { openGraph } from "@/lib/metadata"
 export const metadata: Metadata = {
   title: "Projects",
   description:
-    "Rust tools, Neovim plugins and full-stack web apps by Doug Rocha.",
+    "Rust tools, Neovim plugins and full-stack web apps by Doug Rocha, including a relational database you can query in your browser.",
   openGraph: openGraph("/projects"),
 }
 

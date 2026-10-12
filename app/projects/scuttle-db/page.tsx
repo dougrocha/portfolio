@@ -9,7 +9,7 @@ const REPO = "https://github.com/dougrocha/scuttle-db"
 export const metadata: Metadata = {
   title: "Scuttle DB",
   description:
-    "A relational database written from scratch in Rust, running in your browser through WebAssembly.",
+    "A relational database written from scratch in Rust, with its own SQL parser and query planner, running in your browser through WebAssembly.",
   openGraph: openGraph("/projects/scuttle-db"),
 }
 
