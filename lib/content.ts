@@ -8,7 +8,7 @@ export const site = {
   currently: "Odin, inference and graphics.",
   url: "https://dougrocha.com",
   description:
-    "Doug Rocha is a software engineer building web apps and Rust tools.",
+    "Doug Rocha is a software engineer building full-stack web apps and Rust tools, from a database that runs in your browser to a language server.",
 }
 
 export const links = [
