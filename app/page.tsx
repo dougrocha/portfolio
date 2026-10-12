@@ -1,10 +1,42 @@
+import type { Metadata } from "next"
+
 import { ProjectQuery } from "@/components/project-query"
 import { Section } from "@/components/section"
 import { education, experience, links, site } from "@/lib/content"
+import { alternates } from "@/lib/metadata"
+
+export const metadata: Metadata = {
+  alternates: alternates("/"),
+}
+
+/** Ties this site and the profiles in `links` to one person for search engines. */
+const profile = {
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  mainEntity: {
+    "@type": "Person",
+    name: site.name,
+    alternateName: "Douglas Rocha",
+    jobTitle: site.title,
+    description: site.description,
+    url: site.url,
+    sameAs: links
+      .filter((link) => link.href.startsWith("https://"))
+      .map((link) => link.href),
+    worksFor: { "@type": "Organization", name: experience[0].org },
+    alumniOf: { "@type": "CollegeOrUniversity", name: education[0].school },
+  },
+}
 
 export default function Home() {
   return (
     <div className="flex flex-col gap-16 pt-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(profile).replace(/</g, "\\u003c"),
+        }}
+      />
       <h1 className="sr-only">{site.name}</h1>
 
       <section aria-label="Introduction" className="flex flex-col gap-8">
@@ -24,6 +56,7 @@ export default function Home() {
             <li key={link.label}>
               <a
                 href={link.href}
+                rel="me"
                 className="rounded-sm text-muted-foreground underline decoration-border underline-offset-4 transition-colors hover:text-foreground hover:decoration-current focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
               >
                 {link.label}

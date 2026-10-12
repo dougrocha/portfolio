@@ -2,12 +2,13 @@ import type { Metadata } from "next"
 
 import { ProjectList } from "@/components/project-list"
 import { projects } from "@/lib/content"
-import { openGraph } from "@/lib/metadata"
+import { alternates, openGraph } from "@/lib/metadata"
 
 export const metadata: Metadata = {
   title: "Projects",
   description:
     "Rust tools, Neovim plugins and full-stack web apps by Doug Rocha, including a relational database you can query in your browser.",
+  alternates: alternates("/projects"),
   openGraph: openGraph("/projects"),
 }
 

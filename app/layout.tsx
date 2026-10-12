@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   description: site.description,
   robots: isProduction ? undefined : { index: false, follow: false },
   openGraph: openGraph("/"),
-  twitter: { card: "summary_large_image" },
+  twitter: { card: "summary_large_image", creator: "@dougcoded" },
 }
 
 export default function RootLayout({
