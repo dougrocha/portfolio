@@ -1,0 +1,1 @@
+Scuttle DB demo page: a relational database written in Rust, running in the browser through WebAssembly.

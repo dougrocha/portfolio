@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 
 import { ScuttlePlayground } from "@/components/scuttle-playground"
+import { openGraph } from "@/lib/metadata"
 import build from "@/lib/scuttle/build.json"
 
 const REPO = "https://github.com/dougrocha/scuttle-db"
@@ -9,6 +10,7 @@ export const metadata: Metadata = {
   title: "Scuttle DB",
   description:
     "A relational database written from scratch in Rust, running in your browser through WebAssembly.",
+  openGraph: openGraph("/projects/scuttle-db"),
 }
 
 export default function ScuttleDbPage() {
