@@ -6,6 +6,7 @@ import "./globals.css"
 import { SiteHeader } from "@/components/site-header"
 import { ThemeProvider } from "@/components/theme-provider"
 import { isProduction, site } from "@/lib/content"
+import { openGraph } from "@/lib/metadata"
 import { cn } from "@/lib/utils"
 
 const newsreader = Newsreader({
@@ -28,11 +29,8 @@ export const metadata: Metadata = {
   },
   description: site.description,
   robots: isProduction ? undefined : { index: false, follow: false },
-  openGraph: {
-    type: "website",
-    siteName: site.name,
-    url: "/",
-  },
+  openGraph: openGraph("/"),
+  twitter: { card: "summary_large_image" },
 }
 
 export default function RootLayout({
