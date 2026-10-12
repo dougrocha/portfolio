@@ -140,11 +140,19 @@
     }
   html {
     @apply font-serif;
+    /* Reserves the scrollbar's space so short pages don't shift sideways when it goes away. */
+    scrollbar-gutter: stable;
     }
   h1, h2, h3, h4, h5, h6 {
     @apply font-heading;
     }
 }
+/* Selected text reads as ink on paper, inverted. */
+::selection {
+  background: var(--foreground);
+  color: var(--background);
+}
+
 /* Edge shadows that show while a table has more columns to scroll to. */
 .scroll-shadow-x [data-slot="table-container"] {
   background:

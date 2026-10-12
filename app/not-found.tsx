@@ -1,5 +1,6 @@
 import Link from "next/link"
 
+import { MissingPageQuery } from "@/components/missing-page-query"
 import { buttonVariants } from "@/components/ui/button"
 
 export default function NotFound() {
@@ -11,6 +12,7 @@ export default function NotFound() {
       <p className="text-muted-foreground">
         This page doesn’t exist. It may have moved when the site was rebuilt.
       </p>
+      <MissingPageQuery />
       <Link href="/" className={buttonVariants({ variant: "outline" })}>
         Go to the home page
       </Link>
