@@ -1,17 +1,24 @@
-import { ProjectList } from "@/components/project-list"
+import { ProjectQuery } from "@/components/project-query"
 import { Section } from "@/components/section"
-import { education, experience, links, projects, site } from "@/lib/content"
+import { education, experience, links, site } from "@/lib/content"
 
 export default function Home() {
   return (
     <div className="flex flex-col gap-16 pt-8">
       <h1 className="sr-only">{site.name}</h1>
 
-      <section
-        aria-label="Introduction"
-        className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-baseline sm:justify-between"
-      >
-        <p className="max-w-prose text-pretty sm:w-full">{site.intro}</p>
+      <section aria-label="Introduction" className="flex flex-col gap-8">
+        <p className="text-[clamp(1.6rem,1.2rem+1.6vw,2.25rem)] leading-[1.15] tracking-[-0.02em] text-balance">
+          {site.intro}
+        </p>
+        <dl className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-2 font-mono text-sm">
+          <dt className="text-muted-foreground">Now</dt>
+          <dd>
+            {experience[0].role}, {experience[0].org}
+          </dd>
+          <dt className="text-muted-foreground">Learning</dt>
+          <dd>{site.currently}</dd>
+        </dl>
         <ul className="flex flex-wrap gap-x-6 gap-y-2">
           {links.map((link) => (
             <li key={link.label}>
@@ -24,17 +31,17 @@ export default function Home() {
             </li>
           ))}
         </ul>
-        <p className="text-pretty">
-          <span className="text-muted-foreground">Learning </span>
-          {site.currently}
-        </p>
       </section>
 
       <Section
         title="Projects"
         more={{ label: "All projects", href: "/projects" }}
       >
-        <ProjectList projects={projects.filter((p) => p.featured)} />
+        <p className="max-w-prose text-pretty text-muted-foreground">
+          This list is a query. My own database engine runs it in your browser.
+          Pick a language or write some SQL.
+        </p>
+        <ProjectQuery />
       </Section>
 
       <Section title="Experience">

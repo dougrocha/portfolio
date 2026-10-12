@@ -96,20 +96,20 @@ export const experience = [
   {
     role: "Software Engineer",
     org: "Blue Cross Blue Shield of Arizona",
-    period: "Jun 2026 – now",
+    period: "Jun 2026 to now",
     summary: "Next.js, .NET, Sitecore.",
   },
   {
     role: "Software Engineer Intern",
     org: "Blue Cross Blue Shield of Arizona",
-    period: "May – Nov 2025",
+    period: "May to Nov 2025",
     summary:
       "Worked on the Prior Auth lookup form flow and built its print view. Built the Blue Card medical policy lookup and a shared search hook with Coveo analytics.",
   },
   {
     role: "Full-Stack Intern",
     org: "Blue Cross Blue Shield of Arizona",
-    period: "May – Nov 2023",
+    period: "May to Nov 2023",
     summary: "Shipped the forgot-password flow with SMS account recovery.",
   },
 ]
