@@ -7,7 +7,6 @@ export function ProjectList({
   headingLevel = "h3",
 }: {
   projects: Project[]
-  /** Heading element for project names, so the outline stays in order on each page. */
   headingLevel?: "h2" | "h3"
 }) {
   const Heading = headingLevel

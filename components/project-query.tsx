@@ -89,11 +89,6 @@ const projectByName = new Map(
 
 const initial = filters[0]
 
-/**
- * The homepage project index. The list is the result of a SQL query that
- * Scuttle DB, compiled to WebAssembly, runs in the visitor's browser. The
- * server renders the same result so the list never waits on WebAssembly.
- */
 export function ProjectQuery() {
   const [sql, setSql] = React.useState(initial.sql)
   const [active, setActive] = React.useState<string | null>(initial.id)
@@ -121,7 +116,6 @@ export function ProjectQuery() {
   const typingRef = React.useRef<ReturnType<Motion["gsap"]["to"]> | null>(null)
   const runRef = React.useRef(0)
   const sqlRef = React.useRef(sql)
-  /** The last query that drew rows, re-run after a write so the list shows the change. */
   const lastSelectRef = React.useRef(initial.sql)
 
   React.useEffect(() => {
@@ -151,7 +145,6 @@ export function ProjectQuery() {
     return loadRef.current
   }, [])
 
-  /** Swaps the list. Leaving rows fade first, staying rows glide, new rows rise in. */
   const commit = React.useCallback(
     async (next: QueryResult, run: number, animate: boolean) => {
       if (run !== runRef.current) return
@@ -225,7 +218,6 @@ export function ProjectQuery() {
     })
   }, [result])
 
-  /** Runs `query` in Scuttle. Returns false if the engine isn't available. */
   const runInScuttle = React.useCallback(
     async (query: string, run: number, animate: boolean) => {
       const db = await load()
@@ -287,8 +279,6 @@ export function ProjectQuery() {
     [commit, load]
   )
 
-  // Loads the engine once the page is idle, then reruns the shown query in it,
-  // so the count and time on screen come from Scuttle.
   React.useEffect(() => {
     disposedRef.current = false
     const start = () => {
@@ -319,7 +309,6 @@ export function ProjectQuery() {
     }
   }, [runInScuttle])
 
-  // "/" jumps to the query from anywhere on the page.
   React.useEffect(() => {
     function onKey(event: KeyboardEvent) {
       if (event.key !== "/" || event.metaKey || event.ctrlKey || event.altKey)
@@ -335,7 +324,6 @@ export function ProjectQuery() {
     return () => window.removeEventListener("keydown", onKey)
   }, [])
 
-  /** Retypes the prompt from its current text to `target`, keeping the shared prefix. */
   async function typeQuery(target: string) {
     typingRef.current?.kill()
     const from = sqlRef.current
@@ -392,8 +380,6 @@ export function ProjectQuery() {
       return
     }
 
-    // Scuttle isn't ready yet: show the same rows from JavaScript now, and let
-    // Scuttle rerun the query once it loads so the count is its own.
     const ready = load()
     await typeQuery(filter.sql)
     if (run !== runRef.current) return
@@ -404,7 +390,6 @@ export function ProjectQuery() {
       await runInScuttle(filter.sql, run, true)
   }
 
-  /** Appends `column` to the SELECT list, retypes the prompt, and runs it. */
   async function addColumn(column: string) {
     const match = SELECT_LIST.exec(sqlRef.current)
     if (!match) return
@@ -599,16 +584,10 @@ function StatusText({
   }
 }
 
-/** Splits a query into `SELECT `, its column list, and everything from `FROM` on. */
 const SELECT_LIST = /^(\s*select\s+)([\s\S]*?)(\s+from\s[\s\S]*)$/i
 
 const PROJECT_COLUMNS = ["name", "language", "kind", "summary"]
 
-/**
- * Names the project columns a query left out, as buttons that add them back.
- * Hidden for results with other columns (aggregates, aliases), where adding
- * one might not be valid SQL.
- */
 function MissingColumns({
   columns,
   onAdd,
@@ -645,15 +624,10 @@ function MissingColumns({
   )
 }
 
-/** The column set as the title: `name` when selected, otherwise the first one. */
 function leadColumn(columns: string[]) {
   return Math.max(columns.indexOf("name"), 0)
 }
 
-/**
- * Identity for React keys and Flip: the project name when selected, numbered
- * on repeats (an alias can make `name` repeat), otherwise the row's position.
- */
 function rowIds({ columns, rows }: QueryResult) {
   const name = columns.indexOf("name")
   const seen = new Map<string, number>()
@@ -673,10 +647,6 @@ function formatCell(value: Cell) {
 const rowClass =
   "group flex flex-col gap-1 rounded-lg px-3 py-3 transition-colors hover:bg-muted focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
 
-/**
- * One result row in the project list style: the lead column as the title,
- * short columns beside it in query order, and `summary` underneath.
- */
 function ResultItem({
   id,
   columns,

@@ -10,7 +10,6 @@ export function openGraph(path: string): Metadata["openGraph"] {
   return { type: "website", siteName: site.name, url: path }
 }
 
-/** Canonical URL for one route, so preview and query-string variants don't compete with it. */
 export function alternates(path: string): Metadata["alternates"] {
   return { canonical: path }
 }

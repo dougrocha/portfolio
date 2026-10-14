@@ -18,7 +18,6 @@ function text(value: string | undefined) {
   return value === undefined ? "NULL" : `'${value.replaceAll("'", "''")}'`
 }
 
-/** Statements that create and fill the demo tables, run once per page load. */
 export const seedStatements = [
   "CREATE TABLE projects (name TEXT, language TEXT, kind TEXT, active BOOL)",
   `INSERT INTO projects VALUES ${projects
@@ -58,7 +57,6 @@ export const examples = [
   },
 ]
 
-/** Splits a script into statements on semicolons that are outside quotes. */
 export function splitStatements(sql: string) {
   const statements: string[] = []
   let current = ""
