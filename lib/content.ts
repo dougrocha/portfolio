@@ -97,20 +97,22 @@ export const experience = [
     role: "Software Engineer",
     org: "Blue Cross Blue Shield of Arizona",
     period: "Jun 2026 to now",
-    summary: "Next.js, .NET, Sitecore.",
+    summary:
+      "Restored the HealthSherpa lead integration (no leads from December to September, then about 400 in the first two weeks back), rewrote the site header for desktop and mobile with W3C/WAI-ARIA accessibility and keyboard navigation, and fixed a root bug in the Sitecore publishing process.",
   },
   {
     role: "Software Engineer Intern",
     org: "Blue Cross Blue Shield of Arizona",
     period: "May to Nov 2025",
     summary:
-      "Worked on the Prior Auth lookup form flow and built its print view. Built the Blue Card medical policy lookup and a shared search hook with Coveo analytics.",
+      "Consolidated duplicated search logic into a shared hook and built the Blue Card medical policy router.",
   },
   {
-    role: "Full-Stack Intern",
+    role: "Software Engineer Intern",
     org: "Blue Cross Blue Shield of Arizona",
     period: "May to Nov 2023",
-    summary: "Shipped the forgot-password flow with SMS account recovery.",
+    summary:
+      "Built the forgot password flow with SMS and email codes and a magic link for recovery.",
   },
 ]
 
