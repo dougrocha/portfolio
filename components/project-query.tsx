@@ -77,7 +77,19 @@ type Motion = {
 type ControlledTween = {
   progress: () => number
   revert: () => void
-  kill: () => void
+}
+
+type LeavingFade = {
+  revert: () => void
+  settle: () => void
+}
+
+function cancelLeaving(slot: { current: LeavingFade | null }) {
+  const fade = slot.current
+  if (!fade) return
+  slot.current = null
+  fade.revert()
+  fade.settle()
 }
 
 /** GSAP stays out of the first load. The list only animates after a visitor acts. */
@@ -136,7 +148,7 @@ export function ProjectQuery() {
 
   const dbRef = React.useRef<Db | null>(null)
   const loadRef = React.useRef<Promise<Db | null> | null>(null)
-  const disposedRef = React.useRef(false)
+  const generationRef = React.useRef(0)
   const listRef = React.useRef<HTMLUListElement>(null)
   const editorRef = React.useRef<HTMLTextAreaElement>(null)
   const motionRef = React.useRef<Motion | null>(null)
@@ -144,7 +156,7 @@ export function ProjectQuery() {
     null
   )
   const typingRef = React.useRef<ReturnType<Motion["gsap"]["to"]> | null>(null)
-  const leavingTweenRef = React.useRef<ControlledTween | null>(null)
+  const leavingFadeRef = React.useRef<LeavingFade | null>(null)
   const fadeRef = React.useRef(0)
   const runRef = React.useRef(0)
   const sqlRef = React.useRef(sql)
@@ -162,11 +174,11 @@ export function ProjectQuery() {
 
   const load = React.useCallback(() => {
     if (loadRef.current) return loadRef.current
-    if (disposedRef.current) return Promise.resolve(null)
+    const generation = generationRef.current
     setEngine("loading")
     loadRef.current = createDatabase().then(
       (db) => {
-        if (disposedRef.current) {
+        if (generation !== generationRef.current) {
           dispose(db)
           return null
         }
@@ -175,7 +187,7 @@ export function ProjectQuery() {
         return db
       },
       () => {
-        if (!disposedRef.current) setEngine("failed")
+        if (generation === generationRef.current) setEngine("failed")
         return null
       }
     )
@@ -186,8 +198,7 @@ export function ProjectQuery() {
     async (next: QueryResult, run: number, animate: boolean) => {
       if (run !== runRef.current) return
       const fade = ++fadeRef.current
-      leavingTweenRef.current?.revert()
-      leavingTweenRef.current = null
+      cancelLeaving(leavingFadeRef)
       const list = listRef.current
       if (!animate || !list || prefersReducedMotion()) {
         setResult(next)
@@ -211,21 +222,33 @@ export function ProjectQuery() {
         (item) => !ids.has(item.dataset.flipId ?? "")
       )
       if (leaving.length) {
+        let settled = false
         await new Promise<void>((resolve) => {
+          const settle = () => {
+            if (settled) return
+            settled = true
+            resolve()
+          }
           const tween = gsap.to(leaving, {
             autoAlpha: 0,
             x: 12,
             duration: 0.24,
             ease: "power2.in",
             stagger: 0.02,
-            onComplete: resolve,
-            onInterrupt: resolve,
+            onComplete: settle,
           }) as ControlledTween
-          leavingTweenRef.current = tween
-          if (tween.progress() === 1) resolve()
+          leavingFadeRef.current = {
+            revert: () => tween.revert(),
+            settle,
+          }
+          if (tween.progress() === 1) settle()
         })
-        if (fadeRef.current !== fade || run !== runRef.current) return
-        leavingTweenRef.current = null
+        if (fadeRef.current !== fade || run !== runRef.current) {
+          if (leavingFadeRef.current && fadeRef.current === fade)
+            cancelLeaving(leavingFadeRef)
+          return
+        }
+        leavingFadeRef.current = null
       }
       flipRef.current = Flip.getState(
         items.filter((item) => !leaving.includes(item))
@@ -323,7 +346,6 @@ export function ProjectQuery() {
   )
 
   React.useEffect(() => {
-    disposedRef.current = false
     const start = () => {
       const run = runRef.current
       // The first run repeats the server result, so it skips the list animation
@@ -339,14 +361,13 @@ export function ProjectQuery() {
     return () => {
       if (idle) window.cancelIdleCallback(id)
       else window.clearTimeout(id)
-      disposedRef.current = true
-      // A load still in flight belongs to this mount; it frees itself on arrival.
+      // A load still in flight captured an older generation and frees its database on arrival.
       /* eslint-disable react-hooks/exhaustive-deps -- counters, not DOM nodes */
+      generationRef.current++
       runRef.current++
       /* eslint-enable react-hooks/exhaustive-deps */
       typingRef.current?.kill()
-      leavingTweenRef.current?.kill()
-      leavingTweenRef.current = null
+      cancelLeaving(leavingFadeRef)
       loadRef.current = null
       dispose(dbRef.current)
       dbRef.current = null
@@ -459,6 +480,7 @@ export function ProjectQuery() {
   function takeOverTyping() {
     runRef.current++
     typingRef.current?.kill()
+    cancelLeaving(leavingFadeRef)
   }
 
   async function submit(event?: React.FormEvent) {
@@ -505,6 +527,12 @@ export function ProjectQuery() {
               const next = sqlFromEditor(editor.value, editor.selectionStart)
               setSql(next.sql)
               setActive(null)
+              if (
+                event.nativeEvent instanceof InputEvent &&
+                event.nativeEvent.isComposing
+              ) {
+                return
+              }
               requestAnimationFrame(() => {
                 const node = editorRef.current
                 if (!node || document.activeElement !== node) return
@@ -513,6 +541,8 @@ export function ProjectQuery() {
             }}
             onFocus={() => void load()}
             onKeyDown={(event) => {
+              if (event.nativeEvent.isComposing || event.key === "Process")
+                return
               if (event.key === "Enter" && !event.shiftKey) {
                 event.preventDefault()
                 void submit()

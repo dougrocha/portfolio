@@ -28,7 +28,7 @@ const ORDER = " ORDER BY position"
 function whereSql(clause: Clause | undefined) {
   if (!clause) return ""
   if (clause.column === "demo") return " WHERE demo = true"
-  return ` WHERE language = '${clause.value}'`
+  return ` WHERE language = ${text(clause.value)}`
 }
 
 function describe(id: string, label: string, clause?: Clause): Filter {
@@ -62,6 +62,9 @@ function matches(clause: Clause | undefined, row: SeedRow) {
 }
 
 function text(value: string | null) {
+  if (value !== null && /[^\x00-\x7F]/.test(value)) {
+    throw new Error("Scuttle DB panics on non-ASCII text.")
+  }
   return value === null ? "NULL" : `'${value.replaceAll("'", "''")}'`
 }
 

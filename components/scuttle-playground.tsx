@@ -55,8 +55,8 @@ const WRITE_STATEMENT = /^\s*(?:update\s+(\w+)|delete\s+from\s+(\w+))/i
 
 /**
  * True on Apple devices, where the run shortcut uses ⌘ instead of Ctrl.
- * `null` until hydrated. The visible key is the server-rendered
- * `data-platform` attribute, so the label does not wait on this hook.
+ * `null` until hydrated, since the server can't know the platform. The visible
+ * key comes from the `data-platform` attribute set in the root layout instead.
  */
 function useIsApple(): boolean | null {
   return React.useSyncExternalStore(

@@ -15,6 +15,9 @@ const skills: [name: string, kind: string, atWork: boolean][] = [
 ]
 
 function text(value: string | null) {
+  if (value !== null && /[^\x00-\x7F]/.test(value)) {
+    throw new Error("Scuttle DB panics on non-ASCII text.")
+  }
   return value === null ? "NULL" : `'${value.replaceAll("'", "''")}'`
 }
 
