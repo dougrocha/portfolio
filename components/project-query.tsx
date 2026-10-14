@@ -2,8 +2,6 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { gsap } from "gsap"
-import { Flip } from "gsap/Flip"
 
 import { projects } from "@/lib/content"
 import {
@@ -45,6 +43,26 @@ function dispose(db: Db | null) {
 
 function prefersReducedMotion() {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches
+}
+
+type Motion = {
+  gsap: typeof import("gsap").gsap
+  Flip: typeof import("gsap/Flip").Flip
+}
+
+/** GSAP stays out of the first load. The list only animates after a visitor acts. */
+let motionPromise: Promise<Motion> | null = null
+
+function loadMotion() {
+  motionPromise ??= Promise.all([import("gsap"), import("gsap/Flip")]).then(
+    ([gsapMod, flipMod]) => {
+      const gsap = gsapMod.gsap
+      const Flip = flipMod.Flip
+      gsap.registerPlugin(Flip)
+      return { gsap, Flip }
+    }
+  )
+  return motionPromise
 }
 
 /** Browsers round `performance.now()`, so a zero reading means "too fast to measure". */
@@ -96,8 +114,11 @@ export function ProjectQuery() {
   const disposedRef = React.useRef(false)
   const listRef = React.useRef<HTMLUListElement>(null)
   const editorRef = React.useRef<HTMLTextAreaElement>(null)
-  const flipRef = React.useRef<Flip.FlipState | null>(null)
-  const typingRef = React.useRef<gsap.core.Tween | null>(null)
+  const motionRef = React.useRef<Motion | null>(null)
+  const flipRef = React.useRef<ReturnType<Motion["Flip"]["getState"]> | null>(
+    null
+  )
+  const typingRef = React.useRef<{ kill: () => void } | null>(null)
   const runRef = React.useRef(0)
   const sqlRef = React.useRef(sql)
   /** The last query that drew rows, re-run after a write so the list shows the change. */
@@ -106,10 +127,6 @@ export function ProjectQuery() {
   React.useEffect(() => {
     sqlRef.current = sql
   }, [sql])
-
-  React.useEffect(() => {
-    gsap.registerPlugin(Flip)
-  }, [])
 
   const load = React.useCallback(() => {
     if (loadRef.current) return loadRef.current
@@ -135,48 +152,66 @@ export function ProjectQuery() {
   }, [])
 
   /** Swaps the list. Leaving rows fade first, staying rows glide, new rows rise in. */
-  const commit = React.useCallback(async (next: QueryResult, run: number) => {
-    if (run !== runRef.current) return
-    const list = listRef.current
-    if (!list || prefersReducedMotion()) {
-      setResult(next)
-      return
-    }
-    const ids = new Set(rowIds(next))
-    const items = [...list.children] as HTMLElement[]
-    const leaving = items.filter((item) => !ids.has(item.dataset.flipId ?? ""))
-    if (leaving.length) {
-      await gsap.to(leaving, {
-        autoAlpha: 0,
-        x: 12,
-        duration: 0.24,
-        ease: "power2.in",
-        stagger: 0.02,
-      })
-      // A newer query took over during the fade; put these rows back for it.
-      if (run !== runRef.current) {
-        gsap.set(leaving, { clearProps: "opacity,visibility,transform" })
+  const commit = React.useCallback(
+    async (next: QueryResult, run: number, animate: boolean) => {
+      if (run !== runRef.current) return
+      const list = listRef.current
+      if (!animate || !list || prefersReducedMotion()) {
+        setResult(next)
         return
       }
-    }
-    flipRef.current = Flip.getState(
-      items.filter((item) => !leaving.includes(item))
-    )
-    setResult(next)
-  }, [])
+      let motion = motionRef.current
+      if (!motion) {
+        try {
+          motion = await loadMotion()
+          motionRef.current = motion
+        } catch {
+          if (run === runRef.current) setResult(next)
+          return
+        }
+      }
+      if (run !== runRef.current) return
+      const { gsap, Flip } = motion
+      const ids = new Set(rowIds(next))
+      const items = [...list.children] as HTMLElement[]
+      const leaving = items.filter(
+        (item) => !ids.has(item.dataset.flipId ?? "")
+      )
+      if (leaving.length) {
+        await gsap.to(leaving, {
+          autoAlpha: 0,
+          x: 12,
+          duration: 0.24,
+          ease: "power2.in",
+          stagger: 0.02,
+        })
+        // A newer query took over during the fade; put these rows back for it.
+        if (run !== runRef.current) {
+          gsap.set(leaving, { clearProps: "opacity,visibility,transform" })
+          return
+        }
+      }
+      flipRef.current = Flip.getState(
+        items.filter((item) => !leaving.includes(item))
+      )
+      setResult(next)
+    },
+    []
+  )
 
   React.useLayoutEffect(() => {
     const state = flipRef.current
     const list = listRef.current
-    if (!state || !list) return
+    const motion = motionRef.current
+    if (!state || !list || !motion) return
     flipRef.current = null
-    Flip.from(state, {
+    motion.Flip.from(state, {
       targets: list.children,
       duration: 0.7,
       ease: "expo.out",
       stagger: 0.03,
       onEnter: (entering) =>
-        gsap.fromTo(
+        motion.gsap.fromTo(
           entering,
           { autoAlpha: 0, yPercent: 40 },
           {
@@ -192,7 +227,7 @@ export function ProjectQuery() {
 
   /** Runs `query` in Scuttle. Returns false if the engine isn't available. */
   const runInScuttle = React.useCallback(
-    async (query: string, run: number) => {
+    async (query: string, run: number, animate: boolean) => {
       const db = await load()
       if (!db || run !== runRef.current) return Boolean(db)
 
@@ -216,14 +251,19 @@ export function ProjectQuery() {
           const refreshed = JSON.parse(db.run(lastSelectRef.current))
           await commit(
             { columns: refreshed.columns, rows: refreshed.rows },
-            run
+            run,
+            animate
           )
           return true
         }
 
         lastSelectRef.current = statement
         setStatus({ kind: "scuttle", count: response.rows.length, ms })
-        await commit({ columns: response.columns, rows: response.rows }, run)
+        await commit(
+          { columns: response.columns, rows: response.rows },
+          run,
+          animate
+        )
       } catch (error) {
         if (error instanceof WebAssembly.RuntimeError) {
           dbRef.current = null
@@ -253,7 +293,9 @@ export function ProjectQuery() {
     disposedRef.current = false
     const start = () => {
       const run = runRef.current
-      void runInScuttle(sqlRef.current, run)
+      // The first run repeats the server result, so it skips the list animation
+      // and does not download GSAP.
+      void runInScuttle(sqlRef.current, run, false)
     }
     // Safari has no requestIdleCallback.
     const idle = typeof window.requestIdleCallback === "function"
@@ -294,13 +336,24 @@ export function ProjectQuery() {
   }, [])
 
   /** Retypes the prompt from its current text to `target`, keeping the shared prefix. */
-  function typeQuery(target: string) {
+  async function typeQuery(target: string) {
     typingRef.current?.kill()
     const from = sqlRef.current
     if (prefersReducedMotion() || from === target) {
       setSql(target)
-      return Promise.resolve()
+      return
     }
+    let motion = motionRef.current
+    if (!motion) {
+      try {
+        motion = await loadMotion()
+        motionRef.current = motion
+      } catch {
+        setSql(target)
+        return
+      }
+    }
+    const gsap = motion.gsap
     let shared = 0
     while (shared < from.length && from[shared] === target[shared]) shared++
     const deletes = from.length - shared
@@ -335,7 +388,7 @@ export function ProjectQuery() {
     setActive(filter.id)
     if (dbRef.current) {
       await typeQuery(filter.sql)
-      if (run === runRef.current) await runInScuttle(filter.sql, run)
+      if (run === runRef.current) await runInScuttle(filter.sql, run, true)
       return
     }
 
@@ -346,9 +399,9 @@ export function ProjectQuery() {
     if (run !== runRef.current) return
     const next = filterResult(filter)
     setStatus({ kind: "local", count: next.rows.length })
-    await commit(next, run)
+    await commit(next, run, true)
     if ((await ready) && run === runRef.current)
-      await runInScuttle(filter.sql, run)
+      await runInScuttle(filter.sql, run, true)
   }
 
   /** Appends `column` to the SELECT list, retypes the prompt, and runs it. */
@@ -361,7 +414,7 @@ export function ProjectQuery() {
     await typeQuery(query)
     if (run !== runRef.current) return
     setActive(filters.find((filter) => filter.sql === query)?.id ?? null)
-    await runInScuttle(query, run)
+    await runInScuttle(query, run, true)
   }
 
   async function submit(event?: React.FormEvent) {
@@ -370,7 +423,7 @@ export function ProjectQuery() {
     typingRef.current?.kill()
     const query = sqlRef.current
     setActive(filters.find((filter) => filter.sql === query.trim())?.id ?? null)
-    const ran = await runInScuttle(query, run)
+    const ran = await runInScuttle(query, run, true)
     if (!ran && run === runRef.current) {
       setStatus({
         kind: "error",
