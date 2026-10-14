@@ -24,7 +24,9 @@ export function ProjectList({
               <Heading className="font-title">{project.name}</Heading>
               <p className="text-muted-foreground">
                 {project.demo && (
-                  <span className="text-foreground italic">Live demo, </span>
+                  <span className="font-serif-italic text-foreground italic">
+                    Live demo,{" "}
+                  </span>
                 )}
                 {project.tags.join(", ")}
               </p>

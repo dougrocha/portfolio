@@ -118,7 +118,7 @@ export function ProjectQuery() {
   const flipRef = React.useRef<ReturnType<Motion["Flip"]["getState"]> | null>(
     null
   )
-  const typingRef = React.useRef<{ kill: () => void } | null>(null)
+  const typingRef = React.useRef<ReturnType<Motion["gsap"]["to"]> | null>(null)
   const runRef = React.useRef(0)
   const sqlRef = React.useRef(sql)
   /** The last query that drew rows, re-run after a write so the list shows the change. */
@@ -417,6 +417,16 @@ export function ProjectQuery() {
     await runInScuttle(query, run, true)
   }
 
+  /** Starts the GSAP download before the click, so the first filter is not waiting on it. */
+  function warmMotion() {
+    if (prefersReducedMotion()) return
+    void loadMotion()
+      .then((motion) => {
+        motionRef.current = motion
+      })
+      .catch(() => {})
+  }
+
   async function submit(event?: React.FormEvent) {
     event?.preventDefault()
     const run = ++runRef.current
@@ -487,6 +497,9 @@ export function ProjectQuery() {
           <div
             role="group"
             aria-label="Filter projects"
+            onPointerEnter={warmMotion}
+            onFocus={warmMotion}
+            onTouchStart={warmMotion}
             className="flex flex-wrap gap-x-4 gap-y-1"
           >
             {filters.map((filter) => (
