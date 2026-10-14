@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
+import { ResumeDialog } from "@/components/resume-dialog"
 import { site } from "@/lib/content"
 import { cn } from "@/lib/utils"
 
@@ -12,15 +13,15 @@ export function SiteHeader() {
   const pathname = usePathname()
 
   return (
-    <header className="flex items-center justify-between py-8">
+    <header className="flex items-center justify-between gap-4 py-8">
       <Link
         href="/"
         className="rounded-sm font-mono text-sm font-title focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
       >
         {site.name}
       </Link>
-      <nav aria-label="Main">
-        <ul className="flex gap-6">
+      <nav aria-label="Main" className="shrink-0">
+        <ul className="flex items-center gap-4 sm:gap-6">
           {nav.map((item) => {
             const active = pathname.startsWith(item.href)
             return (
@@ -38,6 +39,9 @@ export function SiteHeader() {
               </li>
             )
           })}
+          <li>
+            <ResumeDialog />
+          </li>
         </ul>
       </nav>
     </header>
