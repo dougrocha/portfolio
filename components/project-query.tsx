@@ -52,7 +52,8 @@ function placeCaret(editor: HTMLTextAreaElement) {
 }
 
 function fitEditor(editor: HTMLTextAreaElement) {
-  editor.style.height = "auto"
+  if (CSS.supports("field-sizing", "content")) return
+  editor.style.height = "0px"
   editor.style.height = `${editor.scrollHeight}px`
 }
 
@@ -517,7 +518,7 @@ export function ProjectQuery() {
                 void submit()
               }
             }}
-            className="min-w-0 flex-1 resize-none overflow-hidden bg-transparent break-words whitespace-pre-wrap outline-hidden"
+            className="[field-sizing:content] min-w-0 flex-1 resize-none overflow-hidden bg-transparent break-words whitespace-pre-wrap outline-hidden"
           />
         </div>
 
