@@ -9,11 +9,22 @@ import { isProduction, site } from "@/lib/content"
 import { openGraph } from "@/lib/metadata"
 import { cn } from "@/lib/utils"
 
+// Body copy is 400. Buttons and the skip link use 500 (`font-medium`).
+// Headings, including `font-title`, are Geist Mono.
 const newsreader = Newsreader({
   subsets: ["latin"],
-  style: ["normal", "italic"],
-  axes: ["opsz"],
+  weight: ["400", "500"],
+  style: "normal",
   variable: "--font-newsreader",
+})
+
+// One italic on the projects page ("Live demo"). Kept off the preload list.
+const newsreaderItalic = Newsreader({
+  subsets: ["latin"],
+  weight: "400",
+  style: "italic",
+  variable: "--font-newsreader-italic",
+  preload: false,
 })
 
 const geistMono = Geist_Mono({
@@ -42,7 +53,12 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn("antialiased", newsreader.variable, geistMono.variable)}
+      className={cn(
+        "antialiased",
+        newsreader.variable,
+        newsreaderItalic.variable,
+        geistMono.variable
+      )}
     >
       <head>
         {/* Marks Apple platforms before first paint, so shortcut hints never flip after hydration. */}

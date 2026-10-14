@@ -7,6 +7,7 @@
 @theme inline {
     --font-heading: var(--font-mono);
     --font-serif: var(--font-newsreader);
+    --font-serif-italic: var(--font-newsreader-italic);
     --font-mono: var(--font-geist-mono);
     --font-weight-title: 550;
     --color-sidebar-ring: var(--sidebar-ring);

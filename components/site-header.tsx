@@ -1,17 +1,12 @@
-"use client"
-
 import Link from "next/link"
-import { usePathname } from "next/navigation"
 
+import { NavLink } from "@/components/nav-link"
 import { ResumeDialog } from "@/components/resume-dialog"
 import { site } from "@/lib/content"
-import { cn } from "@/lib/utils"
 
 const nav = [{ label: "Projects", href: "/projects" }]
 
 export function SiteHeader() {
-  const pathname = usePathname()
-
   return (
     <header className="flex items-center justify-between gap-4 py-8">
       <Link
@@ -22,23 +17,11 @@ export function SiteHeader() {
       </Link>
       <nav aria-label="Main" className="shrink-0">
         <ul className="flex items-center gap-4 sm:gap-6">
-          {nav.map((item) => {
-            const active = pathname.startsWith(item.href)
-            return (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  aria-current={active ? "page" : undefined}
-                  className={cn(
-                    "rounded-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden",
-                    active && "text-foreground"
-                  )}
-                >
-                  {item.label}
-                </Link>
-              </li>
-            )
-          })}
+          {nav.map((item) => (
+            <li key={item.href}>
+              <NavLink href={item.href}>{item.label}</NavLink>
+            </li>
+          ))}
           <li>
             <ResumeDialog />
           </li>

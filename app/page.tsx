@@ -1,9 +1,13 @@
 import type { Metadata } from "next"
+import dynamic from "next/dynamic"
 
-import { ProjectQuery } from "@/components/project-query"
 import { Section } from "@/components/section"
 import { education, experience, links, site } from "@/lib/content"
 import { alternates } from "@/lib/metadata"
+
+const ProjectQuery = dynamic(() =>
+  import("@/components/project-query").then((mod) => mod.ProjectQuery)
+)
 
 export const metadata: Metadata = {
   alternates: alternates("/"),
