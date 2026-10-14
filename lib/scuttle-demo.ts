@@ -14,15 +14,14 @@ const skills: [name: string, kind: string, atWork: boolean][] = [
   ["Neovim", "tool", false],
 ]
 
-function text(value: string | undefined) {
-  return value === undefined ? "NULL" : `'${value.replaceAll("'", "''")}'`
+function text(value: string | null) {
+  return value === null ? "NULL" : `'${value.replaceAll("'", "''")}'`
 }
 
 export const seedStatements = [
   "CREATE TABLE projects (name TEXT, language TEXT, kind TEXT, active BOOL)",
   `INSERT INTO projects VALUES ${projects
-    .map(({ name, tags }) => {
-      const [language, kind] = tags.length > 1 ? tags : [undefined, tags[0]]
+    .map(({ name, language, kind }) => {
       return `(${text(name)}, ${text(language)}, ${text(kind)}, ${ACTIVE_PROJECTS.has(name)})`
     })
     .join(", ")}`,

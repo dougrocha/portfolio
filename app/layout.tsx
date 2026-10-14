@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { headers } from "next/headers"
 import { Analytics } from "@vercel/analytics/next"
 import { Geist_Mono, Newsreader } from "next/font/google"
 
@@ -44,14 +45,18 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image", creator: "@dougcoded" },
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const userAgent = (await headers()).get("user-agent") ?? ""
+  const platform = /Mac|iPhone|iPad|iPod/.test(userAgent) ? "apple" : "other"
+
   return (
     <html
       lang="en"
+      data-platform={platform}
       suppressHydrationWarning
       className={cn(
         "antialiased",
@@ -60,14 +65,6 @@ export default function RootLayout({
         geistMono.variable
       )}
     >
-      <head>
-        {/* Marks Apple platforms before first paint, so shortcut hints never flip after hydration. */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `document.documentElement.dataset.platform=/Mac|iPhone|iPad|iPod/.test(navigator.userAgent)?"apple":"other"`,
-          }}
-        />
-      </head>
       <body>
         <ThemeProvider forcedTheme="light">
           <a
