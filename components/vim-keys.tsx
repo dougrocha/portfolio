@@ -156,7 +156,7 @@ export function VimKeys() {
   }
 
   return (
-    <div className="hidden flex-col gap-3 sm:flex">
+    <div className="hidden flex-col gap-3 sm:flex sm:items-end sm:text-right">
       <p>
         <button
           type="button"
