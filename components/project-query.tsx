@@ -89,6 +89,7 @@ const projectByName = new Map(
 
 const initial = filters[0]
 
+/** The server renders the same result, so the list never waits on WebAssembly. */
 export function ProjectQuery() {
   const [sql, setSql] = React.useState(initial.sql)
   const [active, setActive] = React.useState<string | null>(initial.id)
@@ -116,6 +117,7 @@ export function ProjectQuery() {
   const typingRef = React.useRef<ReturnType<Motion["gsap"]["to"]> | null>(null)
   const runRef = React.useRef(0)
   const sqlRef = React.useRef(sql)
+  /** The last query that drew rows, re-run after a write so the list shows the change. */
   const lastSelectRef = React.useRef(initial.sql)
 
   React.useEffect(() => {
@@ -588,6 +590,10 @@ const SELECT_LIST = /^(\s*select\s+)([\s\S]*?)(\s+from\s[\s\S]*)$/i
 
 const PROJECT_COLUMNS = ["name", "language", "kind", "summary"]
 
+/**
+ * Hidden for results with other columns (aggregates, aliases), where adding
+ * one might not be valid SQL.
+ */
 function MissingColumns({
   columns,
   onAdd,
@@ -628,6 +634,7 @@ function leadColumn(columns: string[]) {
   return Math.max(columns.indexOf("name"), 0)
 }
 
+/** Repeated names are numbered, since an alias can make `name` repeat. */
 function rowIds({ columns, rows }: QueryResult) {
   const name = columns.indexOf("name")
   const seen = new Map<string, number>()

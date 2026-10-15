@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+# Only builds from a clean `main` that matches origin, so the demo always runs
+# code that is published on GitHub.
+#
+# Usage: bun run build:scuttle            (uses ../scuttle-db)
+#        SCUTTLE_DB_DIR=../other bun run build:scuttle
 set -euo pipefail
 
 root="$(cd "$(dirname "$0")/.." && pwd)"

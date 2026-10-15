@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+# Deploys a Vercel preview. Never deploys to production.
+#
+# Usage: bun run preview
+#        PREVIEW_ALIASES="a.example.com b.vercel.app" bun run preview
 set -euo pipefail
 
 aliases="${PREVIEW_ALIASES:-next.dougrocha.com dougrocha-next.vercel.app}"

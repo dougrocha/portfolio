@@ -140,6 +140,7 @@
     }
   html {
     @apply font-serif;
+    /* Short pages don't shift sideways when the scrollbar goes away. */
     scrollbar-gutter: stable;
     }
   h1, h2, h3, h4, h5, h6 {
