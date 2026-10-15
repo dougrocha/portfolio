@@ -139,11 +139,11 @@ export const craft: { group: string; entries: CraftEntry[] }[] = [
     group: "How I work",
     entries: [
       {
-        title: "Dotfiles linker",
+        title: "Dotfiles",
         date: "Sep 2026",
-        note: "My whole Linux desktop installs from one setup script. The dotfiles link themselves with a small Odin program, with a dry run and a prune for links that are no longer needed.",
+        note: "My Linux desktop setup, installed and linked with a small Odin program.",
         link: {
-          label: "Dotfiles on GitHub",
+          label: "GitHub",
           href: "https://github.com/dougrocha/dotfiles",
         },
       },
@@ -164,7 +164,7 @@ export const experience = [
     org: "Blue Cross Blue Shield of Arizona",
     period: "Jun 2026 to now",
     summary:
-      "Restored the HealthSherpa lead integration (no leads from December to September, then about 400 in the first two weeks back), rewrote the site header for desktop and mobile with W3C/WAI-ARIA accessibility and keyboard navigation, and fixed a root bug in the Sitecore publishing process.",
+      "Restored a third-party lead integration that had been down for months, which brought in hundreds of leads in the first two weeks. Rebuilt the site header for desktop and mobile with WAI-ARIA accessibility and full keyboard navigation. Fixed a root-cause bug in the Sitecore publishing process.",
   },
   {
     role: "Software Engineer Intern",
