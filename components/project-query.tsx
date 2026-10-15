@@ -11,34 +11,15 @@ import {
   type Cell,
   type QueryResult,
 } from "@/lib/project-query"
+import { createDatabase, dispose, type Db } from "@/lib/scuttle-db"
 import build from "@/lib/scuttle/build.json"
 import { Kbd } from "@/components/ui/kbd"
-
-type Db = {
-  run(sql: string): string
-  free(): void
-}
 
 type Status =
   | { kind: "local"; count: number }
   | { kind: "scuttle"; count: number; ms: number }
   | { kind: "affected"; count: number; ms: number }
   | { kind: "error"; message: string }
-
-async function createDatabase(): Promise<Db> {
-  const scuttle = await import("@/lib/scuttle/scuttle_wasm")
-  await scuttle.default()
-  const db = new scuttle.Db()
-  for (const statement of seedStatements) db.run(statement)
-  return db
-}
-
-/** A crashed instance can throw on `free()`; it's gone either way. */
-function dispose(db: Db | null) {
-  try {
-    db?.free()
-  } catch {}
-}
 
 function prefersReducedMotion() {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches
@@ -176,7 +157,7 @@ export function ProjectQuery() {
     if (loadRef.current) return loadRef.current
     const generation = generationRef.current
     setEngine("loading")
-    loadRef.current = createDatabase().then(
+    loadRef.current = createDatabase(seedStatements).then(
       (db) => {
         if (generation !== generationRef.current) {
           dispose(db)

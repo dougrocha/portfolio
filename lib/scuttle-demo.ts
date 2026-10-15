@@ -1,4 +1,5 @@
 import { projects } from "@/lib/content"
+import { sqlText } from "@/lib/scuttle-db"
 
 const ACTIVE_PROJECTS = new Set(["Scuttle DB", "Markdown LSP"])
 
@@ -14,23 +15,19 @@ const skills: [name: string, kind: string, atWork: boolean][] = [
   ["Neovim", "tool", false],
 ]
 
-function text(value: string | null) {
-  if (value !== null && /[^\x00-\x7F]/.test(value)) {
-    throw new Error("Scuttle DB panics on non-ASCII text.")
-  }
-  return value === null ? "NULL" : `'${value.replaceAll("'", "''")}'`
-}
-
 export const seedStatements = [
   "CREATE TABLE projects (name TEXT, language TEXT, kind TEXT, active BOOL)",
   `INSERT INTO projects VALUES ${projects
     .map(({ name, language, kind }) => {
-      return `(${text(name)}, ${text(language)}, ${text(kind)}, ${ACTIVE_PROJECTS.has(name)})`
+      return `(${sqlText(name)}, ${sqlText(language)}, ${sqlText(kind)}, ${ACTIVE_PROJECTS.has(name)})`
     })
     .join(", ")}`,
   "CREATE TABLE skills (name TEXT, kind TEXT, at_work BOOL)",
   `INSERT INTO skills VALUES ${skills
-    .map(([name, kind, atWork]) => `(${text(name)}, ${text(kind)}, ${atWork})`)
+    .map(
+      ([name, kind, atWork]) =>
+        `(${sqlText(name)}, ${sqlText(kind)}, ${atWork})`
+    )
     .join(", ")}`,
 ]
 
