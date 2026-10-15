@@ -7,7 +7,7 @@ export const site = {
   currently: "Odin, inference and graphics.",
   url: "https://dougrocha.com",
   description:
-    "Doug Rocha is a software engineer building full-stack web apps and Rust tools, from a database that runs in your browser to a language server.",
+    "Doug Rocha is a software engineer building full-stack web apps, Rust tools and Odin graphics, from a database that runs in your browser to a Vulkan renderer.",
 }
 
 export const links = [
@@ -41,6 +41,15 @@ export const projects: Project[] = [
     featured: true,
   },
   {
+    name: "Veil",
+    languages: ["Odin", "Slang"],
+    kind: "Graphics",
+    summary:
+      "Vulkan 1.4 renderer with clustered lighting, cascaded shadows and Slang shaders that hot-reload.",
+    href: "https://github.com/dougrocha/veil",
+    featured: true,
+  },
+  {
     name: "Markdown LSP",
     languages: ["Rust"],
     kind: "Tooling",
@@ -55,14 +64,6 @@ export const projects: Project[] = [
     summary: "Find the keymaps you never use.",
     href: "https://github.com/dougrocha/keytrack.nvim",
     featured: true,
-  },
-  {
-    name: "Veil",
-    languages: ["Odin", "Slang"],
-    kind: "Graphics",
-    summary:
-      "Vulkan 1.4 renderer with clustered lighting, cascaded shadows and Slang shaders that hot-reload.",
-    href: "https://github.com/dougrocha/veil",
   },
   {
     name: "Fala",
