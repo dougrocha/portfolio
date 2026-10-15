@@ -51,11 +51,11 @@ export const examples = [
   },
   {
     label: "Count by language",
-    sql: "SELECT language, COUNT(*) AS total FROM project_languages GROUP BY language",
+    sql: "SELECT language, COUNT(*) AS total FROM project_languages GROUP BY language ORDER BY total DESC",
   },
   {
     label: "Shader projects",
-    sql: "SELECT project FROM project_languages WHERE language = 'Slang'",
+    sql: "SELECT p.name, p.kind FROM projects p JOIN project_languages l ON l.project = p.name WHERE l.language = 'Slang'",
   },
   {
     label: "Used at work",
