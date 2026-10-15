@@ -18,9 +18,15 @@ const skills: [name: string, kind: string, atWork: boolean][] = [
 export const seedStatements = [
   "CREATE TABLE projects (name TEXT, language TEXT, kind TEXT, active BOOL)",
   `INSERT INTO projects VALUES ${projects
-    .map(({ name, language, kind }) => {
-      return `(${sqlText(name)}, ${sqlText(language)}, ${sqlText(kind)}, ${ACTIVE_PROJECTS.has(name)})`
+    .map(({ name, languages, kind }) => {
+      return `(${sqlText(name)}, ${sqlText(languages[0] ?? null)}, ${sqlText(kind)}, ${ACTIVE_PROJECTS.has(name)})`
     })
+    .join(", ")}`,
+  "CREATE TABLE project_languages (project TEXT, language TEXT)",
+  `INSERT INTO project_languages VALUES ${projects
+    .flatMap(({ name, languages }) =>
+      languages.map((language) => `(${sqlText(name)}, ${sqlText(language)})`)
+    )
     .join(", ")}`,
   "CREATE TABLE skills (name TEXT, kind TEXT, at_work BOOL)",
   `INSERT INTO skills VALUES ${skills
@@ -33,6 +39,7 @@ export const seedStatements = [
 
 export const tables = [
   { name: "projects", columns: ["name", "language", "kind", "active"] },
+  { name: "project_languages", columns: ["project", "language"] },
   { name: "skills", columns: ["name", "kind", "at_work"] },
 ]
 
@@ -44,7 +51,11 @@ export const examples = [
   },
   {
     label: "Count by language",
-    sql: "SELECT language, COUNT(*) AS total FROM projects GROUP BY language",
+    sql: "SELECT language, COUNT(*) AS total FROM project_languages GROUP BY language ORDER BY total DESC",
+  },
+  {
+    label: "Shader projects",
+    sql: "SELECT p.name, p.kind FROM projects p JOIN project_languages l ON l.project = p.name WHERE l.language = 'Slang'",
   },
   {
     label: "Used at work",

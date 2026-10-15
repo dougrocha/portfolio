@@ -27,7 +27,7 @@ export function ProjectList({
                     Live demo,{" "}
                   </span>
                 )}
-                {[project.language, project.kind].filter(Boolean).join(", ")}
+                {[...project.languages, project.kind].join(", ")}
               </p>
             </div>
             <p className="text-pretty text-muted-foreground">

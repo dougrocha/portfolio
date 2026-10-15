@@ -409,7 +409,7 @@ export function ProjectQuery() {
   async function addColumn(column: string) {
     const match = SELECT_LIST.exec(toStatement(sqlRef.current))
     if (!match) return
-    const query = `${match[1]}${match[2]}, ${column}${match[3]}`
+    const query = `${match[1]}${match[2]}, ${qualify(column, match[3])}${match[3]}`
     const run = ++runRef.current
     setActive(null)
     await typeQuery(query)
@@ -608,6 +608,15 @@ function StatusText({
 }
 
 const SELECT_LIST = /^(\s*select\s+)([\s\S]*?)(\s+from\s[\s\S]*)$/i
+
+const PROJECTS_ALIAS =
+  /\bfrom\s+projects\s+(?:as\s+)?(?!(?:join|inner|left|where|order|group|limit)\b)([a-z_]\w*)/i
+
+/** A joined table can share a column name, which Scuttle rejects as ambiguous. */
+function qualify(column: string, fromClause: string) {
+  if (!/\bjoin\b/i.test(fromClause)) return column
+  return `${PROJECTS_ALIAS.exec(fromClause)?.[1] ?? "projects"}.${column}`
+}
 
 const PROJECT_COLUMNS = ["name", "language", "kind", "summary"]
 

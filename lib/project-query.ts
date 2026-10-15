@@ -17,28 +17,29 @@ type Filter = {
 type SeedRow = {
   name: string
   language: string | null
+  languages: string[]
   kind: string
   summary: string
   demo: boolean
   position: number
 }
 
-const SELECT = "SELECT name, language, kind, summary FROM projects"
-const ORDER = " ORDER BY position"
-
-function whereSql(clause: Clause | undefined) {
-  if (!clause) return ""
-  if (clause.column === "demo") return " WHERE demo = true"
-  return ` WHERE language = ${sqlText(clause.value)}`
+function filterSql(clause: Clause | undefined) {
+  if (clause?.column === "language") {
+    return `SELECT p.name, p.language, p.kind, p.summary FROM projects p JOIN project_languages l ON l.project = p.name WHERE l.language = ${sqlText(clause.value)} ORDER BY p.position`
+  }
+  const where = clause?.column === "demo" ? " WHERE demo = true" : ""
+  return `SELECT name, language, kind, summary FROM projects${where} ORDER BY position`
 }
 
 function describe(id: string, label: string, clause?: Clause): Filter {
-  return { id, label, clause, sql: `${SELECT}${whereSql(clause)}${ORDER}` }
+  return { id, label, clause, sql: filterSql(clause) }
 }
 
 export const seedRows: SeedRow[] = projects.map((project, position) => ({
   name: project.name,
-  language: project.language,
+  language: project.languages[0] ?? null,
+  languages: project.languages,
   kind: project.kind,
   summary: project.summary,
   demo: project.demo ?? false,
@@ -47,7 +48,7 @@ export const seedRows: SeedRow[] = projects.map((project, position) => ({
 
 export const filters: Filter[] = [
   describe("all", "All"),
-  ...["Rust", "TypeScript", "Lua"].map((language) =>
+  ...["Rust", "Odin", "TypeScript", "Lua"].map((language) =>
     describe(language.toLowerCase(), language, {
       column: "language",
       value: language,
@@ -59,7 +60,7 @@ export const filters: Filter[] = [
 function matches(clause: Clause | undefined, row: SeedRow) {
   if (!clause) return true
   if (clause.column === "demo") return row.demo
-  return row.language === clause.value
+  return row.languages.includes(clause.value)
 }
 
 export const seedStatements = [
@@ -68,6 +69,14 @@ export const seedStatements = [
     .map(
       (row) =>
         `(${sqlText(row.name)}, ${sqlText(row.language)}, ${sqlText(row.kind)}, ${sqlText(row.summary)}, ${row.demo}, ${row.position})`
+    )
+    .join(", ")}`,
+  "CREATE TABLE project_languages (project TEXT, language TEXT)",
+  `INSERT INTO project_languages VALUES ${seedRows
+    .flatMap((row) =>
+      row.languages.map(
+        (language) => `(${sqlText(row.name)}, ${sqlText(language)})`
+      )
     )
     .join(", ")}`,
 ]
