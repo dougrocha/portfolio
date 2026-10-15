@@ -32,32 +32,13 @@ function placeCaret(editor: HTMLTextAreaElement) {
   editor.setSelectionRange(caret, caret)
 }
 
-function fitEditor(editor: HTMLTextAreaElement) {
-  if (CSS.supports("field-sizing", "content")) return
-  editor.style.height = "0px"
-  editor.style.height = `${editor.scrollHeight}px`
-}
-
-function sqlFromEditor(value: string, caret: number) {
-  const raw = value.replace(/\n/g, " ")
-  if (raw.endsWith(";")) {
-    const sql = raw.slice(0, -1)
-    return { sql, caret: Math.min(caret, sql.length) }
-  }
-  const semi = raw.lastIndexOf(";")
-  if (semi < 0) return { sql: raw, caret: Math.min(caret, raw.length) }
-  const sql = raw.slice(0, semi) + raw.slice(semi + 1)
-  return { sql, caret: caret > semi ? caret - 1 : Math.min(caret, sql.length) }
+function toStatement(sql: string) {
+  return sql.trim().replace(/;$/, "").trimEnd()
 }
 
 type Motion = {
   gsap: typeof import("gsap").gsap
   Flip: typeof import("gsap/Flip").Flip
-}
-
-type ControlledTween = {
-  progress: () => number
-  revert: () => void
 }
 
 type LeavingFade = {
@@ -114,7 +95,7 @@ const initial = filters[0]
 
 /** The server renders the same result, so the list never waits on WebAssembly. */
 export function ProjectQuery() {
-  const [sql, setSql] = React.useState(initial.sql)
+  const [sql, setSql] = React.useState(`${initial.sql};`)
   const [active, setActive] = React.useState<string | null>(initial.id)
   const [result, setResult] = React.useState<QueryResult>(() =>
     filterResult(initial)
@@ -146,11 +127,6 @@ export function ProjectQuery() {
 
   React.useEffect(() => {
     sqlRef.current = sql
-  }, [sql])
-
-  React.useLayoutEffect(() => {
-    const editor = editorRef.current
-    if (editor) fitEditor(editor)
   }, [sql])
 
   const load = React.useCallback(() => {
@@ -203,26 +179,20 @@ export function ProjectQuery() {
         (item) => !ids.has(item.dataset.flipId ?? "")
       )
       if (leaving.length) {
-        let settled = false
         await new Promise<void>((resolve) => {
-          const settle = () => {
-            if (settled) return
-            settled = true
-            resolve()
-          }
           const tween = gsap.to(leaving, {
             autoAlpha: 0,
             x: 12,
             duration: 0.24,
             ease: "power2.in",
             stagger: 0.02,
-            onComplete: settle,
-          }) as ControlledTween
+            onComplete: resolve,
+          })
           leavingFadeRef.current = {
             revert: () => tween.revert(),
-            settle,
+            settle: resolve,
           }
-          if (tween.progress() === 1) settle()
+          if (tween.progress() === 1) resolve()
         })
         if (fadeRef.current !== fade || run !== runRef.current) {
           if (leavingFadeRef.current && fadeRef.current === fade)
@@ -270,7 +240,7 @@ export function ProjectQuery() {
       const db = await load()
       if (!db || run !== runRef.current) return Boolean(db)
 
-      const statement = query.trim().replace(/;+\s*$/, "")
+      const statement = toStatement(query)
       // Scuttle DB panics on non-ASCII input, so stop it here instead of crashing.
       if (/[^\x00-\x7F]/.test(statement)) {
         setStatus({
@@ -372,9 +342,9 @@ export function ProjectQuery() {
 
   async function typeQuery(target: string) {
     typingRef.current?.kill()
-    const from = sqlRef.current
+    const from = toStatement(sqlRef.current)
     if (prefersReducedMotion() || from === target) {
-      setSql(target)
+      setSql(`${target};`)
       return
     }
     let motion = motionRef.current
@@ -383,7 +353,7 @@ export function ProjectQuery() {
         motion = await loadMotion()
         motionRef.current = motion
       } catch {
-        setSql(target)
+        setSql(`${target};`)
         return
       }
     }
@@ -402,14 +372,14 @@ export function ProjectQuery() {
         ease: "none",
         onUpdate: () => {
           const i = Math.round(steps.i)
-          setSql(
+          const text =
             i <= deletes
               ? from.slice(0, from.length - i)
               : target.slice(0, shared + (i - deletes))
-          )
+          setSql(`${text};`)
         },
         onComplete: () => {
-          setSql(target)
+          setSql(`${target};`)
           resolve()
         },
         onInterrupt: () => resolve(),
@@ -437,7 +407,7 @@ export function ProjectQuery() {
   }
 
   async function addColumn(column: string) {
-    const match = SELECT_LIST.exec(sqlRef.current)
+    const match = SELECT_LIST.exec(toStatement(sqlRef.current))
     if (!match) return
     const query = `${match[1]}${match[2]}, ${column}${match[3]}`
     const run = ++runRef.current
@@ -469,7 +439,9 @@ export function ProjectQuery() {
     takeOverTyping()
     const run = runRef.current
     const query = sqlRef.current
-    setActive(filters.find((filter) => filter.sql === query.trim())?.id ?? null)
+    setActive(
+      filters.find((filter) => filter.sql === toStatement(query))?.id ?? null
+    )
     const ran = await runInScuttle(query, run, true)
     if (!ran && run === runRef.current) {
       setStatus({
@@ -493,44 +465,40 @@ export function ProjectQuery() {
           >
             scuttle&gt;
           </span>
-          <textarea
-            ref={editorRef}
-            id="project-query"
-            value={`${sql};`}
-            rows={1}
-            spellCheck={false}
-            autoCapitalize="off"
-            autoCorrect="off"
-            aria-describedby="project-query-hint"
-            onChange={(event) => {
-              const editor = event.target
-              takeOverTyping()
-              const next = sqlFromEditor(editor.value, editor.selectionStart)
-              setSql(next.sql)
-              setActive(null)
-              if (
-                event.nativeEvent instanceof InputEvent &&
-                event.nativeEvent.isComposing
-              ) {
-                return
-              }
-              requestAnimationFrame(() => {
-                const node = editorRef.current
-                if (!node || document.activeElement !== node) return
-                node.setSelectionRange(next.caret, next.caret)
-              })
-            }}
-            onFocus={() => void load()}
-            onKeyDown={(event) => {
-              if (event.nativeEvent.isComposing || event.key === "Process")
-                return
-              if (event.key === "Enter" && !event.shiftKey) {
-                event.preventDefault()
-                void submit()
-              }
-            }}
-            className="[field-sizing:content] min-w-0 flex-1 resize-none overflow-hidden bg-transparent break-words whitespace-pre-wrap outline-hidden"
-          />
+          {/* The hidden copy sets the field's height, so both must wrap identically. */}
+          <div className="grid min-w-0 flex-1 grid-cols-1">
+            <span
+              aria-hidden="true"
+              className="invisible col-start-1 row-start-1 break-words whitespace-pre-wrap"
+            >
+              {sql}
+            </span>
+            <textarea
+              ref={editorRef}
+              id="project-query"
+              value={sql}
+              rows={1}
+              spellCheck={false}
+              autoCapitalize="off"
+              autoCorrect="off"
+              aria-describedby="project-query-hint"
+              onChange={(event) => {
+                takeOverTyping()
+                setSql(event.target.value.replace(/\n/g, " "))
+                setActive(null)
+              }}
+              onFocus={() => void load()}
+              onKeyDown={(event) => {
+                if (event.nativeEvent.isComposing || event.key === "Process")
+                  return
+                if (event.key === "Enter" && !event.shiftKey) {
+                  event.preventDefault()
+                  void submit()
+                }
+              }}
+              className="col-start-1 row-start-1 h-full resize-none overflow-hidden bg-transparent break-words whitespace-pre-wrap outline-hidden"
+            />
+          </div>
         </div>
 
         <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
