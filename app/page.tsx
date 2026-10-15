@@ -46,14 +46,6 @@ export default function Home() {
         <p className="text-[clamp(1.6rem,1.2rem+1.6vw,2.25rem)] leading-[1.15] tracking-[-0.02em] text-balance">
           {site.intro}
         </p>
-        <dl className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-2 font-mono text-sm">
-          <dt className="text-muted-foreground">Now</dt>
-          <dd>
-            {experience[0].role}, {experience[0].org}
-          </dd>
-          <dt className="text-muted-foreground">Learning</dt>
-          <dd>{site.currently}</dd>
-        </dl>
         <ul className="flex flex-wrap gap-x-6 gap-y-2">
           {links.map((link) => (
             <li key={link.label}>
@@ -68,6 +60,14 @@ export default function Home() {
           ))}
         </ul>
       </section>
+
+      <Section title="Now">
+        <div className="flex max-w-prose flex-col gap-4 text-pretty">
+          {site.now.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
+        </div>
+      </Section>
 
       <Section
         title="Projects"

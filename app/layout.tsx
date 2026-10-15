@@ -3,6 +3,7 @@ import { Analytics } from "@vercel/analytics/next"
 import { Geist_Mono, Newsreader } from "next/font/google"
 
 import "./globals.css"
+import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
 import { ThemeProvider } from "@/components/theme-provider"
 import { isProduction, site } from "@/lib/content"
@@ -81,6 +82,7 @@ export default function RootLayout({
             <main id="main" className="flex-1 pb-16">
               {children}
             </main>
+            <SiteFooter />
           </div>
         </ThemeProvider>
         <Analytics />

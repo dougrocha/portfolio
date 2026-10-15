@@ -4,7 +4,11 @@ export const site = {
   name: "Doug Rocha",
   title: "Software Engineer",
   intro: "I'm a software engineer with a grudge against bad tooling.",
-  currently: "Odin, inference and graphics.",
+  now: [
+    "Software engineer at Blue Cross Blue Shield of Arizona, mostly on the public site: lead integrations, navigation and the publishing pipeline behind it.",
+    "Outside work I'm learning Odin, inference and graphics by building the hard parts myself: a Vulkan renderer, an LLM server and the tools around them.",
+  ],
+  signOff: "Build the tool you wish you had.",
   url: "https://dougrocha.com",
   description:
     "Doug Rocha is a software engineer building full-stack web apps, Rust tools and Odin graphics, from a database that runs in your browser to a Vulkan renderer.",
@@ -117,6 +121,41 @@ export const projects: Project[] = [
     summary: "My whole Linux desktop, one setup script.",
     href: "https://github.com/dougrocha/dotfiles",
   },
+]
+
+export type CraftEntry = {
+  title: string
+  /** Month and year, as shown. */
+  date: string
+  note: string
+  image?: { src: string; alt: string; caption: string }
+  link: { label: string; href: string }
+  /** A writing post about the entry, once there is one. */
+  post?: { label: string; href: string }
+}
+
+export const craft: { group: string; entries: CraftEntry[] }[] = [
+  {
+    group: "How I work",
+    entries: [
+      {
+        title: "Dotfiles linker",
+        date: "Sep 2026",
+        note: "My whole Linux desktop installs from one setup script. The dotfiles link themselves with a small Odin program instead of GNU Stow, with a dry run and a prune for links that are no longer needed.",
+        link: {
+          label: "Dotfiles on GitHub",
+          href: "https://github.com/dougrocha/dotfiles",
+        },
+      },
+    ],
+  },
+]
+
+export const setup = [
+  { label: "OS", value: "Arch Linux, Hyprland" },
+  { label: "Terminal", value: "Ghostty, tmux, fish" },
+  { label: "Editor", value: "Neovim" },
+  { label: "Git", value: "lazygit" },
 ]
 
 export const experience = [

@@ -4,7 +4,10 @@ import { NavLink } from "@/components/nav-link"
 import { ResumeDialog } from "@/components/resume-dialog"
 import { site } from "@/lib/content"
 
-const nav = [{ label: "Projects", href: "/projects" }]
+const nav = [
+  { label: "Projects", href: "/projects" },
+  { label: "Craft", href: "/craft" },
+]
 
 export function SiteHeader() {
   return (
