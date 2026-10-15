@@ -1,13 +1,14 @@
 import { projects } from "@/lib/content"
 import { sqlText } from "@/lib/scuttle-db"
 
-const ACTIVE_PROJECTS = new Set(["Scuttle DB", "Markdown LSP"])
+const ACTIVE_PROJECTS = new Set(["Veil", "Fala"])
 
 const skills: [name: string, kind: string, atWork: boolean][] = [
   ["Rust", "language", false],
   ["Odin", "language", false],
   ["TypeScript", "language", true],
   ["Lua", "language", false],
+  ["C#", "language", true],
   ["Next.js", "framework", true],
   [".NET", "framework", true],
   ["Sitecore", "platform", true],
@@ -54,7 +55,7 @@ export const examples = [
     sql: "SELECT language, COUNT(*) AS total FROM project_languages GROUP BY language ORDER BY total DESC",
   },
   {
-    label: "Shader projects",
+    label: "Slang projects",
     sql: "SELECT p.name, p.kind FROM projects p JOIN project_languages l ON l.project = p.name WHERE l.language = 'Slang'",
   },
   {

@@ -7,7 +7,7 @@ import { alternates, openGraph } from "@/lib/metadata"
 export const metadata: Metadata = {
   title: "Projects",
   description:
-    "Rust tools, Neovim plugins and full-stack web apps by Doug Rocha, including a relational database you can query in your browser.",
+    "Rust tools, Odin graphics, Neovim plugins and full-stack web apps by Doug Rocha, including a relational database you can query in your browser.",
   alternates: alternates("/projects"),
   openGraph: openGraph("/projects"),
 }

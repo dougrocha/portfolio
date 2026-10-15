@@ -282,7 +282,7 @@ export function ProjectQuery() {
           setStatus({
             kind: "error",
             message:
-              "That query crashed the database, so it restarted with the original rows.",
+              "That query crashed the database, so it restarted with the sample data.",
           })
           return true
         }
@@ -572,7 +572,7 @@ function StatusText({
           <span>
             {engine === "failed"
               ? "Filtered in JavaScript. Scuttle DB couldn't load here."
-              : "Waking up Scuttle DB in your browser."}
+              : "Starting Scuttle DB in your browser."}
           </span>
         </>
       )

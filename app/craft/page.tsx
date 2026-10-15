@@ -7,7 +7,7 @@ import { craft, setup, type CraftEntry } from "@/lib/content"
 import { alternates, openGraph } from "@/lib/metadata"
 
 export const metadata: Metadata = {
-  title: "Craft",
+  title: "Craft Notes",
   description: "How Doug Rocha builds things, and the setup behind them.",
   alternates: alternates("/craft"),
   openGraph: openGraph("/craft"),

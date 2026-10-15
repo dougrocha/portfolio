@@ -5,13 +5,13 @@ export const site = {
   title: "Software Engineer",
   intro: "I'm a software engineer with a grudge against bad tooling.",
   now: [
-    "Software engineer at Blue Cross Blue Shield of Arizona, mostly on the public site: lead integrations, navigation and the publishing pipeline behind it.",
-    "Outside work I'm learning Odin, inference and graphics by building the hard parts myself: a Vulkan renderer, an LLM server and the tools around them.",
+    "Software engineer at Blue Cross Blue Shield of Arizona. I work mostly on the public site: lead integrations, navigation and publishing.",
+    "Outside work I'm learning Odin, inference and graphics by building the hard parts myself: a Vulkan renderer and an LLM inference server.",
   ],
-  signOff: "Build the tool you wish you had.",
+  signOff: "Made in Arizona.",
   url: "https://dougrocha.com",
   description:
-    "Doug Rocha is a software engineer building full-stack web apps, Rust tools and Odin graphics, from a database that runs in your browser to a Vulkan renderer.",
+    "Doug Rocha is a software engineer who builds Rust and Odin projects, from a database that runs in your browser to a Vulkan renderer.",
 }
 
 export const links = [
@@ -39,7 +39,7 @@ export const projects: Project[] = [
     languages: ["Rust"],
     kind: "Systems",
     summary:
-      "A relational database written from scratch, with its own SQL parser and B-tree storage.",
+      "A relational database written from scratch, with its own SQL parser, planner and page-based storage.",
     href: "/projects/scuttle-db",
     demo: true,
     featured: true,
@@ -54,10 +54,10 @@ export const projects: Project[] = [
     featured: true,
   },
   {
-    name: "Markdown LSP",
+    name: "Markdown Language Server",
     languages: ["Rust"],
     kind: "Tooling",
-    summary: "Language server for zettelkasten notes.",
+    summary: "Language server for Markdown notes with wiki links.",
     href: "https://github.com/dougrocha/rust_markdown_lsp_server",
     featured: true,
   },
@@ -95,7 +95,7 @@ export const projects: Project[] = [
   {
     name: "Rust Text Editor",
     languages: ["Rust"],
-    kind: "Learning",
+    kind: "TUI",
     summary: "Vim-style modal editor for the terminal.",
     href: "https://github.com/dougrocha/rust_text_editor",
   },
@@ -104,7 +104,7 @@ export const projects: Project[] = [
     languages: ["Rust"],
     kind: "TUI",
     summary:
-      "Tagged meme library for the terminal, built on Hako, my own TUI framework.",
+      "Tagged meme library for the terminal, built on my own TUI framework.",
     href: "https://github.com/dougrocha/kura",
   },
   {
@@ -118,7 +118,8 @@ export const projects: Project[] = [
     name: "Dotfiles",
     languages: [],
     kind: "Config",
-    summary: "My whole Linux desktop, one setup script.",
+    summary:
+      "My Linux desktop setup, linked into place by a small Odin program.",
     href: "https://github.com/dougrocha/dotfiles",
   },
 ]
@@ -141,7 +142,7 @@ export const craft: { group: string; entries: CraftEntry[] }[] = [
       {
         title: "Dotfiles",
         date: "Sep 2026",
-        note: "My Linux desktop setup, installed and linked with a small Odin program.",
+        note: "My Linux desktop setup, linked into place by a small Odin program.",
         link: {
           label: "GitHub",
           href: "https://github.com/dougrocha/dotfiles",
@@ -164,21 +165,21 @@ export const experience = [
     org: "Blue Cross Blue Shield of Arizona",
     period: "Jun 2026 to now",
     summary:
-      "Restored a third-party lead integration that had been down for months, which brought in hundreds of leads in the first two weeks. Rebuilt the site header for desktop and mobile with WAI-ARIA accessibility and full keyboard navigation. Fixed a root-cause bug in the Sitecore publishing process.",
+      "Restored a third-party lead integration that had been down for months, which brought in hundreds of leads in the first two weeks. Rebuilt the site header for desktop and mobile with WAI-ARIA accessibility and full keyboard navigation. Fixed the root cause of a Sitecore publishing bug.",
   },
   {
     role: "Software Engineer Intern",
     org: "Blue Cross Blue Shield of Arizona",
     period: "May to Nov 2025",
     summary:
-      "Consolidated duplicated search logic into a shared hook and built the Blue Card medical policy router.",
+      "Consolidated duplicated search logic into a shared hook and built the Blue Card medical-policy router.",
   },
   {
     role: "Software Engineer Intern",
     org: "Blue Cross Blue Shield of Arizona",
     period: "May to Nov 2023",
     summary:
-      "Built the forgot password flow with SMS and email codes and a magic link for recovery.",
+      "Built the forgot password flow with SMS and email codes and a magic link.",
   },
 ]
 

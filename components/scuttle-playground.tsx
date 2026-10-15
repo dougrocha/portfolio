@@ -358,7 +358,7 @@ export function ScuttlePlayground() {
           className="text-sm text-muted-foreground tabular-nums empty:hidden"
         >
           {status === "loading"
-            ? "Starting database…"
+            ? "Starting Scuttle DB in your browser…"
             : (notice ?? summarize(result))}
         </p>
         {output?.kind === "error" && (

@@ -1,1 +1,1 @@
-Projects page listing Doug Rocha's Rust tools, Neovim plugins and full-stack web apps.
+Projects page listing Doug Rocha's Rust tools, Odin graphics, Neovim plugins and full-stack web apps.
