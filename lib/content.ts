@@ -1,4 +1,3 @@
-/** Only production is indexed; previews and local builds tell search engines to stay away. */
 export const isProduction = process.env.VERCEL_ENV === "production"
 
 export const site = {

@@ -13,7 +13,6 @@ export const metadata: Metadata = {
   alternates: alternates("/"),
 }
 
-/** Ties this site and the profiles in `links` to one person for search engines. */
 const profile = {
   "@context": "https://schema.org",
   "@type": "ProfilePage",

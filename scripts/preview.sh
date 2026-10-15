@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-# Deploys a Vercel preview of the current folder and points the stable preview
-# names at it. Never deploys to production.
+# Deploys a Vercel preview. Never deploys to production.
 #
 # Usage: bun run preview
 #        PREVIEW_ALIASES="a.example.com b.vercel.app" bun run preview

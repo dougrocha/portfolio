@@ -31,7 +31,7 @@ type Output =
   | { kind: "done" }
   | { kind: "error"; message: string }
 
-/** The last statement's output, its plan, and time spent inside the database. */
+/** Output and plan come from the last statement run; `ms` sums every statement. */
 type RunResult = { output: Output; plan: string | null; ms: number }
 
 type Db = {
@@ -96,7 +96,6 @@ function missingFrom(a: Cell[][], b: Cell[][]) {
   })
 }
 
-/** The table an UPDATE or DELETE writes to, or `null` for other statements. */
 function writeTarget(statement: string) {
   const match = WRITE_STATEMENT.exec(statement)
   return match ? (match[1] ?? match[2]) : null
@@ -112,7 +111,6 @@ function selectAll(db: Db, table: string) {
   }
 }
 
-/** One-line summary of a run, announced to screen readers through the status region. */
 function summarize(result: RunResult | null) {
   if (!result) return ""
   const { output, ms } = result
@@ -135,10 +133,9 @@ function summarize(result: RunResult | null) {
   }
 }
 
-/** Thrown when a panic inside the database has left the instance unusable. */
+/** A panic inside the database left the instance unusable. */
 class CrashedError extends Error {}
 
-/** Runs each statement in `query` and returns the last result, stopping at the first error. */
 function execute(db: Db, query: string): RunResult {
   let output: Output = { kind: "done" }
   let plan: string | null = null

@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# Builds Scuttle DB for the browser and copies the output into the site.
 # Only builds from a clean `main` that matches origin, so the demo always runs
 # code that is published on GitHub.
 #

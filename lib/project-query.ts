@@ -2,7 +2,6 @@ import { projects } from "@/lib/content"
 
 export type Cell = string | number | boolean | null
 
-/** A query result as Scuttle returns it: column names in query order, then rows. */
 export type QueryResult = { columns: string[]; rows: Cell[][] }
 
 type Filter = {
