@@ -19,7 +19,8 @@ export const links = [
 
 export type Project = {
   name: string
-  language: string | null
+  /** Main language first. */
+  languages: string[]
   kind: string
   summary: string
   href: string
@@ -31,7 +32,7 @@ export type Project = {
 export const projects: Project[] = [
   {
     name: "Scuttle DB",
-    language: "Rust",
+    languages: ["Rust"],
     kind: "Systems",
     summary:
       "A relational database written from scratch, with its own SQL parser and B-tree storage.",
@@ -41,7 +42,7 @@ export const projects: Project[] = [
   },
   {
     name: "Markdown LSP",
-    language: "Rust",
+    languages: ["Rust"],
     kind: "Tooling",
     summary: "Language server for zettelkasten notes.",
     href: "https://github.com/dougrocha/rust_markdown_lsp_server",
@@ -49,15 +50,31 @@ export const projects: Project[] = [
   },
   {
     name: "keytrack.nvim",
-    language: "Lua",
+    languages: ["Lua"],
     kind: "Neovim plugin",
     summary: "Find the keymaps you never use.",
     href: "https://github.com/dougrocha/keytrack.nvim",
     featured: true,
   },
   {
+    name: "Veil",
+    languages: ["Odin", "Slang"],
+    kind: "Graphics",
+    summary:
+      "Vulkan 1.4 renderer with clustered lighting, cascaded shadows and Slang shaders that hot-reload.",
+    href: "https://github.com/dougrocha/veil",
+  },
+  {
+    name: "Fala",
+    languages: ["Odin"],
+    kind: "Inference",
+    summary:
+      "LLM inference server on llama.cpp, built to learn batching, the KV cache and streaming.",
+    href: "https://github.com/dougrocha/fala",
+  },
+  {
     name: "Quanty",
-    language: "TypeScript",
+    languages: ["TypeScript"],
     kind: "Full stack",
     summary:
       "Discord bot with moderation and fun commands, configured from a web dashboard.",
@@ -65,21 +82,21 @@ export const projects: Project[] = [
   },
   {
     name: "Forms",
-    language: "TypeScript",
+    languages: ["TypeScript"],
     kind: "Full stack",
     summary: "Build forms, share them, see the stats.",
     href: "https://github.com/dougrocha/form_builder",
   },
   {
     name: "Rust Text Editor",
-    language: "Rust",
+    languages: ["Rust"],
     kind: "Learning",
     summary: "Vim-style modal editor for the terminal.",
     href: "https://github.com/dougrocha/rust_text_editor",
   },
   {
     name: "Kura",
-    language: "Rust",
+    languages: ["Rust"],
     kind: "TUI",
     summary:
       "Tagged meme library for the terminal, built on Hako, my own TUI framework.",
@@ -87,14 +104,14 @@ export const projects: Project[] = [
   },
   {
     name: "Meka",
-    language: "TypeScript",
+    languages: ["TypeScript"],
     kind: "Full stack",
     summary: "Track and share mechanical keyboard builds.",
     href: "https://github.com/dougrocha/KeyboardTracker",
   },
   {
     name: "Dotfiles",
-    language: null,
+    languages: [],
     kind: "Config",
     summary: "My whole Linux desktop, one setup script.",
     href: "https://github.com/dougrocha/dotfiles",

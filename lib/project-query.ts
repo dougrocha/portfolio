@@ -38,7 +38,7 @@ function describe(id: string, label: string, clause?: Clause): Filter {
 
 export const seedRows: SeedRow[] = projects.map((project, position) => ({
   name: project.name,
-  language: project.language,
+  language: project.languages[0] ?? null,
   kind: project.kind,
   summary: project.summary,
   demo: project.demo ?? false,
@@ -47,7 +47,7 @@ export const seedRows: SeedRow[] = projects.map((project, position) => ({
 
 export const filters: Filter[] = [
   describe("all", "All"),
-  ...["Rust", "TypeScript", "Lua"].map((language) =>
+  ...["Rust", "Odin", "TypeScript", "Lua"].map((language) =>
     describe(language.toLowerCase(), language, {
       column: "language",
       value: language,
