@@ -8,17 +8,12 @@ import {
   filterResult,
   filters,
   seedStatements,
-  toAscii,
   type Cell,
   type QueryResult,
 } from "@/lib/project-query"
+import { createDatabase, dispose, type Db } from "@/lib/scuttle-db"
 import build from "@/lib/scuttle/build.json"
 import { Kbd } from "@/components/ui/kbd"
-
-type Db = {
-  run(sql: string): string
-  free(): void
-}
 
 type Status =
   | { kind: "local"; count: number }
@@ -26,28 +21,37 @@ type Status =
   | { kind: "affected"; count: number; ms: number }
   | { kind: "error"; message: string }
 
-async function createDatabase(): Promise<Db> {
-  const scuttle = await import("@/lib/scuttle/scuttle_wasm")
-  await scuttle.default()
-  const db = new scuttle.Db()
-  for (const statement of seedStatements) db.run(statement)
-  return db
-}
-
-/** A crashed instance can throw on `free()`; it's gone either way. */
-function dispose(db: Db | null) {
-  try {
-    db?.free()
-  } catch {}
-}
-
 function prefersReducedMotion() {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches
+}
+
+function placeCaret(editor: HTMLTextAreaElement) {
+  const caret = editor.value.endsWith(";")
+    ? editor.value.length - 1
+    : editor.value.length
+  editor.setSelectionRange(caret, caret)
+}
+
+function toStatement(sql: string) {
+  return sql.trim().replace(/;$/, "").trimEnd()
 }
 
 type Motion = {
   gsap: typeof import("gsap").gsap
   Flip: typeof import("gsap/Flip").Flip
+}
+
+type LeavingFade = {
+  revert: () => void
+  settle: () => void
+}
+
+function cancelLeaving(slot: { current: LeavingFade | null }) {
+  const fade = slot.current
+  if (!fade) return
+  slot.current = null
+  fade.revert()
+  fade.settle()
 }
 
 /** GSAP stays out of the first load. The list only animates after a visitor acts. */
@@ -91,7 +95,7 @@ const initial = filters[0]
 
 /** The server renders the same result, so the list never waits on WebAssembly. */
 export function ProjectQuery() {
-  const [sql, setSql] = React.useState(initial.sql)
+  const [sql, setSql] = React.useState(`${initial.sql};`)
   const [active, setActive] = React.useState<string | null>(initial.id)
   const [result, setResult] = React.useState<QueryResult>(() =>
     filterResult(initial)
@@ -107,7 +111,6 @@ export function ProjectQuery() {
   const dbRef = React.useRef<Db | null>(null)
   const loadRef = React.useRef<Promise<Db | null> | null>(null)
   const generationRef = React.useRef(0)
-  const disposedRef = React.useRef(false)
   const listRef = React.useRef<HTMLUListElement>(null)
   const editorRef = React.useRef<HTMLTextAreaElement>(null)
   const motionRef = React.useRef<Motion | null>(null)
@@ -115,6 +118,8 @@ export function ProjectQuery() {
     null
   )
   const typingRef = React.useRef<ReturnType<Motion["gsap"]["to"]> | null>(null)
+  const leavingFadeRef = React.useRef<LeavingFade | null>(null)
+  const fadeRef = React.useRef(0)
   const runRef = React.useRef(0)
   const sqlRef = React.useRef(sql)
   /** The last query that drew rows, re-run after a write so the list shows the change. */
@@ -126,10 +131,9 @@ export function ProjectQuery() {
 
   const load = React.useCallback(() => {
     if (loadRef.current) return loadRef.current
-    if (disposedRef.current) return Promise.resolve(null)
     const generation = generationRef.current
     setEngine("loading")
-    loadRef.current = createDatabase().then(
+    loadRef.current = createDatabase(seedStatements).then(
       (db) => {
         if (generation !== generationRef.current) {
           dispose(db)
@@ -150,6 +154,8 @@ export function ProjectQuery() {
   const commit = React.useCallback(
     async (next: QueryResult, run: number, animate: boolean) => {
       if (run !== runRef.current) return
+      const fade = ++fadeRef.current
+      cancelLeaving(leavingFadeRef)
       const list = listRef.current
       if (!animate || !list || prefersReducedMotion()) {
         setResult(next)
@@ -173,18 +179,27 @@ export function ProjectQuery() {
         (item) => !ids.has(item.dataset.flipId ?? "")
       )
       if (leaving.length) {
-        await gsap.to(leaving, {
-          autoAlpha: 0,
-          x: 12,
-          duration: 0.24,
-          ease: "power2.in",
-          stagger: 0.02,
+        await new Promise<void>((resolve) => {
+          const tween = gsap.to(leaving, {
+            autoAlpha: 0,
+            x: 12,
+            duration: 0.24,
+            ease: "power2.in",
+            stagger: 0.02,
+            onComplete: resolve,
+          })
+          leavingFadeRef.current = {
+            revert: () => tween.revert(),
+            settle: resolve,
+          }
+          if (tween.progress() === 1) resolve()
         })
-        // A newer query took over during the fade; put these rows back for it.
-        if (run !== runRef.current) {
-          gsap.set(leaving, { clearProps: "opacity,visibility,transform" })
+        if (fadeRef.current !== fade || run !== runRef.current) {
+          if (leavingFadeRef.current && fadeRef.current === fade)
+            cancelLeaving(leavingFadeRef)
           return
         }
+        leavingFadeRef.current = null
       }
       flipRef.current = Flip.getState(
         items.filter((item) => !leaving.includes(item))
@@ -225,7 +240,7 @@ export function ProjectQuery() {
       const db = await load()
       if (!db || run !== runRef.current) return Boolean(db)
 
-      const statement = query.trim().replace(/;+\s*$/, "")
+      const statement = toStatement(query)
       // Scuttle DB panics on non-ASCII input, so stop it here instead of crashing.
       if (/[^\x00-\x7F]/.test(statement)) {
         setStatus({
@@ -282,7 +297,6 @@ export function ProjectQuery() {
   )
 
   React.useEffect(() => {
-    disposedRef.current = false
     const start = () => {
       const run = runRef.current
       // The first run repeats the server result, so it skips the list animation
@@ -298,13 +312,13 @@ export function ProjectQuery() {
     return () => {
       if (idle) window.cancelIdleCallback(id)
       else window.clearTimeout(id)
-      // A load still in flight belongs to this mount; it frees itself on arrival.
+      // A load still in flight captured an older generation and frees its database on arrival.
       /* eslint-disable react-hooks/exhaustive-deps -- counters, not DOM nodes */
       generationRef.current++
       runRef.current++
       /* eslint-enable react-hooks/exhaustive-deps */
-      disposedRef.current = true
       typingRef.current?.kill()
+      cancelLeaving(leavingFadeRef)
       loadRef.current = null
       dispose(dbRef.current)
       dbRef.current = null
@@ -320,7 +334,7 @@ export function ProjectQuery() {
       const editor = editorRef.current
       if (!editor) return
       editor.focus()
-      editor.setSelectionRange(editor.value.length, editor.value.length)
+      placeCaret(editor)
     }
     window.addEventListener("keydown", onKey)
     return () => window.removeEventListener("keydown", onKey)
@@ -328,9 +342,9 @@ export function ProjectQuery() {
 
   async function typeQuery(target: string) {
     typingRef.current?.kill()
-    const from = sqlRef.current
+    const from = toStatement(sqlRef.current)
     if (prefersReducedMotion() || from === target) {
-      setSql(target)
+      setSql(`${target};`)
       return
     }
     let motion = motionRef.current
@@ -339,7 +353,7 @@ export function ProjectQuery() {
         motion = await loadMotion()
         motionRef.current = motion
       } catch {
-        setSql(target)
+        setSql(`${target};`)
         return
       }
     }
@@ -358,14 +372,14 @@ export function ProjectQuery() {
         ease: "none",
         onUpdate: () => {
           const i = Math.round(steps.i)
-          setSql(
+          const text =
             i <= deletes
               ? from.slice(0, from.length - i)
               : target.slice(0, shared + (i - deletes))
-          )
+          setSql(`${text};`)
         },
         onComplete: () => {
-          setSql(target)
+          setSql(`${target};`)
           resolve()
         },
         onInterrupt: () => resolve(),
@@ -393,7 +407,7 @@ export function ProjectQuery() {
   }
 
   async function addColumn(column: string) {
-    const match = SELECT_LIST.exec(sqlRef.current)
+    const match = SELECT_LIST.exec(toStatement(sqlRef.current))
     if (!match) return
     const query = `${match[1]}${match[2]}, ${column}${match[3]}`
     const run = ++runRef.current
@@ -414,12 +428,20 @@ export function ProjectQuery() {
       .catch(() => {})
   }
 
+  function takeOverTyping() {
+    runRef.current++
+    typingRef.current?.kill()
+    cancelLeaving(leavingFadeRef)
+  }
+
   async function submit(event?: React.FormEvent) {
     event?.preventDefault()
-    const run = ++runRef.current
-    typingRef.current?.kill()
+    takeOverTyping()
+    const run = runRef.current
     const query = sqlRef.current
-    setActive(filters.find((filter) => filter.sql === query.trim())?.id ?? null)
+    setActive(
+      filters.find((filter) => filter.sql === toStatement(query))?.id ?? null
+    )
     const ran = await runInScuttle(query, run, true)
     if (!ran && run === runRef.current) {
       setStatus({
@@ -443,15 +465,14 @@ export function ProjectQuery() {
           >
             scuttle&gt;
           </span>
-          {/* The textarea sits on a mirror that draws the text; both wrap identically. */}
-          <div className="grid min-w-0 flex-1">
-            <div
+          {/* The hidden copy sets the field's height, so both must wrap identically. */}
+          <div className="grid min-w-0 flex-1 grid-cols-1">
+            <span
               aria-hidden="true"
-              className="col-start-1 row-start-1 break-words whitespace-pre-wrap"
+              className="invisible col-start-1 row-start-1 break-words whitespace-pre-wrap"
             >
               {sql}
-              <span className="text-muted-foreground">;</span>
-            </div>
+            </span>
             <textarea
               ref={editorRef}
               id="project-query"
@@ -462,20 +483,20 @@ export function ProjectQuery() {
               autoCorrect="off"
               aria-describedby="project-query-hint"
               onChange={(event) => {
-                // Typing takes over from any filter still animating or running.
-                runRef.current++
-                typingRef.current?.kill()
+                takeOverTyping()
                 setSql(event.target.value.replace(/\n/g, " "))
                 setActive(null)
               }}
               onFocus={() => void load()}
               onKeyDown={(event) => {
+                if (event.nativeEvent.isComposing || event.key === "Process")
+                  return
                 if (event.key === "Enter" && !event.shiftKey) {
                   event.preventDefault()
                   void submit()
                 }
               }}
-              className="col-start-1 row-start-1 h-full resize-none overflow-hidden bg-transparent break-words whitespace-pre-wrap text-transparent caret-foreground outline-hidden selection:bg-foreground/15 selection:text-transparent"
+              className="col-start-1 row-start-1 h-full resize-none overflow-hidden bg-transparent break-words whitespace-pre-wrap outline-hidden"
             />
           </div>
         </div>
@@ -668,15 +689,12 @@ function ResultItem({
     nameAt >= 0 ? projectByName.get(String(row[nameAt])) : undefined
   const lead = leadColumn(columns)
 
-  const cells = columns.map((column, i) => {
-    const value = row[i]
-    // Stored text is ASCII; show the original when it matches.
-    const text =
-      column === "summary" && project && value === toAscii(project.summary)
-        ? project.summary
-        : formatCell(value)
-    return { column, text, key: `${column}-${i}`, i }
-  })
+  const cells = columns.map((column, i) => ({
+    column,
+    text: formatCell(row[i]),
+    key: `${column}-${i}`,
+    i,
+  }))
   const short = cells.filter(
     (cell) => cell.i !== lead && cell.column !== "summary"
   )

@@ -20,6 +20,7 @@ import {
   splitStatements,
   tables,
 } from "@/lib/scuttle-demo"
+import { createDatabase, dispose, type Db } from "@/lib/scuttle-db"
 
 type Cell = string | number | boolean | null
 
@@ -33,20 +34,6 @@ type Output =
 
 /** Output and plan come from the last statement run; `ms` sums every statement. */
 type RunResult = { output: Output; plan: string | null; ms: number }
-
-type Db = {
-  run(sql: string): string
-  explain(sql: string): string
-  free(): void
-}
-
-async function createDatabase(): Promise<Db> {
-  const scuttle = await import("@/lib/scuttle/scuttle_wasm")
-  await scuttle.default()
-  const db = new scuttle.Db()
-  for (const statement of seedStatements) db.run(statement)
-  return db
-}
 
 const subscribeNever = () => () => {}
 
@@ -202,9 +189,9 @@ export function ScuttlePlayground() {
   React.useEffect(() => {
     let cancelled = false
 
-    createDatabase().then(
+    createDatabase(seedStatements).then(
       (db) => {
-        if (cancelled) return db.free()
+        if (cancelled) return dispose(db)
         dbRef.current = db
         setStatus("ready")
       },
@@ -213,14 +200,14 @@ export function ScuttlePlayground() {
 
     return () => {
       cancelled = true
-      dbRef.current?.free()
+      dispose(dbRef.current)
       dbRef.current = null
     }
   }, [])
 
   async function reset() {
-    dbRef.current?.free()
-    dbRef.current = await createDatabase()
+    dispose(dbRef.current)
+    dbRef.current = await createDatabase(seedStatements)
   }
 
   async function run(query: string) {

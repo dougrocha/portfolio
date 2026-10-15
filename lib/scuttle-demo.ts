@@ -1,4 +1,5 @@
 import { projects } from "@/lib/content"
+import { sqlText } from "@/lib/scuttle-db"
 
 const ACTIVE_PROJECTS = new Set(["Scuttle DB", "Markdown LSP"])
 
@@ -14,21 +15,19 @@ const skills: [name: string, kind: string, atWork: boolean][] = [
   ["Neovim", "tool", false],
 ]
 
-function text(value: string | undefined) {
-  return value === undefined ? "NULL" : `'${value.replaceAll("'", "''")}'`
-}
-
 export const seedStatements = [
   "CREATE TABLE projects (name TEXT, language TEXT, kind TEXT, active BOOL)",
   `INSERT INTO projects VALUES ${projects
-    .map(({ name, tags }) => {
-      const [language, kind] = tags.length > 1 ? tags : [undefined, tags[0]]
-      return `(${text(name)}, ${text(language)}, ${text(kind)}, ${ACTIVE_PROJECTS.has(name)})`
+    .map(({ name, language, kind }) => {
+      return `(${sqlText(name)}, ${sqlText(language)}, ${sqlText(kind)}, ${ACTIVE_PROJECTS.has(name)})`
     })
     .join(", ")}`,
   "CREATE TABLE skills (name TEXT, kind TEXT, at_work BOOL)",
   `INSERT INTO skills VALUES ${skills
-    .map(([name, kind, atWork]) => `(${text(name)}, ${text(kind)}, ${atWork})`)
+    .map(
+      ([name, kind, atWork]) =>
+        `(${sqlText(name)}, ${sqlText(kind)}, ${atWork})`
+    )
     .join(", ")}`,
 ]
 

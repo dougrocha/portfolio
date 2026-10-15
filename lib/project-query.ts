@@ -1,70 +1,73 @@
 import { projects } from "@/lib/content"
+import { sqlText } from "@/lib/scuttle-db"
 
 export type Cell = string | number | boolean | null
 
 export type QueryResult = { columns: string[]; rows: Cell[][] }
 
+type Clause = { column: "language"; value: string } | { column: "demo" }
+
 type Filter = {
   id: string
   label: string
+  clause?: Clause
   sql: string
-  /** Same result as `sql`, for the server render and when WebAssembly is unavailable. */
-  match: (row: SeedRow) => boolean
 }
 
 type SeedRow = {
   name: string
   language: string | null
-  kind: string | null
+  kind: string
   summary: string
   demo: boolean
+  position: number
 }
 
 const SELECT = "SELECT name, language, kind, summary FROM projects"
+const ORDER = " ORDER BY position"
 
-/** Projects in content order. A single tag is a kind with no language, like Dotfiles. */
-export const seedRows: SeedRow[] = projects.map(
-  ({ name, tags, summary, demo }) => {
-    const [language, kind] = tags.length > 1 ? tags : [null, tags[0]]
-    return { name, language, kind, summary, demo: demo ?? false }
-  }
-)
+function whereSql(clause: Clause | undefined) {
+  if (!clause) return ""
+  if (clause.column === "demo") return " WHERE demo = true"
+  return ` WHERE language = ${sqlText(clause.value)}`
+}
+
+function describe(id: string, label: string, clause?: Clause): Filter {
+  return { id, label, clause, sql: `${SELECT}${whereSql(clause)}${ORDER}` }
+}
+
+export const seedRows: SeedRow[] = projects.map((project, position) => ({
+  name: project.name,
+  language: project.language,
+  kind: project.kind,
+  summary: project.summary,
+  demo: project.demo ?? false,
+  position,
+}))
 
 export const filters: Filter[] = [
-  { id: "all", label: "All", sql: SELECT, match: () => true },
-  ...["Rust", "TypeScript", "Lua"].map((language) => ({
-    id: language.toLowerCase(),
-    label: language,
-    sql: `${SELECT} WHERE language = '${language}'`,
-    match: (row: SeedRow) => row.language === language,
-  })),
-  {
-    id: "demo",
-    label: "Live demo",
-    sql: `${SELECT} WHERE demo = true`,
-    match: (row) => row.demo,
-  },
+  describe("all", "All"),
+  ...["Rust", "TypeScript", "Lua"].map((language) =>
+    describe(language.toLowerCase(), language, {
+      column: "language",
+      value: language,
+    })
+  ),
+  describe("demo", "Live demo", { column: "demo" }),
 ]
 
-/**
- * Scuttle DB panics on non-ASCII text, so rows are stored with plain hyphens.
- * The index swaps the original text back in when a stored value matches.
- */
-export function toAscii(value: string) {
-  return value.replace(/\u2011/g, "-")
+function matches(clause: Clause | undefined, row: SeedRow) {
+  if (!clause) return true
+  if (clause.column === "demo") return row.demo
+  return row.language === clause.value
 }
 
-function text(value: string | null) {
-  return value === null ? "NULL" : `'${toAscii(value).replaceAll("'", "''")}'`
-}
-
-/** Creates and fills the `projects` table. Insert order is content order, so unordered scans match `seedRows`. */
 export const seedStatements = [
-  "CREATE TABLE projects (name TEXT, language TEXT, kind TEXT, summary TEXT, demo BOOL)",
+  "CREATE TABLE projects (name TEXT, language TEXT, kind TEXT, summary TEXT, demo BOOL, position INT)",
   `INSERT INTO projects VALUES ${seedRows
     .map(
       (row) =>
-        `(${text(row.name)}, ${text(row.language)}, ${text(row.kind)}, ${text(row.summary)}, ${row.demo})`
+        `(${sqlText(row.name)}, ${sqlText(row.language)}, ${sqlText(row.kind)}, ${sqlText(row.summary)}, ${row.demo}, ${row.position})`
     )
     .join(", ")}`,
 ]
@@ -75,7 +78,7 @@ export function filterResult(filter: Filter): QueryResult {
   return {
     columns: [...columns],
     rows: seedRows
-      .filter(filter.match)
+      .filter((row) => matches(filter.clause, row))
       .map((row) => columns.map((column) => row[column])),
   }
 }
