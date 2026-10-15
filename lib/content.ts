@@ -141,7 +141,7 @@ export const craft: { group: string; entries: CraftEntry[] }[] = [
       {
         title: "Dotfiles linker",
         date: "Sep 2026",
-        note: "My whole Linux desktop installs from one setup script. The dotfiles link themselves with a small Odin program instead of GNU Stow, with a dry run and a prune for links that are no longer needed.",
+        note: "My whole Linux desktop installs from one setup script. The dotfiles link themselves with a small Odin program, with a dry run and a prune for links that are no longer needed.",
         link: {
           label: "Dotfiles on GitHub",
           href: "https://github.com/dougrocha/dotfiles",

@@ -20,14 +20,9 @@ const firstImage = craft
 export default function CraftPage() {
   return (
     <div className="flex flex-col gap-16 pt-8">
-      <div className="flex flex-col gap-2">
-        <h1 className="text-2xl font-title tracking-tight text-balance">
-          Craft
-        </h1>
-        <p className="max-w-prose text-pretty text-muted-foreground">
-          Pieces of the projects, and how I check them.
-        </p>
-      </div>
+      <h1 className="text-2xl font-title tracking-tight text-balance">
+        Craft Notes
+      </h1>
 
       {craft.map((group) => (
         <Section key={group.group} title={group.group}>
