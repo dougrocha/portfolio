@@ -152,14 +152,35 @@
   color: var(--background);
 }
 
-/* Text-only links that open in a new tab. The second content value is
-   the accessible name; empty keeps the arrow decorative. Browsers that
-   do not understand the alt-text form keep the first declaration. */
-a[target='_blank']:not(:empty):not(:has(*))::after {
-  content: "↗";
-  content: "↗" / "";
-  display: inline-block;
+/* New-tab links. A label wrapped in span, em, or code still gets the
+   arrow; an svg or img means the link already has its own mark. The
+   second content value is the accessible name; empty keeps the arrow
+   decorative. Browsers that do not understand the alt-text form keep
+   the first declaration. :has() is Safari 15.4+, Chrome 105+, and
+   Firefox 121+. The word joiner keeps the arrow with the last word. */
+a[target='_blank']:not(:empty):not(:has(svg, img))::after {
+  content: "\2060↗";
+  content: "\2060↗" / "";
   margin-inline-start: 0.125rem;
+}
+
+/* A card stacks its text, so the link's own arrow would sit on a line by
+   itself. Hang it on the title instead. */
+a[target='_blank']:not(:empty):not(:has(svg, img)):has(h2, h3)::after {
+  content: none;
+}
+
+a[target='_blank']:not(:has(svg, img)) :is(h2, h3)::after {
+  content: "\2060↗";
+  content: "\2060↗" / "";
+  margin-inline-start: 0.125rem;
+}
+
+@media print {
+  a[target='_blank']:not(:empty):not(:has(svg, img))::after,
+  a[target='_blank']:not(:has(svg, img)) :is(h2, h3)::after {
+    content: none;
+  }
 }
 
 .scroll-shadow-x [data-slot="table-container"] {

@@ -747,7 +747,12 @@ function ResultItem({
             {body}
           </Link>
         ) : (
-          <a href={project.href} className={rowClass}>
+          <a
+            href={project.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={rowClass}
+          >
             {body}
           </a>
         )

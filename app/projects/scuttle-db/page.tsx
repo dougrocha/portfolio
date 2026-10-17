@@ -29,6 +29,8 @@ export default function ScuttleDbPage() {
           Queries run on{" "}
           <a
             href={`${REPO}/tree/${build.branch}`}
+            target="_blank"
+            rel="noopener noreferrer"
             className="rounded-sm font-mono text-foreground underline underline-offset-4 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
           >
             {build.branch}
@@ -36,6 +38,8 @@ export default function ScuttleDbPage() {
           (
           <a
             href={`${REPO}/commit/${build.commit}`}
+            target="_blank"
+            rel="noopener noreferrer"
             className="rounded-sm font-mono underline underline-offset-4 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
           >
             {build.commit}
@@ -44,6 +48,8 @@ export default function ScuttleDbPage() {
         </p>
         <a
           href={REPO}
+          target="_blank"
+          rel="noopener noreferrer"
           className="w-fit rounded-sm underline underline-offset-4 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
         >
           Source on GitHub
