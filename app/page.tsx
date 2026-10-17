@@ -47,17 +47,21 @@ export default function Home() {
           {site.intro}
         </p>
         <ul className="flex flex-wrap gap-x-6 gap-y-2">
-          {links.map((link) => (
-            <li key={link.label}>
-              <a
-                href={link.href}
-                rel="me"
-                className="rounded-sm text-muted-foreground underline decoration-border underline-offset-4 transition-colors hover:text-foreground hover:decoration-current focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
-              >
-                {link.label}
-              </a>
-            </li>
-          ))}
+          {links.map((link) => {
+            const external = link.href.startsWith("https://")
+            return (
+              <li key={link.label}>
+                <a
+                  href={link.href}
+                  target={external ? "_blank" : undefined}
+                  rel={external ? "me noopener noreferrer" : "me"}
+                  className="rounded-sm text-muted-foreground underline decoration-border underline-offset-4 transition-colors hover:text-foreground hover:decoration-current focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
+                >
+                  {link.label}
+                </a>
+              </li>
+            )
+          })}
         </ul>
       </section>
 

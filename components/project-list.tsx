@@ -50,5 +50,7 @@ function ProjectLink({
 }) {
   if (href.startsWith("/")) return <Link href={href} {...props} />
 
-  return <a href={href} {...props} />
+  return (
+    <a href={href} target="_blank" rel="noopener noreferrer" {...props} />
+  )
 }
