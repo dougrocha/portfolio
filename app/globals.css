@@ -152,6 +152,16 @@
   color: var(--background);
 }
 
+/* Text-only links that open in a new tab. The second content value is
+   the accessible name; empty keeps the arrow decorative. Browsers that
+   do not understand the alt-text form keep the first declaration. */
+a[target='_blank']:not(:empty):not(:has(*))::after {
+  content: "↗";
+  content: "↗" / "";
+  display: inline-block;
+  margin-inline-start: 0.125rem;
+}
+
 .scroll-shadow-x [data-slot="table-container"] {
   background:
     linear-gradient(to right, var(--background) 30%, transparent) left / 2.5rem 100% no-repeat local,
