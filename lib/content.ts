@@ -8,7 +8,6 @@ export const site = {
     "Software engineer at Blue Cross Blue Shield of Arizona. I work mostly on the public site: lead integrations, navigation and publishing.",
     "Outside work I'm learning Odin, inference and graphics by building the hard parts myself: a Vulkan renderer and an LLM inference server.",
   ],
-  signOff: "Can't you tell I ran out of coffee?",
   url: "https://dougrocha.com",
   description:
     "Doug Rocha is a software engineer who builds Rust and Odin projects, from a database that runs in your browser to a Vulkan renderer.",
