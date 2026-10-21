@@ -125,8 +125,6 @@
     }
   body {
     @apply bg-background text-foreground;
-    font-size: 1.125rem;
-    line-height: 1.6;
     background-image: var(--paper-grain);
     background-size: 300px 300px;
     background-blend-mode: multiply;

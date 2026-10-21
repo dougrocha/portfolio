@@ -27,7 +27,7 @@ export function MissingPageQuery() {
           <span className="text-muted-foreground">;</span>
         </span>
       </p>
-      <p className="text-base text-muted-foreground">
+      <p className="text-sm text-muted-foreground">
         <span className="text-foreground">0 rows.</span> Nothing lives at this
         path.
       </p>
