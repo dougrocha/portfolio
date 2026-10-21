@@ -7,7 +7,8 @@
 # RESUME_GITHUB_TOKEN is a fine-grained personal access token scoped to
 # dougrocha/resume with Contents: Read-only.
 #
-#   Local:  put RESUME_GITHUB_TOKEN in .env or .env.local
+#   Local:  put RESUME_GITHUB_TOKEN in .env or .env.local, or log in with
+#           `gh auth login` and the script borrows the GitHub CLI's token
 #   Vercel: Project → Settings → Environment Variables
 #           Name: RESUME_GITHUB_TOKEN
 #           Environments: Production, Preview, and Development
@@ -54,6 +55,10 @@ if [ -z "${RESUME_GITHUB_TOKEN:-}" ]; then
 fi
 if [ -z "${RESUME_GITHUB_TOKEN:-}" ]; then
   read_token_file "$root/.env.local"
+fi
+# Locally, a logged-in GitHub CLI can read the private repo without a token in .env.
+if [ -z "${RESUME_GITHUB_TOKEN:-}" ] && [ -z "${VERCEL:-}" ] && command -v gh >/dev/null 2>&1; then
+  RESUME_GITHUB_TOKEN="$(gh auth token 2>/dev/null || true)"
 fi
 
 worker="$root/node_modules/pdfjs-dist/build/pdf.worker.min.mjs"
