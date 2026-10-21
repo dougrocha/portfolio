@@ -1,12 +1,12 @@
 import Link from "next/link"
 
 import { NavLink } from "@/components/nav-link"
-import { ResumeDialog } from "@/components/resume-dialog"
 import { site } from "@/lib/content"
 
 const nav = [
   { label: "Projects", href: "/projects" },
   { label: "Craft", href: "/craft" },
+  { label: "Resume", href: "/resume" },
 ]
 
 export function SiteHeader() {
@@ -25,9 +25,6 @@ export function SiteHeader() {
               <NavLink href={item.href}>{item.label}</NavLink>
             </li>
           ))}
-          <li>
-            <ResumeDialog />
-          </li>
         </ul>
       </nav>
     </header>

@@ -12,6 +12,7 @@ const goTo: Record<string, string> = {
   h: "/",
   p: "/projects",
   c: "/craft",
+  r: "/resume",
 }
 
 const listeners = new Set<() => void>()
@@ -141,7 +142,7 @@ function activate(element: HTMLElement) {
 /**
  * Off until turned on from the footer. Then j and k scroll, d and u scroll
  * half a page, gg and G jump to the top and bottom, and gh, gp and gc go to
- * the home, projects and craft pages. f labels everything on screen that can
+ * the home, projects, craft and resume pages. f labels everything on screen that can
  * take focus, and typing a label focuses or clicks it. Tab works as usual.
  */
 export function VimKeys() {
@@ -306,8 +307,8 @@ export function VimKeys() {
         <p>
           <Kbd>j</Kbd> <Kbd>k</Kbd> <Kbd>d</Kbd> <Kbd>u</Kbd> to scroll,{" "}
           <Kbd>gg</Kbd> <Kbd>G</Kbd> for top and bottom, <Kbd>f</Kbd> to pick
-          anything on screen, <Kbd>gh</Kbd> <Kbd>gp</Kbd> <Kbd>gc</Kbd> to go
-          home, projects or craft.
+          anything on screen, <Kbd>gh</Kbd> <Kbd>gp</Kbd> <Kbd>gc</Kbd>{" "}
+          <Kbd>gr</Kbd> to go home, projects, craft or resume.
         </p>
       )}
       <p role="status" className="sr-only">
