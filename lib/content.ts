@@ -168,14 +168,14 @@ export const experience = [
     org: "Blue Cross Blue Shield of Arizona",
     period: "Jun 2026 to now",
     summary:
-      "Restored a third-party lead integration that had been down for months, which brought in hundreds of leads in the first two weeks, ahead of open enrollment. Rebuilt the site header for desktop and mobile after navigation broke on iPhones, with WAI-ARIA keyboard support and Jest tests. Traced a Sitecore Edge publishing bug to an item path being resolved as a query instead of a direct ID, and designed the fix. Shipped a feature on the GraphQL Sitecore connector after pushing for wider use of it.",
+      "Restored a third-party lead integration that had been down for months, which brought in hundreds of leads in the first two weeks, ahead of open enrollment. Rebuilt the site header for desktop and mobile after navigation broke on iPhones, with WAI-ARIA keyboard support and Jest tests. Traced a Sitecore Edge publishing bug to an item path being resolved as a query instead of a direct ID, and designed the fix. Created a Sitecore component for storing multi-environment scripts, with customizable settings to filter by page and a key-value store for the values.",
   },
   {
     role: "Software Engineer Intern",
     org: "Blue Cross Blue Shield of Arizona",
     period: "May to Nov 2025",
     summary:
-      "Replaced search logic copied across many search boxes with one shared hook. Built the Blue Card medical-policy router, which sends members to the right page by their ID prefix, including out-of-state Blue Cross members.",
+      "Replaced search logic copied across many search boxes with one shared hook that tags each search, so Coveo analytics show which box it came from. Built the Blue Card medical-policy router, which sends out-of-state members to the right page by their ID prefix. Fixed up the Prior Authorization Lookup page, with autocomplete fixes and results that print cleanly to PDF.",
   },
   {
     role: "Software Engineer Intern",
