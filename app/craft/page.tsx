@@ -83,7 +83,7 @@ function CraftItem({
             loading={eager ? "eager" : undefined}
             className="rounded-lg border border-border bg-muted"
           />
-          <figcaption className="text-sm text-muted-foreground">
+          <figcaption className="text-base text-muted-foreground">
             {entry.image.caption}
           </figcaption>
         </figure>
