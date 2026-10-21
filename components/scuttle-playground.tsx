@@ -262,6 +262,7 @@ export function ScuttlePlayground() {
           <p key={table.name}>
             <span className="font-mono text-foreground">{table.name}</span> (
             {table.columns.join(", ")})
+            {table.primaryKey && <>, keyed on {table.primaryKey}</>}
           </p>
         ))}
       </div>

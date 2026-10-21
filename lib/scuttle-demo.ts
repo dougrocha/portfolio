@@ -17,7 +17,7 @@ const skills: [name: string, kind: string, atWork: boolean][] = [
 ]
 
 export const seedStatements = [
-  "CREATE TABLE projects (name TEXT, language TEXT, kind TEXT, active BOOL)",
+  "CREATE TABLE projects (name TEXT PRIMARY KEY, language TEXT, kind TEXT, active BOOL)",
   `INSERT INTO projects VALUES ${projects
     .map(({ name, languages, kind }) => {
       return `(${sqlText(name)}, ${sqlText(languages[0] ?? null)}, ${sqlText(kind)}, ${ACTIVE_PROJECTS.has(name)})`
@@ -29,7 +29,7 @@ export const seedStatements = [
       languages.map((language) => `(${sqlText(name)}, ${sqlText(language)})`)
     )
     .join(", ")}`,
-  "CREATE TABLE skills (name TEXT, kind TEXT, at_work BOOL)",
+  "CREATE TABLE skills (name TEXT PRIMARY KEY, kind TEXT, at_work BOOL)",
   `INSERT INTO skills VALUES ${skills
     .map(
       ([name, kind, atWork]) =>
@@ -39,9 +39,17 @@ export const seedStatements = [
 ]
 
 export const tables = [
-  { name: "projects", columns: ["name", "language", "kind", "active"] },
-  { name: "project_languages", columns: ["project", "language"] },
-  { name: "skills", columns: ["name", "kind", "at_work"] },
+  {
+    name: "projects",
+    columns: ["name", "language", "kind", "active"],
+    primaryKey: "name",
+  },
+  {
+    name: "project_languages",
+    columns: ["project", "language"],
+    primaryKey: null,
+  },
+  { name: "skills", columns: ["name", "kind", "at_work"], primaryKey: "name" },
 ]
 
 export const examples = [
@@ -65,6 +73,14 @@ export const examples = [
   {
     label: "Update a row",
     sql: "UPDATE projects SET active = true WHERE name = 'Kura'",
+  },
+  {
+    label: "Explain a lookup",
+    sql: "EXPLAIN SELECT kind FROM projects WHERE name = 'Veil'",
+  },
+  {
+    label: "Duplicate key",
+    sql: "INSERT INTO skills VALUES ('Rust', 'language', false)",
   },
 ]
 

@@ -38,7 +38,7 @@ export const projects: Project[] = [
     languages: ["Rust"],
     kind: "Systems",
     summary:
-      "A relational database written from scratch, with its own SQL parser, planner and page-based storage.",
+      "A relational database written from scratch, with its own SQL parser, planner, indexes and page-based storage.",
     href: "/projects/scuttle-db",
     demo: true,
     featured: true,

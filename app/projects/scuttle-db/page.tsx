@@ -14,7 +14,7 @@ const REPO = "https://github.com/dougrocha/scuttle-db"
 export const metadata: Metadata = {
   title: "Scuttle DB",
   description:
-    "A relational database written from scratch in Rust, with its own SQL parser, planner and page-based storage, running in your browser through WebAssembly.",
+    "A relational database written from scratch in Rust, with its own SQL parser, planner, indexes and page-based storage, running in your browser through WebAssembly.",
   alternates: alternates("/projects/scuttle-db"),
   openGraph: openGraph("/projects/scuttle-db"),
 }
@@ -29,6 +29,12 @@ export default function ScuttleDbPage() {
         <p className="max-w-prose text-pretty text-muted-foreground">
           Relational database from scratch in Rust, running in your browser
           through WebAssembly. There is no server, and nothing is saved.
+        </p>
+        <p className="max-w-prose text-pretty text-muted-foreground">
+          Primary keys are enforced, and selective lookups read through an index
+          instead of scanning the table. Prefix a query with{" "}
+          <code className="font-mono text-foreground">EXPLAIN</code> to see
+          which one the planner picked.
         </p>
         <p className="max-w-prose text-pretty text-muted-foreground">
           Queries run on{" "}
