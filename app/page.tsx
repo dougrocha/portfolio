@@ -57,20 +57,12 @@ export default function Home() {
         </ul>
       </section>
 
-      <Section title="Now">
-        <div className="flex max-w-prose flex-col gap-4 text-pretty">
-          {site.now.map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
-          ))}
-        </div>
-      </Section>
-
-      <Section
-        title="Projects"
-        more={{ label: "All projects", href: "/projects" }}
-      >
+      <Section title="Now" more={{ label: "All projects", href: "/projects" }}>
+        <p className="max-w-prose text-pretty">{site.now.learning}</p>
         <ProjectList
-          projects={projects.filter((project) => project.featured)}
+          projects={site.now.projects.map((name) =>
+            projects.find((project) => project.name === name)!
+          )}
         />
       </Section>
 

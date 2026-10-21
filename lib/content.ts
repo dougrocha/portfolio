@@ -4,10 +4,11 @@ export const site = {
   name: "Doug Rocha",
   title: "Software Engineer",
   intro: "I'm a software engineer with a grudge against bad tooling.",
-  now: [
-    "Software Engineer at Blue Cross Blue Shield of Arizona, working on the public portal.",
-    "Outside work, building a Vulkan renderer in Odin and an LLM inference server.",
-  ],
+  now: {
+    learning: "Learning about game engines and inference engines with Odin.",
+    // Project names, in the order the homepage shows them.
+    projects: ["Veil", "Fala", "Scuttle DB"],
+  },
   url: "https://dougrocha.com",
   description:
     "Doug Rocha is a software engineer who builds Rust and Odin projects, from a database that runs in your browser to a Vulkan renderer.",
@@ -29,7 +30,6 @@ export type Project = {
   href: string
   /** Links to an in-browser demo on this site instead of an external page. */
   demo?: boolean
-  featured?: boolean
 }
 
 export const projects: Project[] = [
@@ -41,7 +41,6 @@ export const projects: Project[] = [
       "A relational database written from scratch, with its own SQL parser, planner, indexes and page-based storage.",
     href: "/projects/scuttle-db",
     demo: true,
-    featured: true,
   },
   {
     name: "Veil",
@@ -50,7 +49,6 @@ export const projects: Project[] = [
     summary:
       "Vulkan 1.4 renderer with clustered lighting, cascaded shadows and Slang shaders that hot-reload.",
     href: "https://github.com/dougrocha/veil",
-    featured: true,
   },
   {
     name: "Markdown Language Server",
@@ -58,7 +56,6 @@ export const projects: Project[] = [
     kind: "Tooling",
     summary: "Language server for Markdown notes with wiki links.",
     href: "https://github.com/dougrocha/rust_markdown_lsp_server",
-    featured: true,
   },
   {
     name: "keytrack.nvim",
