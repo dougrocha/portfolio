@@ -5,8 +5,8 @@ export const site = {
   title: "Software Engineer",
   intro: "I'm a software engineer with a grudge against bad tooling.",
   now: [
-    "Software engineer at Blue Cross Blue Shield of Arizona. I work mostly on the public site: lead integrations, navigation and publishing.",
-    "Outside work I'm learning Odin, inference and graphics by building the hard parts myself: a Vulkan renderer and an LLM inference server.",
+    "Software Engineer at Blue Cross Blue Shield of Arizona, working on the public portal.",
+    "Outside work, building a Vulkan renderer in Odin and an LLM inference server.",
   ],
   url: "https://dougrocha.com",
   description:

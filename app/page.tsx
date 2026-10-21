@@ -57,6 +57,14 @@ export default function Home() {
         </ul>
       </section>
 
+      <Section title="Now">
+        <div className="flex max-w-prose flex-col gap-4 text-pretty">
+          {site.now.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
+        </div>
+      </Section>
+
       <Section
         title="Projects"
         more={{ label: "All projects", href: "/projects" }}
@@ -83,14 +91,6 @@ export default function Home() {
             </li>
           ))}
         </ul>
-      </Section>
-
-      <Section title="Now">
-        <div className="flex max-w-prose flex-col gap-4 text-pretty">
-          {site.now.map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
-          ))}
-        </div>
       </Section>
 
       <Section title="Education">
