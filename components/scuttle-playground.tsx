@@ -246,7 +246,7 @@ export function ScuttlePlayground() {
 
   if (status === "failed") {
     return (
-      <p role="alert" className="text-sm text-destructive">
+      <p role="alert" className="text-base text-destructive">
         The database couldn’t start in this browser. WebAssembly may be turned
         off.
       </p>
@@ -257,7 +257,7 @@ export function ScuttlePlayground() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-col gap-2 text-sm text-muted-foreground">
+      <div className="flex flex-col gap-2 text-base text-muted-foreground">
         {tables.map((table) => (
           <p key={table.name}>
             <span className="font-mono text-foreground">{table.name}</span> (
@@ -355,7 +355,7 @@ export function ScuttlePlayground() {
       <div className="flex flex-col gap-4">
         <p
           role="status"
-          className="text-sm text-muted-foreground tabular-nums empty:hidden"
+          className="text-base text-muted-foreground tabular-nums empty:hidden"
         >
           {status === "loading"
             ? "Starting Scuttle DB in your browser…"
@@ -383,7 +383,7 @@ export function ScuttlePlayground() {
                   rows={output.change![when]}
                 />
               ) : (
-                <p className="text-sm text-muted-foreground">
+                <p className="text-base text-muted-foreground">
                   {when === "after" ? "Removed." : "No rows."}
                 </p>
               )}

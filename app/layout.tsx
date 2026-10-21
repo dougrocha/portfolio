@@ -17,9 +17,11 @@ const newsreader = Newsreader({
   weight: ["400", "500"],
   style: "normal",
   variable: "--font-newsreader",
+  display: "block",
 })
 
-// One italic on the projects page ("Live demo"). Kept off the preload list.
+// One italic on the projects page ("Live demo"). Kept off the preload list, so it
+// stays on swap: blocking on a font that is not preloaded would hide the text longer.
 const newsreaderItalic = Newsreader({
   subsets: ["latin"],
   weight: "400",
@@ -31,6 +33,7 @@ const newsreaderItalic = Newsreader({
 const geistMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-geist-mono",
+  display: "block",
 })
 
 export const metadata: Metadata = {
