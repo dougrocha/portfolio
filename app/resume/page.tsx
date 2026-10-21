@@ -9,7 +9,7 @@ import { alternates } from "@/lib/metadata"
 export const metadata: Metadata = {
   title: "Resume",
   description:
-    "Doug Rocha's resume: software engineering experience across Rust, Odin, Neovim plugins and full-stack web apps.",
+    "Doug Rocha's resume, covering his software engineering work at Blue Cross Blue Shield of Arizona and his computer science degree from Arizona State University.",
   alternates: alternates("/resume"),
 }
 

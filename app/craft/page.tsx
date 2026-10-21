@@ -7,7 +7,7 @@ import { craft, setup, type CraftEntry } from "@/lib/content"
 import { alternates, openGraph } from "@/lib/metadata"
 
 export const metadata: Metadata = {
-  title: "Craft Notes",
+  title: "Craft notes",
   description: "How Doug Rocha builds things, and the setup behind them.",
   alternates: alternates("/craft"),
   openGraph: openGraph("/craft"),
@@ -21,7 +21,7 @@ export default function CraftPage() {
   return (
     <div className="flex flex-col gap-16 pt-8">
       <h1 className="text-2xl font-title tracking-tight text-balance">
-        Craft Notes
+        Craft notes
       </h1>
 
       {craft.map((group) => (
@@ -89,7 +89,7 @@ function CraftItem({
         </figure>
       )}
       <div className="flex flex-wrap gap-x-6 gap-y-2">
-        {[entry.link, entry.post].map(
+        {[...entry.links, entry.post].map(
           (link) =>
             link && (
               <CraftLink

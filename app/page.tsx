@@ -38,27 +38,31 @@ export default function Home() {
       />
       <h1 className="sr-only">{site.name}</h1>
 
-      <section aria-label="Introduction" className="flex flex-col gap-8">
-        <p className="text-[clamp(1.6rem,1.2rem+1.6vw,2.25rem)] leading-[1.15] tracking-[-0.02em] text-balance">
-          {site.intro}
-        </p>
-        <ul className="flex flex-wrap gap-x-6 gap-y-2">
-          {links.map((link) => (
-            <li key={link.label}>
-              <a
-                href={link.href}
-                rel="me"
-                className="rounded-sm text-muted-foreground underline decoration-border underline-offset-4 transition-colors hover:text-foreground hover:decoration-current focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
-              >
-                {link.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </section>
+      <ul className="flex flex-wrap gap-x-6 gap-y-2">
+        {links.map((link) => (
+          <li key={link.label}>
+            <a
+              href={link.href}
+              rel="me"
+              className="rounded-sm text-muted-foreground underline decoration-border underline-offset-4 transition-colors hover:text-foreground hover:decoration-current focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
 
-      <Section title="Now" more={{ label: "All projects", href: "/projects" }}>
-        <p className="max-w-prose text-pretty">{site.now.learning}</p>
+      <Section title="Now">
+        <div className="flex max-w-prose flex-col gap-1 text-pretty">
+          <p>{site.now.job}</p>
+          <p>{site.now.learning}</p>
+        </div>
+      </Section>
+
+      <Section
+        title="Projects"
+        more={{ label: "All projects", href: "/projects" }}
+      >
         <ProjectList
           projects={site.now.projects.map((name) =>
             projects.find((project) => project.name === name)!

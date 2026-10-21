@@ -9,7 +9,7 @@ export default function NotFound() {
       <h1 className="text-2xl font-title tracking-tight text-balance">
         Page not found
       </h1>
-      <p className="text-muted-foreground">This page doesn’t exist.</p>
+      <p className="text-muted-foreground">This page doesn&apos;t exist.</p>
       <MissingPageQuery />
       <Link href="/" className={buttonVariants({ variant: "outline" })}>
         Go to the home page

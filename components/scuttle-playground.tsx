@@ -247,8 +247,8 @@ export function ScuttlePlayground() {
   if (status === "failed") {
     return (
       <p role="alert" className="text-sm text-destructive">
-        The database couldn’t start in this browser. WebAssembly may be turned
-        off.
+        The database couldn&apos;t start in this browser. WebAssembly may be
+        turned off.
       </p>
     )
   }

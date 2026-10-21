@@ -3,15 +3,15 @@ export const isProduction = process.env.VERCEL_ENV === "production"
 export const site = {
   name: "Doug Rocha",
   title: "Software Engineer",
-  intro: "I'm a software engineer with a grudge against bad tooling.",
   now: {
+    job: "Software Engineer at Blue Cross Blue Shield of Arizona, working on the public portal.",
     learning: "Learning about game engines and inference engines with Odin.",
     // Project names, in the order the homepage shows them.
     projects: ["Veil", "Fala", "Scuttle DB"],
   },
   url: "https://dougrocha.com",
   description:
-    "Doug Rocha is a software engineer who builds Rust and Odin projects, from a database that runs in your browser to a Vulkan renderer.",
+    "Doug Rocha is a software engineer. He builds his own database, renderer and tools in Rust and Odin, and the database runs in your browser.",
 }
 
 export const links = [
@@ -84,7 +84,7 @@ export const projects: Project[] = [
     name: "Forms",
     languages: ["TypeScript"],
     kind: "Full stack",
-    summary: "Build forms, share them, see the stats.",
+    summary: "Form builder with shareable links and response stats.",
     href: "https://github.com/dougrocha/form_builder",
   },
   {
@@ -125,7 +125,7 @@ export type CraftEntry = {
   date: string
   note: string
   image?: { src: string; alt: string; caption: string }
-  link: { label: string; href: string }
+  links: { label: string; href: string }[]
   /** A writing post about the entry, once there is one. */
   post?: { label: string; href: string }
 }
@@ -135,13 +135,21 @@ export const craft: { group: string; entries: CraftEntry[] }[] = [
     group: "How I work",
     entries: [
       {
+        title: "AI coding tools",
+        date: "Oct 2026",
+        note: "Learning two new tools. T3 Code runs my coding agents while I learn to trust them with more of the work. Rex is Superlogical's new terminal multiplexer.",
+        links: [
+          { label: "T3 Code", href: "https://github.com/pingdotgg/t3code" },
+          { label: "Superlogical", href: "https://www.superlogical.com/" },
+        ],
+      },
+      {
         title: "Dotfiles",
         date: "Sep 2026",
         note: "My Linux desktop setup, linked into place by a small Odin program.",
-        link: {
-          label: "GitHub",
-          href: "https://github.com/dougrocha/dotfiles",
-        },
+        links: [
+          { label: "GitHub", href: "https://github.com/dougrocha/dotfiles" },
+        ],
       },
     ],
   },
@@ -160,21 +168,21 @@ export const experience = [
     org: "Blue Cross Blue Shield of Arizona",
     period: "Jun 2026 to now",
     summary:
-      "Restored a third-party lead integration that had been down for months, which brought in hundreds of leads in the first two weeks. Rebuilt the site header for desktop and mobile with WAI-ARIA accessibility and full keyboard navigation. Fixed the root cause of a Sitecore publishing bug.",
+      "Restored a third-party lead integration that had been down for months, which brought in hundreds of leads in the first two weeks, ahead of open enrollment. Rebuilt the site header for desktop and mobile after navigation broke on iPhones, with WAI-ARIA keyboard support and Jest tests. Traced a Sitecore Edge publishing bug to an item path being resolved as a query instead of a direct ID, and designed the fix. Shipped a feature on the GraphQL Sitecore connector after pushing for wider use of it.",
   },
   {
     role: "Software Engineer Intern",
     org: "Blue Cross Blue Shield of Arizona",
     period: "May to Nov 2025",
     summary:
-      "Consolidated duplicated search logic into a shared hook and built the Blue Card medical-policy router.",
+      "Replaced search logic copied across many search boxes with one shared hook. Built the Blue Card medical-policy router, which sends members to the right page by their ID prefix, including out-of-state Blue Cross members.",
   },
   {
     role: "Software Engineer Intern",
     org: "Blue Cross Blue Shield of Arizona",
     period: "May to Nov 2023",
     summary:
-      "Built the forgot password flow with SMS and email codes and a magic link.",
+      "Built the forgot-password flow with text and email codes and magic links, and kept sign-in in sync when a magic link opened in a new tab.",
   },
 ]
 
