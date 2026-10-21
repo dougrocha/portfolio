@@ -647,10 +647,10 @@ function ResultItem({
   const body = (
     <>
       <div className="flex flex-wrap items-baseline gap-x-3">
-        <h3 className="font-title">
+        <h2 className="font-title">
           <span className="sr-only">{cells[lead].column}: </span>
           {cells[lead].text}
-        </h3>
+        </h2>
         {short.length > 0 && (
           <p className="text-muted-foreground">
             {short.map((cell, n) => (

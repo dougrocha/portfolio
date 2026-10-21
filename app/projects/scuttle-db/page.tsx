@@ -1,13 +1,9 @@
 import type { Metadata } from "next"
-import dynamic from "next/dynamic"
+import Link from "next/link"
 
 import { ScuttlePlayground } from "@/components/scuttle-playground"
 import { alternates, openGraph } from "@/lib/metadata"
 import build from "@/lib/scuttle/build.json"
-
-const ProjectQuery = dynamic(() =>
-  import("@/components/project-query").then((mod) => mod.ProjectQuery)
-)
 
 const REPO = "https://github.com/dougrocha/scuttle-db"
 
@@ -53,6 +49,16 @@ export default function ScuttleDbPage() {
           </a>
           ), compiled to a {Math.round(build.bytes / 1024)} KB WebAssembly file.
         </p>
+        <p className="max-w-prose text-pretty text-muted-foreground">
+          It also runs the{" "}
+          <Link
+            href="/projects"
+            className="rounded-sm text-foreground underline underline-offset-4 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
+          >
+            project list
+          </Link>
+          , where you can filter this site&apos;s projects with SQL.
+        </p>
         <a
           href={REPO}
           className="w-fit rounded-sm underline underline-offset-4 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
@@ -61,19 +67,6 @@ export default function ScuttleDbPage() {
         </a>
       </div>
       <ScuttlePlayground />
-      <section
-        aria-labelledby="project-query-title"
-        className="flex flex-col gap-4"
-      >
-        <h2 id="project-query-title" className="font-title">
-          This site&apos;s project list, queried by Scuttle DB
-        </h2>
-        <p className="max-w-prose text-pretty text-muted-foreground">
-          Every project on this site is a row in a table. Pick a language or
-          write some SQL, and the same engine runs it in your browser.
-        </p>
-        <ProjectQuery />
-      </section>
     </div>
   )
 }
