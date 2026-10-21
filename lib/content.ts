@@ -66,7 +66,6 @@ export const projects: Project[] = [
     kind: "Neovim plugin",
     summary: "Find the keymaps you never use.",
     href: "https://github.com/dougrocha/keytrack.nvim",
-    featured: true,
   },
   {
     name: "Fala",

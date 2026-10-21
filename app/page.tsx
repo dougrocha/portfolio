@@ -1,13 +1,9 @@
 import type { Metadata } from "next"
-import dynamic from "next/dynamic"
 
+import { ProjectList } from "@/components/project-list"
 import { Section } from "@/components/section"
-import { education, experience, links, site } from "@/lib/content"
+import { education, experience, links, projects, site } from "@/lib/content"
 import { alternates } from "@/lib/metadata"
-
-const ProjectQuery = dynamic(() =>
-  import("@/components/project-query").then((mod) => mod.ProjectQuery)
-)
 
 export const metadata: Metadata = {
   alternates: alternates("/"),
@@ -61,23 +57,13 @@ export default function Home() {
         </ul>
       </section>
 
-      <Section title="Now">
-        <div className="flex max-w-prose flex-col gap-4 text-pretty">
-          {site.now.map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
-          ))}
-        </div>
-      </Section>
-
       <Section
         title="Projects"
         more={{ label: "All projects", href: "/projects" }}
       >
-        <p className="max-w-prose text-pretty text-muted-foreground">
-          This list is a query. My own database engine runs it in your browser.
-          Pick a language or write some SQL.
-        </p>
-        <ProjectQuery />
+        <ProjectList
+          projects={projects.filter((project) => project.featured)}
+        />
       </Section>
 
       <Section title="Experience">
@@ -97,6 +83,14 @@ export default function Home() {
             </li>
           ))}
         </ul>
+      </Section>
+
+      <Section title="Now">
+        <div className="flex max-w-prose flex-col gap-4 text-pretty">
+          {site.now.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
+        </div>
       </Section>
 
       <Section title="Education">

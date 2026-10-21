@@ -13,6 +13,8 @@ import {
 } from "@/lib/project-query"
 import { createDatabase, dispose, type Db } from "@/lib/scuttle-db"
 import build from "@/lib/scuttle/build.json"
+import { ExternalCue } from "@/components/project-list"
+import { cn } from "@/lib/utils"
 import { Kbd } from "@/components/ui/kbd"
 
 type Status =
@@ -39,19 +41,6 @@ function toStatement(sql: string) {
 type Motion = {
   gsap: typeof import("gsap").gsap
   Flip: typeof import("gsap/Flip").Flip
-}
-
-type LeavingFade = {
-  revert: () => void
-  settle: () => void
-}
-
-function cancelLeaving(slot: { current: LeavingFade | null }) {
-  const fade = slot.current
-  if (!fade) return
-  slot.current = null
-  fade.revert()
-  fade.settle()
 }
 
 /** GSAP stays out of the first load. The list only animates after a visitor acts. */
@@ -118,8 +107,6 @@ export function ProjectQuery() {
     null
   )
   const typingRef = React.useRef<ReturnType<Motion["gsap"]["to"]> | null>(null)
-  const leavingFadeRef = React.useRef<LeavingFade | null>(null)
-  const fadeRef = React.useRef(0)
   const runRef = React.useRef(0)
   const sqlRef = React.useRef(sql)
   /** The last query that drew rows, re-run after a write so the list shows the change. */
@@ -151,59 +138,15 @@ export function ProjectQuery() {
     return loadRef.current
   }, [])
 
+  /** Results commit immediately. Motion is a bonus, so a cold GSAP never delays them. */
   const commit = React.useCallback(
-    async (next: QueryResult, run: number, animate: boolean) => {
+    (next: QueryResult, run: number, animate: boolean) => {
       if (run !== runRef.current) return
-      const fade = ++fadeRef.current
-      cancelLeaving(leavingFadeRef)
       const list = listRef.current
-      if (!animate || !list || prefersReducedMotion()) {
-        setResult(next)
-        return
+      const motion = motionRef.current
+      if (animate && list && motion && !prefersReducedMotion()) {
+        flipRef.current = motion.Flip.getState([...list.children])
       }
-      let motion = motionRef.current
-      if (!motion) {
-        try {
-          motion = await loadMotion()
-          motionRef.current = motion
-        } catch {
-          if (run === runRef.current) setResult(next)
-          return
-        }
-      }
-      if (run !== runRef.current) return
-      const { gsap, Flip } = motion
-      const ids = new Set(rowIds(next))
-      const items = [...list.children] as HTMLElement[]
-      const leaving = items.filter(
-        (item) => !ids.has(item.dataset.flipId ?? "")
-      )
-      if (leaving.length) {
-        await new Promise<void>((resolve) => {
-          const tween = gsap.to(leaving, {
-            autoAlpha: 0,
-            x: 12,
-            duration: 0.24,
-            ease: "power2.in",
-            stagger: 0.02,
-            onComplete: resolve,
-          })
-          leavingFadeRef.current = {
-            revert: () => tween.revert(),
-            settle: resolve,
-          }
-          if (tween.progress() === 1) resolve()
-        })
-        if (fadeRef.current !== fade || run !== runRef.current) {
-          if (leavingFadeRef.current && fadeRef.current === fade)
-            cancelLeaving(leavingFadeRef)
-          return
-        }
-        leavingFadeRef.current = null
-      }
-      flipRef.current = Flip.getState(
-        items.filter((item) => !leaving.includes(item))
-      )
       setResult(next)
     },
     []
@@ -217,20 +160,13 @@ export function ProjectQuery() {
     flipRef.current = null
     motion.Flip.from(state, {
       targets: list.children,
-      duration: 0.7,
-      ease: "expo.out",
-      stagger: 0.03,
+      duration: 0.3,
+      ease: "power2.out",
       onEnter: (entering) =>
         motion.gsap.fromTo(
           entering,
-          { autoAlpha: 0, yPercent: 40 },
-          {
-            autoAlpha: 1,
-            yPercent: 0,
-            duration: 0.8,
-            ease: "expo.out",
-            stagger: 0.04,
-          }
+          { autoAlpha: 0 },
+          { autoAlpha: 1, duration: 0.2, ease: "power1.out" }
         ),
     })
   }, [result])
@@ -258,7 +194,7 @@ export function ProjectQuery() {
         if (response.rowsAffected !== null) {
           setStatus({ kind: "affected", count: response.rowsAffected, ms })
           const refreshed = JSON.parse(db.run(lastSelectRef.current))
-          await commit(
+          commit(
             { columns: refreshed.columns, rows: refreshed.rows },
             run,
             animate
@@ -268,11 +204,7 @@ export function ProjectQuery() {
 
         lastSelectRef.current = statement
         setStatus({ kind: "scuttle", count: response.rows.length, ms })
-        await commit(
-          { columns: response.columns, rows: response.rows },
-          run,
-          animate
-        )
+        commit({ columns: response.columns, rows: response.rows }, run, animate)
       } catch (error) {
         if (error instanceof WebAssembly.RuntimeError) {
           dbRef.current = null
@@ -318,7 +250,6 @@ export function ProjectQuery() {
       runRef.current++
       /* eslint-enable react-hooks/exhaustive-deps */
       typingRef.current?.kill()
-      cancelLeaving(leavingFadeRef)
       loadRef.current = null
       dispose(dbRef.current)
       dbRef.current = null
@@ -340,7 +271,7 @@ export function ProjectQuery() {
     return () => window.removeEventListener("keydown", onKey)
   }, [])
 
-  async function typeQuery(target: string) {
+  async function typeQuery(target: string, run: number) {
     typingRef.current?.kill()
     const from = toStatement(sqlRef.current)
     if (prefersReducedMotion() || from === target) {
@@ -357,6 +288,7 @@ export function ProjectQuery() {
         return
       }
     }
+    if (run !== runRef.current) return
     const gsap = motion.gsap
     let shared = 0
     while (shared < from.length && from[shared] === target[shared]) shared++
@@ -390,18 +322,17 @@ export function ProjectQuery() {
   async function choose(filter: (typeof filters)[number]) {
     const run = ++runRef.current
     setActive(filter.id)
+    // Typing is decoration, so the results never wait for it.
+    void typeQuery(filter.sql, run)
     if (dbRef.current) {
-      await typeQuery(filter.sql)
-      if (run === runRef.current) await runInScuttle(filter.sql, run, true)
+      await runInScuttle(filter.sql, run, true)
       return
     }
 
     const ready = load()
-    await typeQuery(filter.sql)
-    if (run !== runRef.current) return
     const next = filterResult(filter)
     setStatus({ kind: "local", count: next.rows.length })
-    await commit(next, run, true)
+    commit(next, run, true)
     if ((await ready) && run === runRef.current)
       await runInScuttle(filter.sql, run, true)
   }
@@ -412,8 +343,7 @@ export function ProjectQuery() {
     const query = `${match[1]}${match[2]}, ${qualify(column, match[3])}${match[3]}`
     const run = ++runRef.current
     setActive(null)
-    await typeQuery(query)
-    if (run !== runRef.current) return
+    void typeQuery(query, run)
     setActive(filters.find((filter) => filter.sql === query)?.id ?? null)
     await runInScuttle(query, run, true)
   }
@@ -431,7 +361,6 @@ export function ProjectQuery() {
   function takeOverTyping() {
     runRef.current++
     typingRef.current?.kill()
-    cancelLeaving(leavingFadeRef)
   }
 
   async function submit(event?: React.FormEvent) {
@@ -590,7 +519,7 @@ function StatusText({
             >
               Scuttle DB
             </Link>{" "}
-            <span className="font-mono text-xs">{build.commit}</span>, my Rust
+            <span className="font-mono text-sm">{build.commit}</span>, my Rust
             database, compiled to WebAssembly and running on your device.
           </span>
         </>
@@ -649,7 +578,7 @@ function MissingColumns({
           <button
             type="button"
             onClick={() => onAdd(column)}
-            className="rounded-sm font-mono text-xs text-foreground underline decoration-border underline-offset-4 transition-colors hover:decoration-current focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
+            className="rounded-sm font-mono text-foreground underline decoration-border underline-offset-4 transition-colors hover:decoration-current focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
           >
             {column}
           </button>
@@ -681,8 +610,11 @@ function formatCell(value: Cell) {
   return value === null ? "NULL" : String(value)
 }
 
-const rowClass =
-  "group flex flex-col gap-1 rounded-lg px-3 py-3 transition-colors hover:bg-muted focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
+const staticRowClass = "flex flex-col gap-1 rounded-lg px-3 py-3"
+const rowClass = cn(
+  staticRowClass,
+  "group transition-colors hover:bg-muted focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
+)
 
 function ResultItem({
   id,
@@ -697,6 +629,7 @@ function ResultItem({
   const project =
     nameAt >= 0 ? projectByName.get(String(row[nameAt])) : undefined
   const lead = leadColumn(columns)
+  const external = project ? !project.href.startsWith("/") : false
 
   const cells = columns.map((column, i) => ({
     column,
@@ -729,6 +662,7 @@ function ResultItem({
             ))}
           </p>
         )}
+        {external && <ExternalCue />}
       </div>
       {summaries.map((cell) => (
         <p key={cell.key} className="text-pretty text-muted-foreground">
@@ -752,7 +686,7 @@ function ResultItem({
           </a>
         )
       ) : (
-        <div className={rowClass}>{body}</div>
+        <div className={staticRowClass}>{body}</div>
       )}
     </li>
   )

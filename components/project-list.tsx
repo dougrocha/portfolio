@@ -29,6 +29,7 @@ export function ProjectList({
                 )}
                 {[...project.languages, project.kind].join(", ")}
               </p>
+              {!project.href.startsWith("/") && <ExternalCue />}
             </div>
             <p className="text-pretty text-muted-foreground">
               {project.summary}
@@ -37,6 +38,16 @@ export function ProjectList({
         </li>
       ))}
     </ul>
+  )
+}
+
+/** Marks rows that leave the site, since the whole row is one link. */
+export function ExternalCue() {
+  return (
+    <p className="text-muted-foreground">
+      GitHub <span aria-hidden="true">↗</span>
+      <span className="sr-only"> (opens GitHub)</span>
+    </p>
   )
 }
 

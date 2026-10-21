@@ -1,8 +1,13 @@
 import type { Metadata } from "next"
+import dynamic from "next/dynamic"
 
 import { ScuttlePlayground } from "@/components/scuttle-playground"
 import { alternates, openGraph } from "@/lib/metadata"
 import build from "@/lib/scuttle/build.json"
+
+const ProjectQuery = dynamic(() =>
+  import("@/components/project-query").then((mod) => mod.ProjectQuery)
+)
 
 const REPO = "https://github.com/dougrocha/scuttle-db"
 
@@ -50,6 +55,19 @@ export default function ScuttleDbPage() {
         </a>
       </div>
       <ScuttlePlayground />
+      <section
+        aria-labelledby="project-query-title"
+        className="flex flex-col gap-4"
+      >
+        <h2 id="project-query-title" className="font-title">
+          This site&apos;s project list, queried by Scuttle DB
+        </h2>
+        <p className="max-w-prose text-pretty text-muted-foreground">
+          Every project on this site is a row in a table. Pick a language or
+          write some SQL, and the same engine runs it in your browser.
+        </p>
+        <ProjectQuery />
+      </section>
     </div>
   )
 }
