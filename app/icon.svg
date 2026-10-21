@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <style>
+    .g { fill: none; stroke: #0a0a0a; stroke-width: 8; stroke-linecap: round; stroke-linejoin: round }
+    @media (prefers-color-scheme: dark) { .g { stroke: #fafafa } }
+  </style>
+  <g class="g">
+    <circle cx="17" cy="36" r="11" />
+    <circle cx="47" cy="36" r="11" />
+    <path d="M28 33 Q32 29 36 33" />
+  </g>
+</svg>
