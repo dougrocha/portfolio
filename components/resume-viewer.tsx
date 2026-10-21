@@ -10,6 +10,13 @@ pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs"
 
 const resumeHref = "/resume.pdf"
 
+/** `externalLinkTarget` covers every link, but a mail link in a new tab only opens a blank page. */
+function openMailInPlace(frame: HTMLElement | null) {
+  frame?.querySelectorAll("a[href^='mailto:']").forEach((link) => {
+    link.removeAttribute("target")
+  })
+}
+
 export function ResumeViewer() {
   const frameRef = useRef<HTMLDivElement>(null)
   const [width, setWidth] = useState(0)
@@ -57,6 +64,9 @@ export function ResumeViewer() {
                     width={width}
                     renderTextLayer
                     renderAnnotationLayer
+                    onRenderAnnotationLayerSuccess={() =>
+                      openMailInPlace(frameRef.current)
+                    }
                     suspense={false}
                     className="resume-page bg-white outline outline-border"
                     loading={
