@@ -79,6 +79,14 @@ export const examples = [
     sql: "EXPLAIN SELECT kind FROM projects WHERE name = 'Veil'",
   },
   {
+    label: "Explain a sort",
+    sql: "EXPLAIN SELECT name FROM projects ORDER BY name LIMIT 3",
+  },
+  {
+    label: "Explain an update",
+    sql: "EXPLAIN UPDATE projects SET active = true WHERE name = 'Kura'",
+  },
+  {
     label: "Duplicate key",
     sql: "INSERT INTO skills VALUES ('Rust', 'language', false)",
   },

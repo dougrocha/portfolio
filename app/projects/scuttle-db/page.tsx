@@ -27,10 +27,13 @@ export default function ScuttleDbPage() {
           through WebAssembly. There is no server, and nothing is saved.
         </p>
         <p className="max-w-prose text-pretty text-muted-foreground">
-          Primary keys are enforced, and selective lookups read through an index
-          instead of scanning the table. Prefix a query with{" "}
+          Primary keys are enforced. Selective lookups, UPDATEs and DELETEs find
+          their rows through an index instead of scanning the table, and an{" "}
+          <code className="font-mono text-foreground">ORDER BY</code> on an
+          indexed column reads the index in order instead of sorting. Prefix a
+          query with{" "}
           <code className="font-mono text-foreground">EXPLAIN</code> to see
-          which one the planner picked.
+          which plan the planner picked.
         </p>
         <p className="max-w-prose text-pretty text-muted-foreground">
           Queries run on{" "}

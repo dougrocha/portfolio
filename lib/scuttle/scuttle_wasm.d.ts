@@ -85,6 +85,7 @@ export interface InitOutput {
     readonly db_explain: (a: number, b: number, c: number) => [number, number, number, number];
     readonly db_new: () => number;
     readonly db_run: (a: number, b: number, c: number) => [number, number, number, number];
+    readonly __externref_table_alloc: () => number;
     readonly __wbindgen_externrefs: WebAssembly.Table;
     readonly __wbindgen_malloc: (a: number, b: number) => number;
     readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
