@@ -15,7 +15,7 @@
 - Important scripts:
   - `bun run dev` starts local Next.js development.
   - `bun run build` builds the production app.
-  - `bun run lint` runs ESLint.
+  - `bun run lint` runs Oxlint.
   - `bun run typecheck` runs `tsc --noEmit`.
   - `bun run format` runs Prettier on `**/*.{ts,tsx}`.
   - `bun run build:scuttle` rebuilds `lib/scuttle/**` from `../scuttle-db` or `SCUTTLE_DB_DIR`.
