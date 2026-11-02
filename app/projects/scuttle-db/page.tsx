@@ -31,9 +31,8 @@ export default function ScuttleDbPage() {
           their rows through an index instead of scanning the table, and an{" "}
           <code className="font-mono text-foreground">ORDER BY</code> on an
           indexed column reads the index in order instead of sorting. Prefix a
-          query with{" "}
-          <code className="font-mono text-foreground">EXPLAIN</code> to see
-          which plan the planner picked.
+          query with <code className="font-mono text-foreground">EXPLAIN</code>{" "}
+          to see which plan the planner picked.
         </p>
         <p className="max-w-prose text-pretty text-muted-foreground">
           Queries run on{" "}
