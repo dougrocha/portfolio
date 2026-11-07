@@ -72,10 +72,6 @@ export default function Home() {
       />
       <div className="flex flex-col gap-6">
         <h1 className="sr-only">{site.name}</h1>
-        <p className="max-w-prose text-xl">
-          I build my own database, renderer and tools in Rust and Odin. The
-          database runs in your browser.
-        </p>
 
         <ul className="flex flex-wrap gap-x-6 gap-y-2">
           {links.map((link) => (

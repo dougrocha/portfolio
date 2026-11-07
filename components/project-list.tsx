@@ -35,7 +35,7 @@ export function ProjectList({
   )
 }
 
-/** Projects that run on this site. The one place the brand color shows in a list. */
+/** Projects that run on this site. The one place the brand ink shows in a list. */
 export function DemoCue() {
   return <span className="text-brand">Live demo, </span>
 }

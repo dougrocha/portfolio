@@ -50,8 +50,8 @@
     --card-foreground: oklch(0.145 0 0);
     --popover: oklch(1 0 0);
     --popover-foreground: oklch(0.145 0 0);
-    /* The one accent. Primary buttons and the live demo cue use it, nothing else. */
-    --brand: oklch(0.5 0.15 255);
+    /* Ink, not a hue. Primary buttons and the live demo cue use it, nothing else. */
+    --brand: oklch(0.205 0 0);
     --brand-foreground: oklch(0.985 0 0);
     --primary: var(--brand);
     --primary-foreground: var(--brand-foreground);
@@ -75,7 +75,7 @@
     --card-foreground: oklch(0.985 0 0);
     --popover: oklch(0.205 0 0);
     --popover-foreground: oklch(0.985 0 0);
-    --brand: oklch(0.78 0.11 255);
+    --brand: oklch(0.922 0 0);
     --brand-foreground: oklch(0.205 0 0);
     --secondary: oklch(0.269 0 0);
     --secondary-foreground: oklch(0.985 0 0);
