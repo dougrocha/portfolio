@@ -17,56 +17,58 @@ export const metadata: Metadata = {
 
 export default function ScuttleDbPage() {
   return (
-    <div className="flex flex-col gap-8 pt-8">
-      <div className="flex flex-col gap-2">
-        <h1 className="text-2xl font-title tracking-tight text-balance">
-          Scuttle DB
-        </h1>
-        <p className="max-w-prose text-pretty text-muted-foreground">
-          Relational database from scratch in Rust, running in your browser
-          through WebAssembly. There is no server, and nothing is saved.
-        </p>
-        <p className="max-w-prose text-pretty text-muted-foreground">
-          Primary keys are enforced. Selective lookups, UPDATEs and DELETEs find
-          their rows through an index instead of scanning the table, and an{" "}
-          <code className="font-mono text-foreground">ORDER BY</code> on an
-          indexed column reads the index in order instead of sorting. Prefix a
-          query with <code className="font-mono text-foreground">EXPLAIN</code>{" "}
-          to see which plan the planner picked.
-        </p>
-        <p className="max-w-prose text-pretty text-muted-foreground">
-          Queries run on{" "}
-          <a
-            href={`${REPO}/tree/${build.branch}`}
-            className="rounded-sm font-mono text-foreground underline underline-offset-4 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
-          >
-            {build.branch}
-          </a>{" "}
-          (
-          <a
-            href={`${REPO}/commit/${build.commit}`}
-            className="rounded-sm font-mono underline underline-offset-4 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
-          >
-            {build.commit}
-          </a>
-          ), compiled to a {Math.round(build.bytes / 1024)} KB WebAssembly file.
-        </p>
-        <p className="max-w-prose text-pretty text-muted-foreground">
-          It also runs the{" "}
-          <Link
-            href="/projects"
-            className="rounded-sm text-foreground underline underline-offset-4 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
-          >
-            project list
-          </Link>
-          , where you can filter this site&apos;s projects with SQL.
-        </p>
-        <a
-          href={REPO}
-          className="w-fit rounded-sm underline underline-offset-4 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
-        >
-          Source on GitHub
-        </a>
+    <div className="flex flex-col gap-10 pt-8">
+      <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-2">
+          <h1 className="text-2xl font-title tracking-tight">Scuttle DB</h1>
+          <p className="max-w-prose text-lg">
+            A relational database I wrote from scratch in Rust, running in your
+            browser through WebAssembly. There is no server, and nothing is
+            saved.
+          </p>
+        </div>
+        <div className="flex max-w-prose flex-col gap-3 text-muted-foreground">
+          <p>
+            Primary keys are enforced. Selective lookups, UPDATEs and DELETEs
+            find their rows through an index instead of scanning the table, and
+            an <code className="font-mono text-foreground">ORDER BY</code> on an
+            indexed column reads the index in order instead of sorting. Prefix a
+            query with{" "}
+            <code className="font-mono text-foreground">EXPLAIN</code> to see
+            which plan the planner picked.
+          </p>
+          <p>
+            It also runs the{" "}
+            <Link href="/projects" className="text-link text-foreground">
+              project list
+            </Link>
+            , where you can filter this site&apos;s projects with SQL.
+          </p>
+          <p>
+            Queries run on{" "}
+            <a
+              href={`${REPO}/tree/${build.branch}`}
+              className="text-link font-mono text-foreground"
+            >
+              {build.branch}
+            </a>{" "}
+            (
+            <a
+              href={`${REPO}/commit/${build.commit}`}
+              className="text-link font-mono text-foreground"
+            >
+              {build.commit}
+            </a>
+            ), compiled to a{" "}
+            <span className="tabular-nums">
+              {Math.round(build.bytes / 1024)}
+            </span>{" "}
+            KB WebAssembly file.{" "}
+            <a href={REPO} className="text-link text-foreground">
+              Source on GitHub
+            </a>
+          </p>
+        </div>
       </div>
       <ScuttlePlayground />
     </div>

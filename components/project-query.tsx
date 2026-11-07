@@ -445,7 +445,7 @@ export function ProjectQuery() {
                 type="button"
                 aria-pressed={active === filter.id}
                 onClick={() => void choose(filter)}
-                className="rounded-sm text-muted-foreground underline-offset-4 transition-colors hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden aria-pressed:text-foreground aria-pressed:underline"
+                className="quiet-link underline-offset-4 aria-pressed:text-foreground aria-pressed:underline"
               >
                 {filter.label}
               </button>
@@ -464,7 +464,7 @@ export function ProjectQuery() {
 
       <p
         role="status"
-        className="min-h-6 text-sm text-pretty text-muted-foreground"
+        className="min-h-6 text-sm text-muted-foreground tabular-nums"
       >
         <StatusText status={status} engine={engine} />
       </p>
@@ -515,12 +515,12 @@ function StatusText({
             Run by{" "}
             <Link
               href="/projects/scuttle-db"
-              className="rounded-sm text-foreground underline decoration-border underline-offset-4 transition-colors hover:decoration-current focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
+              className="text-link text-foreground"
             >
               Scuttle DB
             </Link>{" "}
-            <span className="font-mono text-sm">{build.commit}</span>, my Rust
-            database, compiled to WebAssembly and running on your device.
+            <span className="font-mono text-sm">{build.commit}</span> on your
+            device.
           </span>
         </>
       )
@@ -578,7 +578,7 @@ function MissingColumns({
           <button
             type="button"
             onClick={() => onAdd(column)}
-            className="rounded-sm font-mono text-foreground underline decoration-border underline-offset-4 transition-colors hover:decoration-current focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
+            className="text-link font-mono text-foreground"
           >
             {column}
           </button>
@@ -613,7 +613,7 @@ function formatCell(value: Cell) {
 const staticRowClass = "flex flex-col gap-1 rounded-lg px-3 py-3"
 const rowClass = cn(
   staticRowClass,
-  "group transition-colors hover:bg-muted focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
+  "group focus-ring transition-colors hover:bg-muted"
 )
 
 function ResultItem({
@@ -665,7 +665,7 @@ function ResultItem({
         {external && <ExternalCue />}
       </div>
       {summaries.map((cell) => (
-        <p key={cell.key} className="text-pretty text-muted-foreground">
+        <p key={cell.key} className="text-muted-foreground">
           <span className="sr-only">{cell.column}: </span>
           {cell.text}
         </p>

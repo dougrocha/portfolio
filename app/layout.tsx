@@ -20,16 +20,6 @@ const newsreader = Newsreader({
   display: "block",
 })
 
-// One italic on the projects page ("Live demo"). Kept off the preload list, so it
-// stays on swap: blocking on a font that is not preloaded would hide the text longer.
-const newsreaderItalic = Newsreader({
-  subsets: ["latin"],
-  weight: "400",
-  style: "italic",
-  variable: "--font-newsreader-italic",
-  preload: false,
-})
-
 const geistMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-geist-mono",
@@ -57,12 +47,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn(
-        "antialiased",
-        newsreader.variable,
-        newsreaderItalic.variable,
-        geistMono.variable
-      )}
+      className={cn("antialiased", newsreader.variable, geistMono.variable)}
     >
       <head>
         {/* Marks Apple platforms before first paint, so shortcut hints never flip after hydration. */}
@@ -76,7 +61,7 @@ export default function RootLayout({
         <ThemeProvider forcedTheme="light">
           <a
             href="#main"
-            className="sr-only rounded-md bg-background px-3 py-2 text-sm font-medium focus-visible:not-sr-only focus-visible:fixed focus-visible:top-4 focus-visible:left-4 focus-visible:z-50 focus-visible:px-3 focus-visible:py-2 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
+            className="sr-only rounded-md bg-background px-3 py-2 text-sm font-medium focus-ring focus-visible:not-sr-only focus-visible:fixed focus-visible:top-4 focus-visible:left-4 focus-visible:z-50 focus-visible:px-3 focus-visible:py-2"
           >
             Skip to content
           </a>

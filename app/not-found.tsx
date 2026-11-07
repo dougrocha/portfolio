@@ -6,12 +6,10 @@ import { buttonVariants } from "@/components/ui/button"
 export default function NotFound() {
   return (
     <div className="flex flex-col items-start gap-4 pt-8">
-      <h1 className="text-2xl font-title tracking-tight text-balance">
-        Page not found
-      </h1>
+      <h1 className="text-2xl font-title tracking-tight">Page not found</h1>
       <p className="text-muted-foreground">This page doesn&apos;t exist.</p>
       <MissingPageQuery />
-      <Link href="/" className={buttonVariants({ variant: "outline" })}>
+      <Link href="/" className={buttonVariants()}>
         Go to the home page
       </Link>
     </div>

@@ -20,9 +20,7 @@ const firstImage = craft
 export default function CraftPage() {
   return (
     <div className="flex flex-col gap-16 pt-8">
-      <h1 className="text-2xl font-title tracking-tight text-balance">
-        Craft notes
-      </h1>
+      <h1 className="text-2xl font-title tracking-tight">Craft notes</h1>
 
       {craft.map((group) => (
         <Section key={group.group} title={group.group}>
@@ -40,7 +38,7 @@ export default function CraftPage() {
       ))}
 
       <Section title="Setup">
-        <dl className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-2 font-mono text-sm">
+        <dl className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-2">
           {setup.map((item) => (
             <div key={item.label} className="contents">
               <dt className="text-muted-foreground">{item.label}</dt>
@@ -69,9 +67,7 @@ function CraftItem({
           {entry.date}
         </p>
       </div>
-      <p className="max-w-prose text-pretty text-muted-foreground">
-        {entry.note}
-      </p>
+      <p className="max-w-prose text-muted-foreground">{entry.note}</p>
       {entry.image && (
         <figure className="flex flex-col gap-2">
           <Image
@@ -95,7 +91,7 @@ function CraftItem({
               <CraftLink
                 key={link.href}
                 href={link.href}
-                className="w-fit rounded-sm underline decoration-border underline-offset-4 transition-colors hover:decoration-current focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
+                className="w-fit text-link"
               >
                 {link.label}
               </CraftLink>

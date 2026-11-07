@@ -183,6 +183,8 @@ export function ScuttlePlayground() {
   const [result, setResult] = React.useState<RunResult | null>(null)
   const [notice, setNotice] = React.useState<string | null>(null)
   const [showPlan, setShowPlan] = React.useState(false)
+  /** Counts runs, so a repeated query still visibly refreshes its result. */
+  const [runs, setRuns] = React.useState(0)
   const output = result?.output
   const isApple = useIsApple()
 
@@ -215,6 +217,7 @@ export function ScuttlePlayground() {
     if (!db) return
 
     setNotice(null)
+    setRuns((count) => count + 1)
     try {
       setResult(execute(db, query))
     } catch (error) {
@@ -321,7 +324,7 @@ export function ScuttlePlayground() {
             Run
             <KbdGroup
               aria-hidden
-              className="-mr-1 ml-0.5 hidden pointer-fine:inline-flex"
+              className="-mr-1 ml-0.5 hidden pointer-fine:inline-flex [&>kbd]:rounded-[calc(var(--radius-lg)-0.375rem)]"
             >
               <Kbd className="hidden bg-primary-foreground/15 text-primary-foreground in-data-[platform=apple]:inline-flex">
                 ⌘
@@ -356,43 +359,52 @@ export function ScuttlePlayground() {
       <div className="flex flex-col gap-4">
         <p
           role="status"
-          className="text-sm text-muted-foreground tabular-nums empty:hidden"
+          className={cn(
+            "text-sm text-muted-foreground tabular-nums empty:hidden",
+            status === "loading" && "motion-safe:animate-pulse"
+          )}
         >
           {status === "loading"
             ? "Starting Scuttle DB in your browser…"
             : (notice ?? summarize(result))}
         </p>
-        {output?.kind === "error" && (
-          <p role="alert" className="font-mono text-sm text-destructive">
-            {output.message}
-          </p>
-        )}
-        {output?.kind === "rows" && (
-          <ResultTable columns={output.columns} rows={output.rows} />
-        )}
-        {output?.kind === "affected" &&
-          output.change &&
-          (output.change.before.length > 0 || output.change.after.length > 0) &&
-          (["before", "after"] as const).map((when) => (
-            <div key={when} className="flex flex-col gap-2">
-              <h2 className="text-sm font-medium text-muted-foreground capitalize">
-                {when}
-              </h2>
-              {output.change![when].length > 0 ? (
-                <ResultTable
-                  columns={output.change!.columns}
-                  rows={output.change![when]}
-                />
-              ) : (
-                <p className="text-sm text-muted-foreground">
-                  {when === "after" ? "Removed." : "No rows."}
-                </p>
-              )}
-            </div>
-          ))}
+        <div
+          key={runs}
+          className="flex flex-col gap-4 empty:hidden motion-safe:animate-in motion-safe:duration-200 motion-safe:fade-in-0"
+        >
+          {output?.kind === "error" && (
+            <p role="alert" className="font-mono text-sm text-destructive">
+              {output.message}
+            </p>
+          )}
+          {output?.kind === "rows" && (
+            <ResultTable columns={output.columns} rows={output.rows} />
+          )}
+          {output?.kind === "affected" &&
+            output.change &&
+            (output.change.before.length > 0 ||
+              output.change.after.length > 0) &&
+            (["before", "after"] as const).map((when) => (
+              <div key={when} className="flex flex-col gap-2">
+                <h2 className="text-sm font-title text-muted-foreground capitalize">
+                  {when}
+                </h2>
+                {output.change![when].length > 0 ? (
+                  <ResultTable
+                    columns={output.change!.columns}
+                    rows={output.change![when]}
+                  />
+                ) : (
+                  <p className="text-sm text-muted-foreground">
+                    {when === "after" ? "Removed." : "No rows."}
+                  </p>
+                )}
+              </div>
+            ))}
+        </div>
         {showPlan && result?.plan && (
           <div className="mt-4 flex flex-col gap-2">
-            <h2 className="text-sm font-medium text-muted-foreground">Plan</h2>
+            <h2 className="text-sm font-title text-muted-foreground">Plan</h2>
             <pre className="overflow-x-auto rounded-lg bg-muted p-3 font-mono text-sm">
               {result.plan}
             </pre>
@@ -405,7 +417,7 @@ export function ScuttlePlayground() {
 
 function ResultTable({ columns, rows }: { columns: string[]; rows: Cell[][] }) {
   return (
-    <div className="scroll-shadow-x rounded-lg border">
+    <div className="scroll-shadow-x overflow-hidden rounded-lg border">
       <Table>
         <TableHeader>
           <TableRow>

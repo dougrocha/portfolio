@@ -19,10 +19,7 @@ export function NavLink({
     <Link
       href={href}
       aria-current={active ? "page" : undefined}
-      className={cn(
-        "rounded-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden",
-        active && "text-foreground"
-      )}
+      className={cn("quiet-link", active && "text-foreground")}
     >
       {children}
     </Link>

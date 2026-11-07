@@ -17,23 +17,17 @@ export function ProjectList({
         <li key={project.name}>
           <ProjectLink
             href={project.href}
-            className="group flex flex-col gap-1 rounded-lg px-3 py-3 transition-colors hover:bg-muted focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
+            className="group flex flex-col gap-1 rounded-lg px-3 py-3 focus-ring transition-colors hover:bg-muted"
           >
             <div className="flex flex-wrap items-baseline gap-x-3">
               <Heading className="font-title">{project.name}</Heading>
               <p className="text-muted-foreground">
-                {project.demo && (
-                  <span className="font-serif-italic text-foreground italic">
-                    Live demo,{" "}
-                  </span>
-                )}
+                {project.demo && <DemoCue />}
                 {[...project.languages, project.kind].join(", ")}
               </p>
               {!project.href.startsWith("/") && <ExternalCue />}
             </div>
-            <p className="text-pretty text-muted-foreground">
-              {project.summary}
-            </p>
+            <p className="text-muted-foreground">{project.summary}</p>
           </ProjectLink>
         </li>
       ))}
@@ -41,13 +35,26 @@ export function ProjectList({
   )
 }
 
-/** Marks rows that leave the site, since the whole row is one link. */
+/** Projects that run on this site. The one place the brand color shows in a list. */
+export function DemoCue() {
+  return <span className="text-brand">Live demo, </span>
+}
+
+/**
+ * Marks rows that leave the site, since the whole row is one link. Every
+ * external row goes to GitHub, so the word only goes to screen readers.
+ */
 export function ExternalCue() {
   return (
-    <p className="text-muted-foreground">
-      GitHub <span aria-hidden="true">↗</span>
-      <span className="sr-only"> (opens GitHub)</span>
-    </p>
+    <span className="text-muted-foreground">
+      <span
+        aria-hidden="true"
+        className="inline-block transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+      >
+        ↗
+      </span>
+      <span className="sr-only">(opens GitHub)</span>
+    </span>
   )
 }
 

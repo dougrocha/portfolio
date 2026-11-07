@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react"
 import { Document, Page, pdfjs } from "react-pdf"
 
+import { ResumePagePlaceholder } from "@/components/resume-viewer-loader"
+
 import "react-pdf/dist/Page/AnnotationLayer.css"
 import "react-pdf/dist/Page/TextLayer.css"
 
@@ -40,13 +42,9 @@ export function ResumeViewer() {
       <Document
         file={resumeHref}
         suspense={false}
-        loading={
-          <p role="status" className="text-muted-foreground">
-            Loading resume…
-          </p>
-        }
+        loading={<ResumePagePlaceholder label="Loading resume…" />}
         error={
-          <p role="alert" className="text-pretty text-muted-foreground">
+          <p role="alert" className="text-muted-foreground">
             The resume didn&apos;t load.
           </p>
         }
@@ -70,9 +68,10 @@ export function ResumeViewer() {
                     suspense={false}
                     className="resume-page bg-white outline outline-border"
                     loading={
-                      <p role="status" className="sr-only">
-                        Loading page {pageNumber}
-                      </p>
+                      <ResumePagePlaceholder
+                        label={`Loading page ${pageNumber}`}
+                        width={width}
+                      />
                     }
                   />
                 </li>

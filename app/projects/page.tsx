@@ -20,14 +20,12 @@ export default function ProjectsPage() {
   return (
     <div className="flex flex-col gap-8 pt-8">
       <div className="flex flex-col gap-2">
-        <h1 className="text-2xl font-title tracking-tight text-balance">
-          Projects
-        </h1>
-        <p className="max-w-prose text-pretty text-muted-foreground">
+        <h1 className="text-2xl font-title tracking-tight">Projects</h1>
+        <p className="max-w-prose text-muted-foreground">
           This list is a query.{" "}
           <Link
             href="/projects/scuttle-db"
-            className="rounded-sm text-foreground underline underline-offset-4 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
+            className="text-link text-foreground"
           >
             Scuttle DB
           </Link>

@@ -17,9 +17,7 @@ export default function ResumePage() {
   return (
     <div className="flex flex-col gap-8 pt-8">
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <h1 className="text-2xl font-title tracking-tight text-balance">
-          Resume
-        </h1>
+        <h1 className="text-2xl font-title tracking-tight">Resume</h1>
         <a
           href="/resume.pdf"
           download="Doug-Rocha-Resume.pdf"

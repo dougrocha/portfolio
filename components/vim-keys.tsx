@@ -298,7 +298,7 @@ export function VimKeys() {
           type="button"
           aria-pressed={enabled}
           onClick={toggle}
-          className="rounded-sm underline decoration-border underline-offset-4 transition-colors hover:text-foreground hover:decoration-current focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-hidden"
+          className="text-link hover:text-foreground"
         >
           Vim keys<span aria-hidden="true"> {enabled ? "on" : "off"}</span>
         </button>
